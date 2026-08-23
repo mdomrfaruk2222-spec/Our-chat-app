@@ -1,164 +1,43 @@
-/* =====================================
-   STATUS UPDATE
-===================================== */
+<!-- =====================================
+     STATUS UPDATE
+===================================== -->
 
-.status-box{
-    height:76px;
+<section class="status-box">
 
-    background:#fff;
+    <div class="status-top">
 
-    padding:10px 12px;
+        <!-- Profile + Online -->
 
-    border-bottom:1px solid #d7d7d7;
-}
+        <div class="profile-wrapper">
 
-.status-top{
-    height:56px;
+            <div class="profile-photo">
+                👤
+            </div>
 
-    display:flex;
-    align-items:center;
+            <div class="online-dot"></div>
 
-    gap:10px;
-}
+        </div>
 
 
-/* Profile */
+        <!-- Status Input -->
 
-.profile-wrapper{
-    width:48px;
-    height:48px;
-
-    position:relative;
-
-    flex-shrink:0;
-}
-
-.profile-photo{
-    width:48px;
-    height:48px;
-
-    border-radius:50%;
-
-    background:#ddd;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    font-size:24px;
-
-    overflow:hidden;
-}
+        <div class="status-input">
+            একটি স্ট্যাটাস আপডেট পোস্ট করুন
+        </div>
 
 
-/* Online green dot */
+        <!-- Photo -->
 
-.online-dot{
-    position:absolute;
+        <div class="status-photo">
 
-    right:0;
-    bottom:1px;
+            🖼️
 
-    width:13px;
-    height:13px;
+            <span>
+                ফটো
+            </span>
 
-    background:#31a24c;
+        </div>
 
-    border:2px solid #fff;
+    </div>
 
-    border-radius:50%;
-
-    z-index:5;
-}
-
-
-/* Status input */
-
-.status-input{
-    flex:1;
-
-    height:48px;
-
-    background:#f0f2f5;
-
-    border-radius:25px;
-
-    display:flex;
-    align-items:center;
-
-    padding:0 18px;
-
-    color:#1c1e21;
-
-    font-size:17px;
-
-    white-space:nowrap;
-
-    overflow:hidden;
-}
-
-
-/* Photo */
-
-.status-photo{
-    width:50px;
-    height:56px;
-
-    display:flex;
-    flex-direction:column;
-
-    align-items:center;
-    justify-content:center;
-
-    color:#45bd62;
-
-    font-size:27px;
-
-    flex-shrink:0;
-}
-
-.status-photo span{
-    color:#1c1e21;
-
-    font-size:12px;
-
-    margin-top:-1px;
-}
-
-
-/* Mobile */
-
-@media(max-width:700px){
-
-    .status-box{
-        height:76px;
-
-        padding:10px 12px;
-    }
-
-    .status-top{
-        height:56px;
-    }
-
-    .profile-wrapper{
-        width:48px;
-        height:48px;
-    }
-
-    .profile-photo{
-        width:48px;
-        height:48px;
-    }
-
-    .status-input{
-        height:47px;
-
-        font-size:16px;
-
-        padding:0 17px;
-    }
-
-    .status-photo{
-        width:45px;
-    }
-}
+</section>
