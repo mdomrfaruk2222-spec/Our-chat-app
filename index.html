@@ -1,178 +1,962 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+<title>My Social</title>
+
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+body{
+  font-family:Arial,"Noto Sans Bengali",sans-serif;
+  background:#f0f2f5;
+  color:#050505;
+}
+
+button{
+  border:0;
+  cursor:pointer;
+  font-family:inherit;
+}
+
+.header{
+  background:white;
+  position:sticky;
+  top:0;
+  z-index:1000;
+  box-shadow:0 1px 2px #ccc;
+}
+
+.top{
+  height:62px;
+  display:flex;
+  align-items:center;
+  padding:7px 12px;
+}
+
+.logo{
+  color:#1877f2;
+  font-size:30px;
+  font-weight:bold;
+  flex:1;
+}
+
+.topBtn{
+  width:43px;
+  height:43px;
+  border-radius:50%;
+  background:#e4e6eb;
+  margin-left:7px;
+  font-size:21px;
+}
+
+.nav{
+  height:55px;
+  background:white;
+  display:grid;
+  grid-template-columns:repeat(6,1fr);
+  border-top:1px solid #eee;
+}
+
+.nav button{
+  position:relative;
+  background:white;
+  color:#65676b;
+  font-size:25px;
+}
+
+.nav button.active{
+  color:#1877f2;
+}
+
+.nav button.active:after{
+  content:"";
+  position:absolute;
+  bottom:0;
+  left:15%;
+  right:15%;
+  height:3px;
+  background:#1877f2;
+}
+
+.badge{
+  position:absolute;
+  top:2px;
+  right:12%;
+  background:#e41e3f;
+  color:white;
+  min-width:20px;
+  height:20px;
+  border-radius:20px;
+  font-size:10px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border:2px solid white;
+}
+
+.container{
+  max-width:760px;
+  margin:auto;
+}
+
+/* COMPOSER */
+
+.composer{
+  background:white;
+  padding:12px;
+  border-bottom:1px solid #ddd;
+}
+
+.composerRow{
+  display:flex;
+  align-items:center;
+  gap:9px;
+}
+
+.avatar{
+  width:46px;
+  height:46px;
+  min-width:46px;
+  border-radius:50%;
+  background:#ddd;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:23px;
+}
+
+.statusBox{
+  flex:1;
+  height:45px;
+  border-radius:25px;
+  background:#f0f2f5;
+  display:flex;
+  align-items:center;
+  padding:0 16px;
+  color:#65676b;
+  cursor:pointer;
+}
+
+.photoBtn{
+  color:#31a24c;
+  background:white;
+  font-size:25px;
+}
+
+/* STORIES */
+
+.stories{
+  background:white;
+  padding:12px 0;
+  border-bottom:1px solid #ddd;
+}
+
+.storyTitle{
+  font-size:17px;
+  font-weight:bold;
+  padding:0 12px 10px;
+}
+
+.storyList{
+  display:flex;
+  gap:8px;
+  overflow-x:auto;
+  padding:0 12px;
+}
+
+.story{
+  min-width:108px;
+  height:175px;
+  border-radius:12px;
+  overflow:hidden;
+  position:relative;
+  background:linear-gradient(145deg,#789,#222);
+}
+
+.story:nth-child(2){
+  background:linear-gradient(145deg,#305e8a,#b77979);
+}
+
+.story:nth-child(3){
+  background:linear-gradient(145deg,#668e55,#333);
+}
+
+.story:nth-child(4){
+  background:linear-gradient(145deg,#b99a70,#333);
+}
+
+.story:nth-child(5){
+  background:linear-gradient(145deg,#777,#aaa,#333);
+}
+
+.story:after{
+  content:"";
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:0;
+  height:60%;
+  background:linear-gradient(transparent,rgba(0,0,0,.8));
+}
+
+.storyAvatar{
+  position:absolute;
+  top:8px;
+  left:8px;
+  width:40px;
+  height:40px;
+  border-radius:50%;
+  background:white;
+  border:3px solid #1877f2;
+  z-index:2;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.storyName{
+  position:absolute;
+  bottom:9px;
+  left:8px;
+  color:white;
+  z-index:3;
+  font-weight:bold;
+  font-size:13px;
+}
+
+.createStory{
+  background:white;
+  border:1px solid #ddd;
+}
+
+.createImage{
+  height:110px;
+  background:#ddd;
+}
+
+.plus{
+  position:absolute;
+  top:88px;
+  left:50%;
+  transform:translateX(-50%);
+  width:45px;
+  height:45px;
+  border-radius:50%;
+  background:#1877f2;
+  color:white;
+  border:4px solid white;
+  font-size:28px;
+  z-index:4;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.createStory .storyName{
+  color:#222;
+  left:0;
+  right:0;
+  text-align:center;
+}
+
+/* POSTS */
+
+.feed{
+  padding-top:8px;
+}
+
+.post{
+  background:white;
+  margin-bottom:8px;
+}
+
+.postHead{
+  padding:12px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+
+.user{
+  display:flex;
+  gap:9px;
+  align-items:center;
+}
+
+.userAvatar{
+  width:43px;
+  height:43px;
+  border-radius:50%;
+  background:#ddd;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:22px;
+}
+
+.userName{
+  font-weight:bold;
+}
+
+.time{
+  color:#65676b;
+  font-size:12px;
+  margin-top:3px;
+}
+
+.menu{
+  font-size:25px;
+  color:#65676b;
+  background:white;
+}
+
+.postText{
+  padding:0 13px 12px;
+  font-size:17px;
+  line-height:1.5;
+  white-space:pre-wrap;
+}
+
+.postImage{
+  width:100%;
+  max-height:650px;
+  object-fit:contain;
+  background:#f0f2f5;
+  display:block;
+}
+
+.stats{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:8px 13px;
+  color:#65676b;
+  font-size:13px;
+  border-bottom:1px solid #ddd;
+}
+
+.actions{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  height:46px;
+}
+
+.actions button{
+  background:white;
+  color:#65676b;
+  font-weight:bold;
+}
+
+.actions button:hover{
+  background:#f0f2f5;
+}
+
+.liked{
+  color:#1877f2 !important;
+}
+
+.comments{
+  padding:7px 12px;
+}
+
+.comment{
+  background:#f0f2f5;
+  padding:7px 11px;
+  border-radius:17px;
+  margin-bottom:5px;
+  font-size:14px;
+}
+
+.commentBox{
+  display:flex;
+  gap:7px;
+  margin-top:7px;
+}
+
+.commentBox input{
+  flex:1;
+  border:0;
+  outline:0;
+  background:#f0f2f5;
+  border-radius:20px;
+  padding:10px 14px;
+}
+
+.commentBox button{
+  width:40px;
+  border-radius:50%;
+  background:#1877f2;
+  color:white;
+}
+
+/* MODAL */
+
+.modalBg{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.55);
+  z-index:5000;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:15px;
+}
+
+.modal{
+  width:100%;
+  max-width:520px;
+  background:white;
+  border-radius:12px;
+  overflow:hidden;
+}
+
+.modalHead{
+  height:58px;
+  border-bottom:1px solid #ddd;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  position:relative;
+}
+
+.modalHead h2{
+  font-size:20px;
+}
+
+.close{
+  position:absolute;
+  right:10px;
+  width:38px;
+  height:38px;
+  border-radius:50%;
+  background:#e4e6eb;
+  font-size:18px;
+}
+
+.modalUser{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:13px;
+}
+
+.modalAvatar{
+  width:43px;
+  height:43px;
+  border-radius:50%;
+  background:#ddd;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+#postText{
+  width:100%;
+  min-height:130px;
+  resize:none;
+  border:0;
+  outline:0;
+  padding:5px 15px;
+  font-size:20px;
+  font-family:inherit;
+}
+
+.preview{
+  padding:0 15px 10px;
+}
+
+.preview img{
+  width:100%;
+  max-height:300px;
+  object-fit:contain;
+  border-radius:8px;
+  background:#f0f2f5;
+}
+
+.options{
+  margin:0 15px;
+  border:1px solid #ddd;
+  border-radius:8px;
+  display:flex;
+  align-items:center;
+  padding:5px;
+}
+
+.option{
+  flex:1;
+  height:45px;
+  background:white;
+}
+
+.option:hover{
+  background:#f0f2f5;
+}
+
+.publish{
+  width:calc(100% - 30px);
+  margin:15px;
+  height:45px;
+  background:#1877f2;
+  color:white;
+  border-radius:7px;
+  font-size:16px;
+  font-weight:bold;
+}
+
+/* MOBILE */
+
+.bottom{
+  display:none;
+}
+
+@media(max-width:760px){
+
+  body{
+    padding-bottom:60px;
+  }
+
+  .bottom{
+    position:fixed;
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    bottom:0;
+    left:0;
+    right:0;
+    height:60px;
+    background:white;
+    border-top:1px solid #ddd;
+    z-index:3000;
+  }
+
+  .bottom button{
+    background:white;
+    font-size:22px;
+    color:#65676b;
+  }
+
+  .bottom button.active{
+    color:#1877f2;
+  }
+
+  .logo{
+    font-size:28px;
+  }
+
+  .modalBg{
+    align-items:flex-end;
+    padding:0;
+  }
+
+  .modal{
+    border-radius:15px 15px 0 0;
+    max-height:92vh;
+    overflow:auto;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header class="header">
+
+  <div class="top">
+
+    <div class="logo">
+      MySocial
+    </div>
+
+    <button class="topBtn">＋</button>
+    <button class="topBtn">⌕</button>
+    <button class="topBtn">☰</button>
+
+  </div>
+
+  <nav class="nav">
+
+    <button class="active">⌂</button>
+
+    <button>
+      👥
+    </button>
+
+    <button>
+      💬
+      <span class="badge">2</span>
+    </button>
+
+    <button>
+      ▶
+      <span class="badge">15+</span>
+    </button>
+
+    <button>
+      🔔
+      <span class="badge">2</span>
+    </button>
+
+    <button>
+      ☰
+    </button>
+
+  </nav>
+
+</header>
+
+
+<div class="container">
+
+  <!-- STATUS -->
+
+  <section class="composer">
+
+    <div class="composerRow">
+
+      <div class="avatar">
+        👤
+      </div>
+
+      <div
+        class="statusBox"
+        id="openComposer">
+
+        একটি স্ট্যাটাস আপডেট পোস্ট করুন
+
+      </div>
+
+      <button
+        class="photoBtn"
+        id="photoDirect">
+
+        🖼️
+
+      </button>
+
+    </div>
+
+  </section>
+
+
+  <!-- STORIES -->
+
+  <section class="stories">
+
+    <div class="storyTitle">
+      Stories
+    </div>
+
+    <div class="storyList">
+
+      <div class="story createStory">
+
+        <div class="createImage"></div>
+
+        <button class="plus">
+          +
+        </button>
+
+        <div class="storyName">
+          স্টোরি তৈরি করুন
+        </div>
+
+      </div>
+
+
+      <div class="story">
+
+        <div class="storyAvatar">
+          👤
+        </div>
+
+        <div class="storyName">
+          Nice Gallery
+        </div>
+
+      </div>
+
+
+      <div class="story">
+
+        <div class="storyAvatar">
+          👤
+        </div>
+
+        <div class="storyName">
+          MD Hasan
+        </div>
+
+      </div>
+
+
+      <div class="story">
+
+        <div class="storyAvatar">
+          👤
+        </div>
+
+        <div class="storyName">
+          AB Media
+        </div>
+
+      </div>
+
+
+      <div class="story">
+
+        <div class="storyAvatar">
+          👤
+        </div>
+
+        <div class="storyName">
+          MD Ali
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- FEED -->
+
+  <main
+    class="feed"
+    id="feed">
+
+  </main>
+
+</div>
+
+
+<!-- MOBILE NAV -->
+
+<nav class="bottom">
+
+  <button class="active">
+    ⌂
+  </button>
+
+  <button>
+    👥
+  </button>
+
+  <button>
+    ▶
+  </button>
+
+  <button>
+    🔔
+  </button>
+
+  <button>
+    ☰
+  </button>
+
+</nav>
+
+
 <script>
-/* =====================================================
-   POST / STATUS SYSTEM
-===================================================== */
-
-const composer = document.querySelector(".status");
-const feed = document.querySelector(".feed");
-
-/* পোস্ট সংরক্ষণ */
-let posts = JSON.parse(localStorage.getItem("mySocialPosts") || "[]");
-
 
 /* =====================================================
-   POST COMPOSER
+   DATA
 ===================================================== */
 
-composer.addEventListener("click", openComposer);
+let posts =
+  JSON.parse(
+    localStorage.getItem("socialPosts") || "[]"
+  );
 
 
-function openComposer(){
-
-    const modal = document.createElement("div");
-
-    modal.id = "postModal";
-
-    modal.innerHTML = `
-        <div class="post-modal-bg">
-
-            <div class="post-modal">
-
-                <div class="modal-header">
-
-                    <h2>পোস্ট তৈরি করুন</h2>
-
-                    <button id="closePost">
-                        ✕
-                    </button>
-
-                </div>
-
-                <div class="modal-user">
-
-                    <div class="modal-avatar">
-                        👤
-                    </div>
-
-                    <div>
-                        <b>আপনার নাম</b>
-
-                        <div class="privacy">
-                            🌐 সবাই
-                        </div>
-                    </div>
-
-                </div>
-
-                <textarea
-                    id="postText"
-                    placeholder="আপনি কী ভাবছেন?"
-                ></textarea>
+let selectedImage = null;
 
 
-                <div
-                    id="imagePreview"
-                    class="image-preview">
-                </div>
+/* =====================================================
+   OPEN POST WINDOW
+===================================================== */
+
+document
+  .getElementById("openComposer")
+  .onclick = openPost;
 
 
-                <div class="post-options">
-
-                    <label class="option photo-option">
-
-                        🖼️
-
-                        <span>
-                            ফটো/ভিডিও
-                        </span>
-
-                        <input
-                            type="file"
-                            id="postImage"
-                            accept="image/*"
-                            hidden
-                        >
-
-                    </label>
-
-                    <button class="option">
-                        😊
-                        <span>অনুভূতি</span>
-                    </button>
-
-                    <button class="option">
-                        📍
-                        <span>লোকেশন</span>
-                    </button>
-
-                </div>
+document
+  .getElementById("photoDirect")
+  .onclick = openPost;
 
 
-                <button
-                    id="publishPost"
-                    class="publish">
+function openPost(){
 
-                    পোস্ট করুন
+  const modal =
+    document.createElement("div");
 
-                </button>
+  modal.className = "modalBg";
 
-            </div>
+  modal.innerHTML = `
+
+    <div class="modal">
+
+      <div class="modalHead">
+
+        <h2>
+          পোস্ট তৈরি করুন
+        </h2>
+
+        <button
+          class="close"
+          id="closeModal">
+
+          ✕
+
+        </button>
+
+      </div>
+
+
+      <div class="modalUser">
+
+        <div class="modalAvatar">
+          👤
+        </div>
+
+        <div>
+
+          <b>
+            আপনার নাম
+          </b>
+
+          <div
+            style="font-size:12px;color:#65676b">
+
+            🌐 সবাই
+
+          </div>
 
         </div>
-    `;
 
-    document.body.appendChild(modal);
-
-
-    /* CLOSE */
-
-    document
-        .getElementById("closePost")
-        .onclick = () => modal.remove();
+      </div>
 
 
-    /* IMAGE SELECT */
-
-    document
-        .getElementById("postImage")
-        .addEventListener(
-            "change",
-            previewImage
-        );
+      <textarea
+        id="postText"
+        placeholder="আপনি কী ভাবছেন?">
+      </textarea>
 
 
-    /* PUBLISH */
+      <div
+        class="preview"
+        id="preview">
+      </div>
 
-    document
-        .getElementById("publishPost")
-        .onclick = publishPost;
+
+      <div class="options">
+
+        <label class="option">
+
+          🖼️ ফটো/ভিডিও
+
+          <input
+            type="file"
+            id="imageInput"
+            accept="image/*"
+            hidden>
+
+        </label>
+
+
+        <button class="option">
+          😊 অনুভূতি
+        </button>
+
+
+        <button class="option">
+          📍 লোকেশন
+        </button>
+
+      </div>
+
+
+      <button
+        class="publish"
+        id="publish">
+
+        পোস্ট করুন
+
+      </button>
+
+    </div>
+  `;
+
+
+  document.body.appendChild(modal);
+
+
+  document
+    .getElementById("closeModal")
+    .onclick = () => {
+
+      modal.remove();
+
+      selectedImage = null;
+
+    };
+
+
+  document
+    .getElementById("imageInput")
+    .onchange = handleImage;
+
+
+  document
+    .getElementById("publish")
+    .onclick = createPost;
+
 }
 
 
 /* =====================================================
-   IMAGE PREVIEW
+   IMAGE
 ===================================================== */
 
-let selectedImage = "";
+function handleImage(e){
+
+  const file =
+    e.target.files[0];
+
+  if(!file) return;
 
 
-function previewImage(event){
-
-    const file = event.target.files[0];
-
-    if(!file) return;
+  const reader =
+    new FileReader();
 
 
-    const reader = new FileReader();
+  reader.onload = function(){
+
+    selectedImage =
+      reader.result;
 
 
-    reader.onload = function(e){
+    document
+      .getElementById("preview")
+      .innerHTML = `
 
-        selectedImage = e.target.result;
+        <img
+          src="${selectedImage}">
 
+      `;
 
-        document
-            .getElementById("imagePreview")
-            .innerHTML = `
-                <img
-                    src="${e.target.result}"
-                    alt="Post image"
-                >
-            `;
-    };
+  };
 
 
-    reader.readAsDataURL(file);
+  reader.readAsDataURL(file);
+
 }
 
 
@@ -180,733 +964,434 @@ function previewImage(event){
    CREATE POST
 ===================================================== */
 
-function publishPost(){
+function createPost(){
 
-    const text =
-        document
-        .getElementById("postText")
-        .value
-        .trim();
-
-
-    if(!text && !selectedImage){
-
-        alert("আগে কিছু লিখুন অথবা ছবি নির্বাচন করুন।");
-
-        return;
-    }
-
-
-    const post = {
-
-        id:Date.now(),
-
-        text:text,
-
-        image:selectedImage,
-
-        likes:0,
-
-        liked:false,
-
-        comments:[],
-
-        shares:0,
-
-        time:"এইমাত্র"
-
-    };
-
-
-    posts.unshift(post);
-
-
-    savePosts();
-
-
+  const text =
     document
-        .getElementById("postModal")
-        .remove();
+      .getElementById("postText")
+      .value
+      .trim();
 
 
-    selectedImage = "";
+  if(!text && !selectedImage){
 
-
-    renderPosts();
-}
-
-
-/* =====================================================
-   SAVE POSTS
-===================================================== */
-
-function savePosts(){
-
-    localStorage.setItem(
-        "mySocialPosts",
-        JSON.stringify(posts)
+    alert(
+      "কিছু লিখুন অথবা ছবি দিন।"
     );
+
+    return;
+
+  }
+
+
+  const post = {
+
+    id:Date.now(),
+
+    text:text,
+
+    image:selectedImage,
+
+    likes:0,
+
+    liked:false,
+
+    comments:[],
+
+    shares:0,
+
+    time:"এইমাত্র"
+
+  };
+
+
+  posts.unshift(post);
+
+
+  save();
+
+
+  document
+    .querySelector(".modalBg")
+    .remove();
+
+
+  selectedImage = null;
+
+
+  render();
+
 }
 
 
 /* =====================================================
-   RENDER USER POSTS
+   SAVE
 ===================================================== */
 
-function renderPosts(){
+function save(){
 
-    document
-        .querySelectorAll(".user-created-post")
-        .forEach(post => post.remove());
+  localStorage.setItem(
+    "socialPosts",
+    JSON.stringify(posts)
+  );
 
-
-    posts.forEach(post => {
-
-        const article =
-            document.createElement("article");
+}
 
 
-        article.className =
-            "post user-created-post";
+/* =====================================================
+   RENDER
+===================================================== */
+
+function render(){
+
+  const feed =
+    document.getElementById("feed");
 
 
-        article.dataset.id =
-            post.id;
+  feed.innerHTML = "";
 
 
-        article.innerHTML = `
+  posts.forEach(post => {
 
-            <div class="post-head">
-
-                <div class="person">
-
-                    <div class="post-avatar">
-                        👤
-                    </div>
-
-                    <div>
-
-                        <div class="name">
-                            আপনার নাম
-                        </div>
-
-                        <div class="meta">
-                            ${post.time} · 🌐
-                        </div>
-
-                    </div>
-
-                </div>
+    const article =
+      document.createElement("article");
 
 
-                <button
-                    class="more post-menu">
+    article.className =
+      "post";
 
-                    ⋯
 
-                </button>
+    article.innerHTML = `
 
+      <div class="postHead">
+
+        <div class="user">
+
+          <div class="userAvatar">
+            👤
+          </div>
+
+          <div>
+
+            <div class="userName">
+              আপনার নাম
             </div>
 
-
-            ${
-                post.text
-                ?
-                `
-                <div class="text">
-                    ${escapeHTML(post.text)}
-                </div>
-                `
-                :
-                ""
-            }
-
-
-            ${
-                post.image
-                ?
-                `
-                <div class="media user-image">
-
-                    <img
-                        src="${post.image}"
-                        alt="Post"
-                    >
-
-                </div>
-                `
-                :
-                ""
-            }
-
-
-            <div class="stats">
-
-                <div class="reactions">
-
-                    ${
-                        post.likes > 0
-                        ?
-                        `
-                        <span class="reaction like">
-                            👍
-                        </span>
-
-                        <span style="margin-left:5px">
-                            ${post.likes}
-                        </span>
-                        `
-                        :
-                        "কেউ লাইক করেনি"
-                    }
-
-                </div>
-
-
-                <div>
-
-                    ${post.comments.length}
-                    মন্তব্য ·
-                    ${post.shares}
-                    শেয়ার
-
-                </div>
-
+            <div class="time">
+              ${post.time} · 🌐
             </div>
 
+          </div>
 
-            <div class="actions">
-
-                <button
-                    class="action like-button">
-
-                    ${post.liked ? "👍 লাইক করা হয়েছে" : "👍 লাইক"}
-
-                </button>
+        </div>
 
 
-                <button
-                    class="action comment-button">
+        <button
+          class="menu">
 
-                    💬 মন্তব্য
+          ⋯
 
-                </button>
+        </button>
 
-
-                <button
-                    class="action share-button">
-
-                    ↗ শেয়ার
-
-                </button>
-
-            </div>
+      </div>
 
 
-            <div class="comments-area">
-
-                ${
-                    post.comments
-                    .map(comment => `
-                        <div class="comment">
-                            <b>আপনি</b>
-                            <span>
-                                ${escapeHTML(comment)}
-                            </span>
-                        </div>
-                    `)
-                    .join("")
-                }
+      ${
+        post.text
+        ?
+        `
+        <div class="postText">
+          ${safe(post.text)}
+        </div>
+        `
+        :
+        ""
+      }
 
 
-                <div class="comment-input">
-
-                    <input
-                        type="text"
-                        placeholder="একটি মন্তব্য লিখুন..."
-                    >
-
-                    <button>
-                        ➤
-                    </button>
-
-                </div>
-
-            </div>
-
-        `;
+      ${
+        post.image
+        ?
+        `
+        <img
+          class="postImage"
+          src="${post.image}">
+        `
+        :
+        ""
+      }
 
 
-        feed.prepend(article);
+      <div class="stats">
+
+        <div>
+
+          ${
+            post.likes > 0
+            ?
+            `👍 ${post.likes}`
+            :
+            `কোনো লাইক নেই`
+          }
+
+        </div>
 
 
-        /* LIKE */
+        <div>
 
-        article
-            .querySelector(".like-button")
-            .onclick = () => {
+          ${post.comments.length}
+          মন্তব্য ·
 
-                post.liked = !post.liked;
+          ${post.shares}
+          শেয়ার
 
-                post.likes +=
-                    post.liked ? 1 : -1;
+        </div>
 
-                savePosts();
-
-                renderPosts();
-            };
+      </div>
 
 
-        /* COMMENT */
+      <div class="actions">
 
-        const commentButton =
-            article
-            .querySelector(".comment-button");
+        <button
+          class="likeBtn
+          ${post.liked ? "liked" : ""}">
 
+          👍 ${post.liked ? "লাইক করা হয়েছে" : "লাইক"}
 
-        const commentsArea =
-            article
-            .querySelector(".comments-area");
-
-
-        commentButton.onclick = () => {
-
-            commentsArea
-                .querySelector("input")
-                .focus();
-
-        };
+        </button>
 
 
-        /* COMMENT SUBMIT */
+        <button class="commentBtn">
 
-        const commentInput =
-            commentsArea
-            .querySelector("input");
+          💬 মন্তব্য
 
-
-        const commentSubmit =
-            commentsArea
-            .querySelector("button");
+        </button>
 
 
-        function submitComment(){
+        <button class="shareBtn">
 
-            const value =
-                commentInput.value.trim();
+          ↗ শেয়ার
 
+        </button>
 
-            if(!value) return;
-
-
-            post.comments.push(value);
+      </div>
 
 
-            savePosts();
+      <div class="comments">
 
-            renderPosts();
+        ${
+
+          post.comments
+            .map(comment => `
+
+              <div class="comment">
+
+                <b>আপনি</b>
+
+                ${safe(comment)}
+
+              </div>
+
+            `)
+            .join("")
+
         }
 
 
-        commentSubmit.onclick =
-            submitComment;
+        <div class="commentBox">
+
+          <input
+            placeholder="একটি মন্তব্য লিখুন...">
+
+          <button>
+            ➤
+          </button>
+
+        </div>
+
+      </div>
+
+    `;
 
 
-        commentInput.addEventListener(
-            "keydown",
-            function(e){
+    feed.appendChild(article);
 
-                if(e.key === "Enter"){
 
-                    submitComment();
+    /* LIKE */
 
-                }
+    article
+      .querySelector(".likeBtn")
+      .onclick = () => {
 
-            }
+        post.liked =
+          !post.liked;
+
+
+        post.likes +=
+          post.liked ? 1 : -1;
+
+
+        save();
+
+        render();
+
+      };
+
+
+    /* COMMENT */
+
+    const input =
+      article
+        .querySelector(
+          ".commentBox input"
         );
 
 
-        /* SHARE */
-
-        article
-            .querySelector(".share-button")
-            .onclick = async () => {
-
-                post.shares++;
-
-                savePosts();
-
-                renderPosts();
+    const send =
+      article
+        .querySelector(
+          ".commentBox button"
+        );
 
 
-                try{
+    function addComment(){
 
-                    await navigator.clipboard.writeText(
-                        location.href
-                    );
-
-                    alert(
-                        "পোস্টের লিংক কপি হয়েছে!"
-                    );
-
-                }catch{
-
-                    alert(
-                        "পোস্ট শেয়ার করা হয়েছে!"
-                    );
-
-                }
-
-            };
+      const value =
+        input.value.trim();
 
 
-        /* DELETE MENU */
-
-        article
-            .querySelector(".post-menu")
-            .onclick = () => {
-
-                const remove =
-                    confirm(
-                        "এই পোস্টটি মুছে ফেলতে চান?"
-                    );
+      if(!value) return;
 
 
-                if(remove){
-
-                    posts =
-                        posts.filter(
-                            item =>
-                                item.id !== post.id
-                        );
+      post.comments.push(value);
 
 
-                    savePosts();
+      save();
 
-                    renderPosts();
+      render();
 
-                }
+    }
 
-            };
 
-    });
+    send.onclick =
+      addComment;
+
+
+    input.onkeydown =
+      function(e){
+
+        if(e.key === "Enter"){
+
+          addComment();
+
+        }
+
+      };
+
+
+    /* COMMENT BUTTON */
+
+    article
+      .querySelector(".commentBtn")
+      .onclick = () => {
+
+        input.focus();
+
+      };
+
+
+    /* SHARE */
+
+    article
+      .querySelector(".shareBtn")
+      .onclick = async () => {
+
+        post.shares++;
+
+
+        save();
+
+        render();
+
+
+        try{
+
+          await navigator.clipboard
+            .writeText(
+              location.href
+            );
+
+          alert(
+            "পোস্টের লিংক কপি হয়েছে!"
+          );
+
+        }catch{
+
+          alert(
+            "পোস্ট শেয়ার হয়েছে!"
+          );
+
+        }
+
+      };
+
+
+    /* DELETE */
+
+    article
+      .querySelector(".menu")
+      .onclick = () => {
+
+        if(
+          confirm(
+            "এই পোস্টটি মুছে ফেলবেন?"
+          )
+        ){
+
+          posts =
+            posts.filter(
+              p =>
+                p.id !== post.id
+            );
+
+
+          save();
+
+          render();
+
+        }
+
+      };
+
+  });
 
 }
 
 
 /* =====================================================
-   HTML SECURITY
+   SECURITY
 ===================================================== */
 
-function escapeHTML(text){
+function safe(text){
 
-    const div =
-        document.createElement("div");
+  const div =
+    document.createElement("div");
 
-    div.textContent = text;
+  div.textContent =
+    text;
 
-    return div.innerHTML;
+  return div.innerHTML;
+
 }
 
 
 /* =====================================================
-   LOAD SAVED POSTS
+   LOAD POSTS
 ===================================================== */
 
-renderPosts();
+render();
 
-                                 </script>/* =====================================================
-   POST MODAL
-===================================================== */
+</script>
 
-.post-modal-bg{
-    position:fixed;
-    inset:0;
-    z-index:9999;
-
-    background:rgba(0,0,0,.55);
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    padding:15px;
-}
-
-.post-modal{
-    width:100%;
-    max-width:520px;
-
-    background:#fff;
-
-    border-radius:12px;
-
-    box-shadow:
-        0 10px 40px rgba(0,0,0,.25);
-
-    overflow:hidden;
-}
-
-.modal-header{
-    height:60px;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    position:relative;
-
-    border-bottom:1px solid #ddd;
-}
-
-.modal-header h2{
-    font-size:20px;
-}
-
-.modal-header button{
-    position:absolute;
-
-    right:12px;
-
-    width:38px;
-    height:38px;
-
-    border-radius:50%;
-
-    background:#e4e6eb;
-
-    font-size:18px;
-}
-
-.modal-user{
-    display:flex;
-    align-items:center;
-
-    gap:10px;
-
-    padding:15px;
-}
-
-.modal-avatar{
-    width:44px;
-    height:44px;
-
-    border-radius:50%;
-
-    background:#e4e6eb;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    font-size:22px;
-}
-
-.privacy{
-    margin-top:3px;
-
-    font-size:12px;
-
-    color:#65676b;
-}
-
-#postText{
-    width:100%;
-
-    min-height:130px;
-
-    border:0;
-    outline:0;
-
-    resize:none;
-
-    padding:0 15px 15px;
-
-    font-size:20px;
-
-    font-family:inherit;
-}
-
-.post-options{
-    margin:0 15px;
-
-    min-height:58px;
-
-    border:1px solid #ddd;
-
-    border-radius:8px;
-
-    display:flex;
-    align-items:center;
-
-    gap:5px;
-
-    padding:5px;
-}
-
-.option{
-    flex:1;
-
-    min-height:45px;
-
-    border-radius:7px;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    gap:5px;
-
-    font-size:13px;
-}
-
-.option:hover{
-    background:#f0f2f5;
-}
-
-.photo-option{
-    cursor:pointer;
-}
-
-.publish{
-    width:calc(100% - 30px);
-
-    margin:15px;
-
-    height:45px;
-
-    border-radius:7px;
-
-    background:#1877f2;
-
-    color:#fff;
-
-    font-weight:bold;
-
-    font-size:16px;
-}
-
-.publish:hover{
-    background:#166fe5;
-}
-
-
-/* IMAGE PREVIEW */
-
-.image-preview{
-    padding:0 15px 12px;
-}
-
-.image-preview img{
-    width:100%;
-    max-height:300px;
-
-    object-fit:contain;
-
-    border-radius:8px;
-
-    background:#f0f2f5;
-}
-
-
-/* USER POST IMAGE */
-
-.user-image{
-    height:auto;
-
-    background:#f0f2f5;
-}
-
-.user-image img{
-    display:block;
-
-    width:100%;
-    max-height:650px;
-
-    object-fit:contain;
-}
-
-
-/* COMMENTS */
-
-.comments-area{
-    padding:8px 13px 10px;
-
-    display:block;
-}
-
-.comment{
-    background:#f0f2f5;
-
-    border-radius:16px;
-
-    padding:7px 12px;
-
-    margin-bottom:5px;
-
-    display:flex;
-    gap:6px;
-
-    font-size:14px;
-}
-
-.comment-input{
-    display:flex;
-
-    gap:7px;
-
-    margin-top:7px;
-}
-
-.comment-input input{
-    flex:1;
-
-    height:38px;
-
-    border:0;
-
-    outline:0;
-
-    background:#f0f2f5;
-
-    border-radius:20px;
-
-    padding:0 14px;
-
-    font-family:inherit;
-}
-
-.comment-input button{
-    width:38px;
-    height:38px;
-
-    border-radius:50%;
-
-    background:#1877f2;
-
-    color:#fff;
-}
-
-
-/* MOBILE MODAL */
-
-@media(max-width:600px){
-
-    .post-modal-bg{
-        align-items:flex-end;
-
-        padding:0;
-    }
-
-    .post-modal{
-        max-width:none;
-
-        border-radius:
-            15px 15px 0 0;
-
-        max-height:92vh;
-
-        overflow-y:auto;
-    }
-
-}
+</body>
+</html>
