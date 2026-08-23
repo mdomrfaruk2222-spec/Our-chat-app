@@ -3,36 +3,57 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Messenger Chat</title>
+  <title>Messenger Clone</title>
   <style>
     * { box-sizing: border-box; }
     body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; margin: 0; padding: 0; background: #18191a; color: #e4e6eb; display: flex; justify-content: center; align-items: center; height: 100vh; }
-    .chat-container { width: 100%; max-width: 420px; height: 100vh; max-height: 750px; background: #242526; display: flex; flex-direction: column; box-shadow: 0 8px 24px rgba(0,0,0,0.5); border-radius: 12px; overflow: hidden; }
+    .app-container { width: 100%; max-width: 420px; height: 100vh; max-height: 750px; background: #242526; display: flex; flex-direction: column; box-shadow: 0 8px 24px rgba(0,0,0,0.5); border-radius: 12px; overflow: hidden; position: relative; }
     
     /* Header */
-    .chat-header { background: #242526; border-bottom: 1px solid #3e4042; padding: 12px 15px; display: flex; justify-content: space-between; align-items: center; }
-    .chat-header h2 { margin: 0; font-size: 22px; font-weight: bold; }
-    .header-btns { display: flex; gap: 8px; align-items: center; }
-    .btn { font-size: 13px; background: #3a3b3c; border: none; padding: 6px 12px; border-radius: 20px; cursor: pointer; color: #e4e6eb; font-weight: 600; }
-    .my-profile-icon { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; cursor: pointer; border: 1px solid #3e4042; }
+    .header { background: #242526; padding: 12px 15px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #3e4042; }
+    .header h2 { margin: 0; font-size: 24px; font-weight: bold; }
+    .header-icons { display: flex; gap: 10px; align-items: center; }
+    .my-profile-sm { width: 35px; height: 35px; border-radius: 50%; object-fit: cover; cursor: pointer; border: 1px solid #3e4042; }
 
-    /* Active Users & Stories Bar */
-    .stories-bar { display: flex; gap: 12px; padding: 10px 15px; border-bottom: 1px solid #3e4042; overflow-x: auto; background: #242526; scrollbar-width: none; }
+    /* Search Bar */
+    .search-container { padding: 8px 15px; background: #242526; }
+    .search-box { width: 100%; background: #3a3b3c; border: none; padding: 10px 15px; border-radius: 20px; color: #e4e6eb; font-size: 15px; outline: none; }
+    .search-box::placeholder { color: #b0b3b8; }
+
+    /* Stories / Active Bar */
+    .stories-bar { display: flex; gap: 12px; padding: 10px 15px; overflow-x: auto; background: #242526; scrollbar-width: none; border-bottom: 1px solid #3e4042; }
     .stories-bar::-webkit-scrollbar { display: none; }
-    .story-item { display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: pointer; min-width: 60px; }
+    .story-item { display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: pointer; min-width: 58px; }
     .avatar-wrapper { position: relative; width: 52px; height: 52px; border-radius: 50%; padding: 2px; border: 2px solid #0084ff; }
     .avatar-wrapper.no-story { border-color: #3e4042; }
     .avatar-img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; background: #3a3b3c; }
     .online-badge { position: absolute; bottom: 2px; right: 2px; width: 12px; height: 12px; background: #31a24c; border-radius: 50%; border: 2px solid #242526; }
     .add-story-btn { position: absolute; bottom: 0; right: 0; background: #0084ff; border-radius: 50%; width: 18px; height: 18px; display: flex; justify-content: center; align-items: center; font-size: 12px; font-weight: bold; border: 2px solid #242526; color: white; }
-    .user-label { font-size: 11px; color: #b0b3b8; text-align: center; max-width: 60px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .user-label { font-size: 11px; color: #b0b3b8; text-align: center; max-width: 58px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
-    /* Messages Box */
-    .messages { flex: 1; overflow-y: auto; padding: 15px; display: flex; flex-direction: column; gap: 10px; background: #18191a; }
+    /* Chat List View */
+    .chat-list { flex: 1; overflow-y: auto; background: #242526; padding: 5px 0; }
+    .chat-list-item { display: flex; align-items: center; gap: 12px; padding: 10px 15px; cursor: pointer; transition: background 0.2s; }
+    .chat-list-item:hover { background: #3a3b3c; }
+    .list-avatar-wrap { position: relative; width: 50px; height: 50px; }
+    .list-avatar { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; background: #3a3b3c; }
+    .list-online { position: absolute; bottom: 2px; right: 2px; width: 12px; height: 12px; background: #31a24c; border-radius: 50%; border: 2px solid #242526; }
+    .list-info { display: flex; flex-direction: column; justify-content: center; }
+    .list-name { font-size: 16px; font-weight: 600; color: #e4e6eb; }
+    .list-sub { font-size: 13px; color: #b0b3b8; margin-top: 2px; }
+
+    /* Chat Room View (Hidden by default) */
+    .chat-room { display: none; flex-direction: column; height: 100%; background: #18191a; position: absolute; top: 0; left: 0; width: 100%; z-index: 10; }
+    .room-header { background: #242526; padding: 10px 15px; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid #3e4042; }
+    .back-btn { background: none; border: none; color: #0084ff; font-size: 18px; font-weight: bold; cursor: pointer; }
+    .room-user-info { display: flex; align-items: center; gap: 10px; }
+    .room-avatar { width: 38px; height: 38px; border-radius: 50%; object-fit: cover; }
+    .room-name { font-size: 16px; font-weight: bold; margin: 0; }
+    
+    .messages-box { flex: 1; overflow-y: auto; padding: 15px; display: flex; flex-direction: column; gap: 10px; }
     .msg-group { display: flex; flex-direction: column; max-width: 75%; position: relative; }
     .msg-group.my { align-self: flex-end; align-items: flex-end; }
     .msg-group.other { align-self: flex-start; align-items: flex-start; }
-    .sender-name { font-size: 11px; color: #b0b3b8; margin-bottom: 3px; padding: 0 4px; }
     .msg { padding: 10px 14px; border-radius: 18px; font-size: 15px; word-break: break-word; line-height: 1.4; }
     .my .msg { background: #0084ff; color: white; border-bottom-right-radius: 4px; }
     .other .msg { background: #3a3b3c; color: #e4e6eb; border-bottom-left-radius: 4px; }
@@ -40,7 +61,7 @@
     audio { max-width: 200px; height: 35px; margin-top: 5px; }
     .msg-time { font-size: 10px; color: #8a8d91; margin-top: 3px; padding: 0 4px; }
 
-    /* Input Footer */
+    /* Input Box */
     .input-box { padding: 10px; border-top: 1px solid #3e4042; display: flex; gap: 6px; background: #242526; align-items: center; }
     .icon-btn { background: #3a3b3c; border: none; font-size: 16px; padding: 8px 10px; border-radius: 50%; cursor: pointer; color: #e4e6eb; display: flex; align-items: center; justify-content: center; }
     .recording { background: #ff4d4d !important; }
@@ -51,111 +72,190 @@
 </head>
 <body>
 
-<div class="chat-container">
-  <!-- Header -->
-  <div class="chat-header">
-    <h2>Chats</h2>
-    <div class="header-btns">
-      <img id="headerProfileImg" class="my-profile-icon" src="https://i.ibb.co/m5vXzVJ/user.png" onclick="triggerProfilePic()" title="প্রোফাইল ছবি পরিবর্তন করুন">
-      <button class="btn" onclick="changeName()" id="nameDisplay">নাম</button>
-    </div>
-  </div>
-  <input type="file" id="profileInput" accept="image/*" style="display:none" onchange="saveProfilePic(this)">
-
-  <!-- Active Users & Stories Section -->
-  <div class="stories-bar" id="storiesBar">
-    <div class="story-item" onclick="uploadStory()">
-      <div class="avatar-wrapper no-story">
-        <img class="avatar-img" id="myAvatar" src="https://i.ibb.co/m5vXzVJ/user.png" alt="Profile">
-        <div class="add-story-btn">+</div>
+<div class="app-container">
+  
+  <!-- VIEW 1: Home / Chats List -->
+  <div id="homeView" style="display:flex; flex-direction:column; height:100%; width:100%;">
+    <div class="header">
+      <h2>Chats</h2>
+      <div class="header-icons">
+        <span id="myNameDisplay" style="font-size: 14px; font-weight: 600; color: #b0b3b8;"></span>
+        <img id="headerProfileImg" class="my-profile-sm" src="https://i.ibb.co/m5vXzVJ/user.png" onclick="triggerProfilePic()" title="প্রোফাইল ছবি পরিবর্তন">
       </div>
-      <span class="user-label">Create story</span>
+    </div>
+    <input type="file" id="profileInput" accept="image/*" style="display:none" onchange="saveProfilePic(this)">
+
+    <!-- Search Bar -->
+    <div class="search-container">
+      <input type="text" class="search-box" id="searchBox" placeholder="Search Messenger" oninput="filterChats()">
+    </div>
+
+    <!-- Active Users / Stories Bar -->
+    <div class="stories-bar" id="storiesBar">
+      <div class="story-item" onclick="uploadStory()">
+        <div class="avatar-wrapper no-story">
+          <img class="avatar-img" id="myAvatar" src="https://i.ibb.co/m5vXzVJ/user.png">
+          <div class="add-story-btn">+</div>
+        </div>
+        <span class="user-label">Your story</span>
+      </div>
+    </div>
+    <input type="file" id="storyInput" accept="image/*" style="display:none" onchange="saveStory(this)">
+
+    <!-- Chat Users List (Vertical) -->
+    <div class="chat-list" id="chatList">
+      <!-- Dynamic users will load here -->
     </div>
   </div>
-  <input type="file" id="storyInput" accept="image/*" style="display:none" onchange="saveStory(this)">
 
-  <!-- Message Box -->
-  <div class="messages" id="messageBox"></div>
+  <!-- VIEW 2: Chat Room (Inbox) -->
+  <div id="chatRoomView" class="chat-room">
+    <div class="room-header">
+      <button class="back-btn" onclick="closeChatRoom()">←</button>
+      <div class="room-user-info">
+        <img id="roomUserAvatar" class="room-avatar" src="https://i.ibb.co/m5vXzVJ/user.png">
+        <div>
+          <h4 id="roomUserName" class="room-name">User</h4>
+          <span style="font-size: 11px; color: #31a24c;" id="roomUserStatus">Active now</span>
+        </div>
+      </div>
+    </div>
 
-  <!-- Input Footer -->
-  <div class="input-box">
-    <label class="icon-btn" for="imgInput">📷</label>
-    <input type="file" id="imgInput" accept="image/*" style="display:none" onchange="sendImage(this)">
-    <button class="icon-btn" id="micBtn" onclick="toggleRecord()">🎙️</button>
-    <input type="text" id="userInput" placeholder="Message" oninput="toggleSendBtn()" onkeypress="if(event.key==='Enter') sendMessage()">
-    <button class="icon-btn" id="actionBtn" onclick="handleAction()">👍</button>
+    <div class="messages-box" id="messagesBox"></div>
+
+    <div class="input-box">
+      <label class="icon-btn" for="imgInput">📷</label>
+      <input type="file" id="imgInput" accept="image/*" style="display:none" onchange="sendImage(this)">
+      <button class="icon-btn" id="micBtn" onclick="toggleRecord()">🎙️</button>
+      <input type="text" id="userInput" placeholder="Aa" oninput="toggleSendBtn()" onkeypress="if(event.key==='Enter') sendMessage()">
+      <button class="icon-btn" id="actionBtn" onclick="handleAction()">👍</button>
+    </div>
   </div>
+
 </div>
 
 <script>
   const firebaseConfig = { databaseURL: "https://my-chat-app-23ce7-default-rtdb.asia-southeast1.firebasedatabase.app/" };
   firebase.initializeApp(firebaseConfig);
   const db = firebase.database();
-  const msgRef = db.ref("messages");
   const usersRef = db.ref("users");
+  const msgRef = db.ref("messages");
 
   let myId = localStorage.getItem("chat_user_id") || "user_" + Math.random().toString(36).substr(2, 9);
   localStorage.setItem("chat_user_id", myId);
 
   let userName = localStorage.getItem("chat_user_name") || prompt("আপনার নাম লিখুন:") || "User";
   localStorage.setItem("chat_user_name", userName);
-  document.getElementById("nameDisplay").innerText = userName;
+  document.getElementById("myNameDisplay").innerText = userName;
 
   let myPic = localStorage.getItem("chat_user_pic") || "https://i.ibb.co/m5vXzVJ/user.png";
   document.getElementById("myAvatar").src = myPic;
   document.getElementById("headerProfileImg").src = myPic;
-
   let myStory = localStorage.getItem("chat_user_story") || "";
 
-  // Update User Profile in Firebase
+  let activeChatUserId = null;
+  let allUsersData = {};
+
+  // Presence Setup
   const currentUserRef = usersRef.child(myId);
   currentUserRef.set({ name: userName, pic: myPic, story: myStory, online: true });
   currentUserRef.onDisconnect().update({ online: false });
 
-  // Listen to Users (Online Status & Stories)
+  // Load Users & Update Active/List UI
   usersRef.on("value", (snapshot) => {
+    allUsersData = snapshot.val() || {};
+    renderHomeUI();
+  });
+
+  function renderHomeUI() {
     let storiesBar = document.getElementById("storiesBar");
-    
+    let chatList = document.getElementById("chatList");
+
     let hasStoryClass = myStory ? "" : "no-story";
     let storyBorder = myStory ? "border: 2px solid #0084ff;" : "border: 2px solid #3e4042;";
-    
-    let html = `
+
+    // Render Stories (Active Users on top)
+    let storiesHtml = `
       <div class="story-item" onclick="uploadStory()">
         <div class="avatar-wrapper ${hasStoryClass}" style="${storyBorder}">
-          <img class="avatar-img" src="${myPic}" alt="Profile">
+          <img class="avatar-img" src="${myPic}">
           <div class="add-story-btn">+</div>
         </div>
-        <span class="user-label">Your Story</span>
+        <span class="user-label">Your story</span>
       </div>
     `;
 
-    let users = snapshot.val();
-    if(users) {
-      Object.keys(users).forEach(id => {
-        if(id !== myId) {
-          let u = users[id];
-          if(u.online) {
-            let friendStoryBorder = u.story ? "border: 2px solid #0084ff;" : "border: 2px solid #3e4042;";
-            html += `
-              <div class="story-item" onclick="viewStory('${u.story || ''}', '${u.name}')">
-                <div class="avatar-wrapper" style="${friendStoryBorder}">
-                  <img class="avatar-img" src="${u.pic || 'https://i.ibb.co/m5vXzVJ/user.png'}">
-                  <div class="online-badge"></div>
-                </div>
-                <span class="user-label">${u.name}</span>
-              </div>
-            `;
-          }
-        }
-      });
-    }
-    storiesBar.innerHTML = html;
-  });
+    // Render Chat List (Vertical)
+    let listHtml = "";
 
-  function triggerProfilePic() {
-    document.getElementById("profileInput").click();
+    Object.keys(allUsersData).forEach(id => {
+      if(id !== myId) {
+        let u = allUsersData[id];
+        let uPic = u.pic || 'https://i.ibb.co/m5vXzVJ/user.png';
+        let uName = u.name || 'User';
+
+        // If online, add to stories bar
+        if(u.online) {
+          let sBorder = u.story ? "border: 2px solid #0084ff;" : "border: 2px solid #3e4042;";
+          storiesHtml += `
+            <div class="story-item" onclick="viewStory('${u.story || ''}', '${uName}')">
+              <div class="avatar-wrapper" style="${sBorder}">
+                <img class="avatar-img" src="${uPic}">
+                <div class="online-badge"></div>
+              </div>
+              <span class="user-label">${uName}</span>
+            </div>
+          `;
+        }
+
+        // Add to vertical chat list
+        listHtml += `
+          <div class="chat-list-item" onclick="openChatRoom('${id}', '${uName}', '${uPic}', ${u.online})">
+            <div class="list-avatar-wrap">
+              <img class="list-avatar" src="${uPic}">
+              ${u.online ? '<div class="list-online"></div>' : ''}
+            </div>
+            <div class="list-info">
+              <span class="list-name">${uName}</span>
+              <span class="list-sub">${u.online ? 'Active now' : 'Offline'}</span>
+            </div>
+          </div>
+        `;
+      }
+    });
+
+    storiesBar.innerHTML = storiesHtml;
+    chatList.innerHTML = listHtml;
   }
 
+  function filterChats() {
+    let query = document.getElementById("searchBox").value.toLowerCase();
+    let items = document.getElementsByClassName("chat-list-item");
+    for(let item of items) {
+      let name = item.querySelector(".list-name").innerText.toLowerCase();
+      item.style.display = name.includes(query) ? "flex" : "none";
+    }
+  }
+
+  // Open Chat Room
+  function openChatRoom(userId, name, pic, isOnline) {
+    activeChatUserId = userId;
+    document.getElementById("roomUserName").innerText = name;
+    document.getElementById("roomUserAvatar").src = pic;
+    document.getElementById("roomUserStatus").innerText = isOnline ? "Active now" : "Offline";
+    document.getElementById("homeView").style.display = "none";
+    document.getElementById("chatRoomView").style.display = "flex";
+    loadMessages();
+  }
+
+  function closeChatRoom() {
+    activeChatUserId = null;
+    document.getElementById("chatRoomView").style.display = "none";
+    document.getElementById("homeView").style.display = "flex";
+  }
+
+  // Profile & Story Handlers
+  function triggerProfilePic() { document.getElementById("profileInput").click(); }
   function saveProfilePic(input) {
     const file = input.files[0];
     if (file) {
@@ -166,27 +266,12 @@
         document.getElementById("myAvatar").src = myPic;
         document.getElementById("headerProfileImg").src = myPic;
         currentUserRef.update({ pic: myPic });
-        alert("প্রোফাইল ছবি সফলভাবে পরিবর্তন হয়েছে!");
       };
       reader.readAsDataURL(file);
-      input.value = "";
     }
   }
 
-  function changeName() {
-    let newName = prompt("নতুন নাম লিখুন:", userName);
-    if (newName && newName.trim() !== "") {
-      userName = newName.trim();
-      localStorage.setItem("chat_user_name", userName);
-      document.getElementById("nameDisplay").innerText = userName;
-      currentUserRef.update({ name: userName });
-    }
-  }
-
-  function uploadStory() {
-    document.getElementById("storyInput").click();
-  }
-
+  function uploadStory() { document.getElementById("storyInput").click(); }
   function saveStory(input) {
     const file = input.files[0];
     if (file) {
@@ -195,10 +280,9 @@
         myStory = e.target.result;
         localStorage.setItem("chat_user_story", myStory);
         currentUserRef.update({ story: myStory });
-        alert("স্টোরি সফলভাবে আপলোড হয়েছে!");
+        alert("স্টোরি আপলোড সফল হয়েছে!");
       };
       reader.readAsDataURL(file);
-      input.value = "";
     }
   }
 
@@ -207,10 +291,11 @@
       let win = window.open("");
       win.document.write(`<body style="background:black;margin:0;display:flex;justify-content:center;align-items:center;height:100vh;"><div style="text-align:center;color:white;"><h3 style="font-family:sans-serif;">${name}-এর স্টোরি</h3><img src="${storyImg}" style="max-width:100%;max-height:80vh;border-radius:10px;"></div></body>`);
     } else {
-      alert(name + "-এর কোনো স্টোরি নেই।");
+      alert(name + "-এর কোনো স্টোরি দেওয়া নেই।");
     }
   }
 
+  // Messaging Logic inside Chat Room
   function toggleSendBtn() {
     let input = document.getElementById("userInput");
     document.getElementById("actionBtn").innerText = input.value.trim() !== "" ? "🚀" : "👍";
@@ -224,25 +309,28 @@
   function sendMessage() {
     let input = document.getElementById("userInput");
     let text = input.value.trim();
-    if(text !== "") {
+    if(text !== "" && activeChatUserId) {
       let time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-      msgRef.push({ senderId: myId, senderName: userName, text: text, time: time });
+      // To keep chat simple between users or public room context mapped to target
+      msgRef.push({ senderId: myId, receiverId: activeChatUserId, senderName: userName, text: text, time: time });
       input.value = ""; toggleSendBtn();
     }
   }
 
   function sendLike() {
     let time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    msgRef.push({ senderId: myId, senderName: userName, text: "👍", isLike: true, time: time });
+    if(activeChatUserId) {
+      msgRef.push({ senderId: myId, receiverId: activeChatUserId, senderName: userName, text: "👍", isLike: true, time: time });
+    }
   }
 
   function sendImage(fileInput) {
     const file = fileInput.files[0];
-    if (file) {
+    if (file && activeChatUserId) {
       const reader = new FileReader();
       reader.onload = function(e) {
         let time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-        msgRef.push({ senderId: myId, senderName: userName, image: e.target.result, time: time });
+        msgRef.push({ senderId: myId, receiverId: activeChatUserId, senderName: userName, image: e.target.result, time: time });
       };
       reader.readAsDataURL(file);
       fileInput.value = "";
@@ -252,7 +340,7 @@
   let mediaRecorder, audioChunks = [], isRecording = false;
   async function toggleRecord() {
     let micBtn = document.getElementById("micBtn");
-    if (!window.isRecording) {
+    if (!isRecording) {
       try {
         let stream = await navigator.mediaDevices.getUserMedia({ audio: true });
         mediaRecorder = new MediaRecorder(stream);
@@ -263,65 +351,67 @@
           let reader = new FileReader();
           reader.onload = function(e) {
             let time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-            msgRef.push({ senderId: myId, senderName: userName, audio: e.target.result, time: time });
+            if(activeChatUserId) {
+              msgRef.push({ senderId: myId, receiverId: activeChatUserId, senderName: userName, audio: e.target.result, time: time });
+            }
           };
           reader.readAsDataURL(blob);
         };
         mediaRecorder.start();
-        window.isRecording = true;
+        isRecording = true;
         micBtn.classList.add("recording");
       } catch (err) { alert("মাইক্রোফোন পারমিশন দিন!"); }
     } else {
       mediaRecorder.stop();
-      window.isRecording = false;
+      isRecording = false;
       micBtn.classList.remove("recording");
     }
   }
 
-  msgRef.on("child_added", (snapshot) => {
-    let msgData = snapshot.val();
-    let msgBox = document.getElementById("messageBox");
-    
-    let group = document.createElement("div");
-    group.classList.add("msg-group");
-    
-    let isMe = msgData.senderId === myId;
-    group.classList.add(isMe ? "my" : "other");
+  function loadMessages() {
+    let msgBox = document.getElementById("messagesBox");
+    msgBox.innerHTML = "";
+    msgRef.off(); // clear previous listeners
 
-    let nameDiv = document.createElement("div");
-    nameDiv.classList.add("sender-name");
-    nameDiv.innerText = isMe ? "You" : (msgData.senderName || "Friend");
-    group.appendChild(nameDiv);
+    msgRef.on("child_added", (snapshot) => {
+      let m = snapshot.val();
+      // Check if message belongs to current conversation thread
+      if ((m.senderId === myId && m.receiverId === activeChatUserId) || 
+          (m.senderId === activeChatUserId && m.receiverId === myId)) {
+        
+        let group = document.createElement("div");
+        group.classList.add("msg-group");
+        let isMe = m.senderId === myId;
+        group.classList.add(isMe ? "my" : "other");
 
-    if (msgData.text) {
-      let msgDiv = document.createElement("div");
-      msgDiv.classList.add("msg");
-      msgDiv.innerText = msgData.text;
-      group.appendChild(msgDiv);
-    }
+        if (m.text) {
+          let div = document.createElement("div");
+          div.classList.add("msg");
+          div.innerText = m.text;
+          group.appendChild(div);
+        }
+        if (m.image) {
+          let img = document.createElement("img");
+          img.src = m.image;
+          img.classList.add("chat-img");
+          group.appendChild(img);
+        }
+        if (m.audio) {
+          let aud = document.createElement("audio");
+          aud.controls = true;
+          aud.src = m.audio;
+          group.appendChild(aud);
+        }
+        let timeDiv = document.createElement("div");
+        timeDiv.className = "msg-time";
+        timeDiv.innerText = m.time || "";
+        group.appendChild(timeDiv);
 
-    if (msgData.image) {
-      let img = document.createElement("img");
-      img.src = msgData.image;
-      img.classList.add("chat-img");
-      group.appendChild(img);
-    }
-
-    if (msgData.audio) {
-      let aud = document.createElement("audio");
-      aud.controls = true;
-      aud.src = msgData.audio;
-      group.appendChild(aud);
-    }
-
-    let timeDiv = document.createElement("div");
-    timeDiv.classList.add("msg-time");
-    timeDiv.innerText = msgData.time || "";
-    group.appendChild(timeDiv);
-    
-    msgBox.appendChild(group);
-    msgBox.scrollTop = msgBox.scrollHeight;
-  });
+        msgBox.appendChild(group);
+        msgBox.scrollTop = msgBox.scrollHeight;
+      }
+    });
+  }
 </script>
 
 </body>
