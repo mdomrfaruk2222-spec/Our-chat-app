@@ -1,121 +1,164 @@
 /* =====================================
-   FACEBOOK STYLE TOP NAVIGATION
+   STATUS UPDATE
 ===================================== */
 
-.main-nav{
-    height:62px;
-    width:100%;
-
-    display:flex;
-    align-items:center;
-    justify-content:space-around;
+.status-box{
+    height:76px;
 
     background:#fff;
 
-    border-top:1px solid #f0f0f0;
-    border-bottom:1px solid #ddd;
+    padding:10px 12px;
 
-    padding:0 8px;
+    border-bottom:1px solid #d7d7d7;
 }
 
-.main-nav-item{
-    height:62px;
-    flex:1;
-
-    max-width:115px;
+.status-top{
+    height:56px;
 
     display:flex;
     align-items:center;
-    justify-content:center;
+
+    gap:10px;
+}
+
+
+/* Profile */
+
+.profile-wrapper{
+    width:48px;
+    height:48px;
 
     position:relative;
 
-    color:#65676b;
-
-    font-size:28px;
-
-    cursor:pointer;
+    flex-shrink:0;
 }
 
-.main-nav-item.active{
-    color:#1877f2;
-}
+.profile-photo{
+    width:48px;
+    height:48px;
 
-.main-nav-item.active::after{
-    content:"";
+    border-radius:50%;
 
-    position:absolute;
-
-    bottom:0;
-    left:12px;
-    right:12px;
-
-    height:3px;
-
-    background:#1877f2;
-
-    border-radius:5px 5px 0 0;
-}
-
-
-/* Notification badge */
-
-.badge{
-    position:absolute;
-
-    top:6px;
-    right:20px;
-
-    min-width:22px;
-    height:22px;
-
-    padding:0 5px;
-
-    background:#e41e3f;
-
-    color:#fff;
-
-    border:2px solid #fff;
-
-    border-radius:50px;
+    background:#ddd;
 
     display:flex;
     align-items:center;
     justify-content:center;
 
-    font-size:11px;
-    font-weight:700;
+    font-size:24px;
 
-    line-height:1;
-
-    z-index:10;
+    overflow:hidden;
 }
 
 
-/* Mobile adjustment */
+/* Online green dot */
+
+.online-dot{
+    position:absolute;
+
+    right:0;
+    bottom:1px;
+
+    width:13px;
+    height:13px;
+
+    background:#31a24c;
+
+    border:2px solid #fff;
+
+    border-radius:50%;
+
+    z-index:5;
+}
+
+
+/* Status input */
+
+.status-input{
+    flex:1;
+
+    height:48px;
+
+    background:#f0f2f5;
+
+    border-radius:25px;
+
+    display:flex;
+    align-items:center;
+
+    padding:0 18px;
+
+    color:#1c1e21;
+
+    font-size:17px;
+
+    white-space:nowrap;
+
+    overflow:hidden;
+}
+
+
+/* Photo */
+
+.status-photo{
+    width:50px;
+    height:56px;
+
+    display:flex;
+    flex-direction:column;
+
+    align-items:center;
+    justify-content:center;
+
+    color:#45bd62;
+
+    font-size:27px;
+
+    flex-shrink:0;
+}
+
+.status-photo span{
+    color:#1c1e21;
+
+    font-size:12px;
+
+    margin-top:-1px;
+}
+
+
+/* Mobile */
 
 @media(max-width:700px){
 
-    .main-nav{
-        height:62px;
-        padding:0 4px;
+    .status-box{
+        height:76px;
+
+        padding:10px 12px;
     }
 
-    .main-nav-item{
-        height:62px;
-        font-size:27px;
+    .status-top{
+        height:56px;
     }
 
-    .main-nav-item.active::after{
-        left:8px;
-        right:8px;
+    .profile-wrapper{
+        width:48px;
+        height:48px;
     }
 
-    .badge{
-        top:5px;
-        right:14px;
+    .profile-photo{
+        width:48px;
+        height:48px;
+    }
 
-        min-width:22px;
-        height:22px;
+    .status-input{
+        height:47px;
+
+        font-size:16px;
+
+        padding:0 17px;
+    }
+
+    .status-photo{
+        width:45px;
     }
 }
