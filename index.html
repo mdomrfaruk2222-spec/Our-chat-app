@@ -12,15 +12,16 @@
     /* Header */
     .chat-header { background: #242526; border-bottom: 1px solid #3e4042; padding: 12px 15px; display: flex; justify-content: space-between; align-items: center; }
     .chat-header h2 { margin: 0; font-size: 22px; font-weight: bold; }
-    .header-btns { display: flex; gap: 8px; }
+    .header-btns { display: flex; gap: 8px; align-items: center; }
     .btn { font-size: 13px; background: #3a3b3c; border: none; padding: 6px 12px; border-radius: 20px; cursor: pointer; color: #e4e6eb; font-weight: 600; }
-    
+    .my-profile-icon { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; cursor: pointer; border: 1px solid #3e4042; }
+
     /* Active Users & Stories Bar */
     .stories-bar { display: flex; gap: 12px; padding: 10px 15px; border-bottom: 1px solid #3e4042; overflow-x: auto; background: #242526; scrollbar-width: none; }
     .stories-bar::-webkit-scrollbar { display: none; }
     .story-item { display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: pointer; min-width: 60px; }
     .avatar-wrapper { position: relative; width: 52px; height: 52px; border-radius: 50%; padding: 2px; border: 2px solid #0084ff; }
-    .avatar-wrapper.no-story { border-color: transparent; }
+    .avatar-wrapper.no-story { border-color: #3e4042; }
     .avatar-img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; background: #3a3b3c; }
     .online-badge { position: absolute; bottom: 2px; right: 2px; width: 12px; height: 12px; background: #31a24c; border-radius: 50%; border: 2px solid #242526; }
     .add-story-btn { position: absolute; bottom: 0; right: 0; background: #0084ff; border-radius: 50%; width: 18px; height: 18px; display: flex; justify-content: center; align-items: center; font-size: 12px; font-weight: bold; border: 2px solid #242526; color: white; }
@@ -55,10 +56,11 @@
   <div class="chat-header">
     <h2>Chats</h2>
     <div class="header-btns">
-      <button class="btn" onclick="changeProfilePic()">📷 ছবি</button>
+      <img id="headerProfileImg" class="my-profile-icon" src="https://i.ibb.co/m5vXzVJ/user.png" onclick="triggerProfilePic()" title="প্রোফাইল ছবি পরিবর্তন করুন">
       <button class="btn" onclick="changeName()" id="nameDisplay">নাম</button>
     </div>
   </div>
+  <input type="file" id="profileInput" accept="image/*" style="display:none" onchange="saveProfilePic(this)">
 
   <!-- Active Users & Stories Section -->
   <div class="stories-bar" id="storiesBar">
@@ -101,6 +103,7 @@
 
   let myPic = localStorage.getItem("chat_user_pic") || "https://i.ibb.co/m5vXzVJ/user.png";
   document.getElementById("myAvatar").src = myPic;
+  document.getElementById("headerProfileImg").src = myPic;
 
   let myStory = localStorage.getItem("chat_user_story") || "";
 
@@ -113,9 +116,8 @@
   usersRef.on("value", (snapshot) => {
     let storiesBar = document.getElementById("storiesBar");
     
-    // Render My Create Story Button
     let hasStoryClass = myStory ? "" : "no-story";
-    let storyBorder = myStory ? "border: 2px solid #0084ff;" : "border: 2px solid transparent;";
+    let storyBorder = myStory ? "border: 2px solid #0084ff;" : "border: 2px solid #3e4042;";
     
     let html = `
       <div class="story-item" onclick="uploadStory()">
@@ -133,7 +135,7 @@
         if(id !== myId) {
           let u = users[id];
           if(u.online) {
-            let friendStoryBorder = u.story ? "border: 2px solid #0084ff;" : "border: 2px solid transparent;";
+            let friendStoryBorder = u.story ? "border: 2px solid #0084ff;" : "border: 2px solid #3e4042;";
             html += `
               <div class="story-item" onclick="viewStory('${u.story || ''}', '${u.name}')">
                 <div class="avatar-wrapper" style="${friendStoryBorder}">
@@ -150,13 +152,24 @@
     storiesBar.innerHTML = html;
   });
 
-  function changeProfilePic() {
-    let url = prompt("আপনার প্রোফাইল ছবির সরাসরি Image Link (URL) দিন:");
-    if(url && url.trim() !== "") {
-      myPic = url.trim();
-      localStorage.setItem("chat_user_pic", myPic);
-      document.getElementById("myAvatar").src = myPic;
-      currentUserRef.update({ pic: myPic });
+  function triggerProfilePic() {
+    document.getElementById("profileInput").click();
+  }
+
+  function saveProfilePic(input) {
+    const file = input.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        myPic = e.target.result;
+        localStorage.setItem("chat_user_pic", myPic);
+        document.getElementById("myAvatar").src = myPic;
+        document.getElementById("headerProfileImg").src = myPic;
+        currentUserRef.update({ pic: myPic });
+        alert("প্রোফাইল ছবি সফলভাবে পরিবর্তন হয়েছে!");
+      };
+      reader.readAsDataURL(file);
+      input.value = "";
     }
   }
 
@@ -236,7 +249,7 @@
     }
   }
 
-  let mediaRecorder, audioChunks = [], isRecording = theRecord = false;
+  let mediaRecorder, audioChunks = [], isRecording = false;
   async function toggleRecord() {
     let micBtn = document.getElementById("micBtn");
     if (!window.isRecording) {
