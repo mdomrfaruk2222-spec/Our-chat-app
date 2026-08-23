@@ -42,7 +42,7 @@
     .list-name { font-size: 16px; font-weight: 600; color: #e4e6eb; }
     .list-sub { font-size: 13px; color: #b0b3b8; margin-top: 2px; }
 
-    /* Chat Room View (Hidden by default) */
+    /* Chat Room View */
     .chat-room { display: none; flex-direction: column; height: 100%; background: #18191a; position: absolute; top: 0; left: 0; width: 100%; z-index: 10; }
     .room-header { background: #242526; padding: 10px 15px; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid #3e4042; }
     .back-btn { background: none; border: none; color: #0084ff; font-size: 18px; font-weight: bold; cursor: pointer; }
@@ -104,7 +104,7 @@
 
     <!-- Chat Users List (Vertical) -->
     <div class="chat-list" id="chatList">
-      <!-- Dynamic users will load here -->
+      <div style="text-align:center; padding: 20px; color: #b0b3b8; font-size: 14px;">ইউজার লোড হচ্ছে...</div>
     </div>
   </div>
 
@@ -174,7 +174,6 @@
     let hasStoryClass = myStory ? "" : "no-story";
     let storyBorder = myStory ? "border: 2px solid #0084ff;" : "border: 2px solid #3e4042;";
 
-    // Render Stories (Active Users on top)
     let storiesHtml = `
       <div class="story-item" onclick="uploadStory()">
         <div class="avatar-wrapper ${hasStoryClass}" style="${storyBorder}">
@@ -185,17 +184,19 @@
       </div>
     `;
 
-    // Render Chat List (Vertical)
     let listHtml = "";
+    let hasOtherUsers = false;
 
     Object.keys(allUsersData).forEach(id => {
       if(id !== myId) {
+        hasOtherUsers = true;
         let u = allUsersData[id];
         let uPic = u.pic || 'https://i.ibb.co/m5vXzVJ/user.png';
         let uName = u.name || 'User';
+        let isOnline = u.online === true;
 
-        // If online, add to stories bar
-        if(u.online) {
+        // If online, add to top stories bar
+        if(isOnline) {
           let sBorder = u.story ? "border: 2px solid #0084ff;" : "border: 2px solid #3e4042;";
           storiesHtml += `
             <div class="story-item" onclick="viewStory('${u.story || ''}', '${uName}')">
@@ -208,21 +209,25 @@
           `;
         }
 
-        // Add to vertical chat list
+        // Add to vertical chat list (Show everyone whether online or offline)
         listHtml += `
-          <div class="chat-list-item" onclick="openChatRoom('${id}', '${uName}', '${uPic}', ${u.online})">
+          <div class="chat-list-item" onclick="openChatRoom('${id}', '${uName}', '${uPic}', ${isOnline})">
             <div class="list-avatar-wrap">
               <img class="list-avatar" src="${uPic}">
-              ${u.online ? '<div class="list-online"></div>' : ''}
+              ${isOnline ? '<div class="list-online"></div>' : ''}
             </div>
             <div class="list-info">
               <span class="list-name">${uName}</span>
-              <span class="list-sub">${u.online ? 'Active now' : 'Offline'}</span>
+              <span class="list-sub">${isOnline ? 'Active now' : 'Offline'}</span>
             </div>
           </div>
         `;
       }
     });
+
+    if(!hasOtherUsers) {
+      listHtml = `<div style="text-align:center; padding: 20px; color: #b0b3b8; font-size: 14px;">কোনো ইউজার পাওয়া যায়নি।</div>`;
+    }
 
     storiesBar.innerHTML = storiesHtml;
     chatList.innerHTML = listHtml;
@@ -237,7 +242,6 @@
     }
   }
 
-  // Open Chat Room
   function openChatRoom(userId, name, pic, isOnline) {
     activeChatUserId = userId;
     document.getElementById("roomUserName").innerText = name;
@@ -254,7 +258,6 @@
     document.getElementById("homeView").style.display = "flex";
   }
 
-  // Profile & Story Handlers
   function triggerProfilePic() { document.getElementById("profileInput").click(); }
   function saveProfilePic(input) {
     const file = input.files[0];
@@ -295,7 +298,6 @@
     }
   }
 
-  // Messaging Logic inside Chat Room
   function toggleSendBtn() {
     let input = document.getElementById("userInput");
     document.getElementById("actionBtn").innerText = input.value.trim() !== "" ? "🚀" : "👍";
@@ -311,7 +313,6 @@
     let text = input.value.trim();
     if(text !== "" && activeChatUserId) {
       let time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-      // To keep chat simple between users or public room context mapped to target
       msgRef.push({ senderId: myId, receiverId: activeChatUserId, senderName: userName, text: text, time: time });
       input.value = ""; toggleSendBtn();
     }
@@ -371,11 +372,10 @@
   function loadMessages() {
     let msgBox = document.getElementById("messagesBox");
     msgBox.innerHTML = "";
-    msgRef.off(); // clear previous listeners
+    msgRef.off();
 
     msgRef.on("child_added", (snapshot) => {
       let m = snapshot.val();
-      // Check if message belongs to current conversation thread
       if ((m.senderId === myId && m.receiverId === activeChatUserId) || 
           (m.senderId === activeChatUserId && m.receiverId === myId)) {
         
