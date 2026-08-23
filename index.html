@@ -1,197 +1,1047 @@
 <!DOCTYPE html>
 <html lang="bn">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Facebook Home UI Clone</title>
-  <style>
-    * { box-sizing: border-box; }
-    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; margin: 0; padding: 0; background: #18191a; color: #e4e6eb; display: flex; justify-content: center; align-items: center; height: 100vh; }
-    .app-container { width: 100%; max-width: 420px; height: 100vh; max-height: 800px; background: #242526; display: flex; flex-direction: column; box-shadow: 0 8px 24px rgba(0,0,0,0.5); border-radius: 12px; overflow: hidden; position: relative; }
-    
-    /* 1. Top Bar */
-    .fb-top-bar { background: #242526; padding: 10px 15px; display: flex; justify-content: space-between; align-items: center; }
-    .fb-logo { color: #2d88ff; font-size: 26px; font-weight: bold; font-family: sans-serif; }
-    .fb-top-icons { display: flex; gap: 8px; }
-    .fb-icon-btn { background: #3a3b3c; border: none; width: 36px; height: 36px; border-radius: 50%; display: flex; justify-content: center; align-items: center; cursor: pointer; color: white; font-size: 16px; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    /* 2. Navigation Tabs Bar */
-    .fb-nav-tabs { display: flex; justify-content: space-around; background: #242526; border-bottom: 1px solid #3e4042; padding: 0 5px; }
-    .nav-tab { flex: 1; text-align: center; padding: 10px 0; font-size: 20px; cursor: pointer; border-bottom: 3px solid transparent; color: #b0b3b8; }
-    .nav-tab.active { border-bottom: 3px solid #2d88ff; color: #2d88ff; }
+<title>Social App - Home</title>
 
-    /* Main Scroll Area */
-    .fb-content { flex: 1; overflow-y: auto; background: #18191a; display: flex; flex-direction: column; gap: 8px; scrollbar-width: none; }
-    .fb-content::-webkit-scrollbar { display: none; }
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
 
-    /* 3. Status Box ("What's on your mind?") */
-    .status-box-section { background: #242526; padding: 10px 15px; display: flex; flex-direction: column; gap: 10px; }
-    .status-top { display: flex; gap: 10px; align-items: center; }
-    .user-avatar { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; background: #3a3b3c; }
-    .status-input-fake { flex: 1; background: #3a3b3c; padding: 10px 15px; border-radius: 20px; color: #b0b3b8; font-size: 15px; cursor: pointer; border: 1px solid #3e4042; }
-    .status-actions { display: flex; justify-content: space-around; border-top: 1px solid #3e4042; padding-top: 8px; }
-    .status-action-btn { background: none; border: none; color: #b0b3b8; font-size: 13px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 6px; }
+body{
+    font-family:Arial, Helvetica, sans-serif;
+    background:#f0f2f5;
+    color:#1c1e21;
+}
 
-    /* 4. Stories Section */
-    .stories-container { display: flex; gap: 8px; padding: 10px; background: #242526; overflow-x: auto; scrollbar-width: none; }
-    .stories-container::-webkit-scrollbar { display: none; }
-    .story-card { min-width: 100px; height: 160px; border-radius: 12px; background: #3a3b3c; position: relative; overflow: hidden; cursor: pointer; display: flex; flex-direction: column; justify-content: space-between; padding: 8px; border: 1px solid #3e4042; }
-    .story-card.create-story { background: #242526; justify-content: flex-end; align-items: center; text-align: center; }
-    .story-card img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1; }
-    .story-avatar { width: 32px; height: 32px; border-radius: 50%; border: 2px solid #2d88ff; object-fit: cover; position: relative; z-index: 2; }
-    .story-name { font-size: 11px; color: white; font-weight: bold; position: relative; z-index: 2; text-shadow: 0 1px 2px black; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+/* =========================
+   TOP NAVBAR
+========================= */
 
-    /* 5. News Feed Posts */
-    .post-card { background: #242526; padding: 12px 15px 5px 15px; display: flex; flex-direction: column; gap: 10px; }
-    .post-header { display: flex; justify-content: space-between; align-items: center; }
-    .poster-info { display: flex; gap: 10px; align-items: center; }
-    .poster-name { font-size: 15px; font-weight: bold; color: #e4e6eb; margin: 0; display: flex; align-items: center; gap: 5px; }
-    .post-time { font-size: 11px; color: #b0b3b8; }
-    .post-options { background: none; border: none; color: #b0b3b8; font-size: 18px; cursor: pointer; }
-    .post-text { font-size: 15px; line-height: 1.4; margin: 0; word-break: break-word; color: #e4e6eb; }
-    .post-media { width: 100%; max-height: 300px; border-radius: 8px; object-fit: cover; margin-top: 5px; }
-    
-    /* Post Stats (Likes & Comments count) */
-    .post-stats { display: flex; justify-content: space-between; font-size: 13px; color: #b0b3b8; padding: 8px 0; border-bottom: 1px solid #3e4042; }
-    
-    /* Post Action Buttons (Like, Comment, Share) */
-    .post-footer-actions { display: flex; justify-content: space-around; padding: 4px 0; }
-    .feed-action-btn { background: none; border: none; color: #b0b3b8; font-size: 14px; font-weight: 600; cursor: pointer; padding: 6px 0; flex: 1; text-align: center; border-radius: 4px; }
-    .feed-action-btn:hover { background: #3a3b3c; }
-  </style>
+.topbar{
+    height:60px;
+    background:#ffffff;
+    border-bottom:1px solid #ddd;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 18px;
+    position:sticky;
+    top:0;
+    z-index:1000;
+}
+
+.left-nav{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.logo{
+    width:40px;
+    height:40px;
+    border-radius:50%;
+    background:#1877f2;
+    color:white;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:25px;
+    font-weight:bold;
+}
+
+.search{
+    width:240px;
+    height:40px;
+    background:#f0f2f5;
+    border-radius:22px;
+    display:flex;
+    align-items:center;
+    padding:0 15px;
+    color:#65676b;
+}
+
+.search span{
+    margin-left:8px;
+}
+
+.center-nav{
+    display:flex;
+    align-items:center;
+    height:100%;
+    gap:8px;
+}
+
+.nav-item{
+    width:95px;
+    height:50px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:25px;
+    color:#65676b;
+    cursor:pointer;
+    border-radius:8px;
+}
+
+.nav-item.active{
+    color:#1877f2;
+    border-bottom:3px solid #1877f2;
+    border-radius:0;
+}
+
+.right-nav{
+    display:flex;
+    gap:8px;
+    align-items:center;
+}
+
+.circle-btn{
+    width:40px;
+    height:40px;
+    border-radius:50%;
+    background:#e4e6eb;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    font-size:20px;
+}
+
+.profile-mini{
+    width:40px;
+    height:40px;
+    border-radius:50%;
+    background:#ddd;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:20px;
+}
+
+/* =========================
+   MAIN
+========================= */
+
+.main{
+    max-width:1400px;
+    margin:auto;
+    display:grid;
+    grid-template-columns:280px minmax(400px,680px) 280px;
+    gap:20px;
+    padding:20px;
+}
+
+/* =========================
+   LEFT SIDEBAR
+========================= */
+
+.sidebar{
+    position:sticky;
+    top:80px;
+    height:max-content;
+}
+
+.menu{
+    display:flex;
+    align-items:center;
+    gap:15px;
+    padding:12px 10px;
+    border-radius:10px;
+    cursor:pointer;
+    font-size:15px;
+    font-weight:600;
+}
+
+.menu:hover{
+    background:#e4e6eb;
+}
+
+.menu-icon{
+    width:35px;
+    height:35px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:21px;
+}
+
+.profile-menu .menu-icon{
+    background:#ddd;
+}
+
+.divider{
+    height:1px;
+    background:#ddd;
+    margin:12px 0;
+}
+
+.sidebar-title{
+    color:#65676b;
+    font-size:17px;
+    font-weight:bold;
+    margin:12px;
+}
+
+/* =========================
+   STORIES
+========================= */
+
+.card{
+    background:white;
+    border-radius:10px;
+    box-shadow:0 1px 2px rgba(0,0,0,.1);
+    margin-bottom:18px;
+}
+
+.stories{
+    padding:15px;
+}
+
+.story-header{
+    font-size:18px;
+    font-weight:bold;
+    margin-bottom:12px;
+}
+
+.story-container{
+    display:flex;
+    gap:10px;
+    overflow:hidden;
+}
+
+.story{
+    min-width:110px;
+    height:190px;
+    border-radius:10px;
+    overflow:hidden;
+    position:relative;
+    background:linear-gradient(160deg,#777,#222);
+    color:white;
+}
+
+.story-bg{
+    position:absolute;
+    inset:0;
+    background:linear-gradient(180deg,transparent,rgba(0,0,0,.75));
+}
+
+.story-avatar{
+    position:absolute;
+    top:10px;
+    left:10px;
+    width:40px;
+    height:40px;
+    border-radius:50%;
+    border:3px solid #1877f2;
+    background:#ddd;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.story-name{
+    position:absolute;
+    bottom:10px;
+    left:10px;
+    font-size:13px;
+    font-weight:bold;
+}
+
+/* Create Story */
+
+.create-story{
+    background:#fff;
+}
+
+.create-plus{
+    position:absolute;
+    top:75px;
+    left:50%;
+    transform:translateX(-50%);
+    width:40px;
+    height:40px;
+    border-radius:50%;
+    background:#1877f2;
+    border:4px solid white;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:25px;
+}
+
+/* =========================
+   CREATE POST
+========================= */
+
+.create-post{
+    padding:15px;
+}
+
+.post-top{
+    display:flex;
+    gap:10px;
+    align-items:center;
+}
+
+.avatar{
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    background:#ddd;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-shrink:0;
+}
+
+.post-input{
+    flex:1;
+    height:42px;
+    background:#f0f2f5;
+    border-radius:22px;
+    display:flex;
+    align-items:center;
+    padding:0 18px;
+    color:#65676b;
+}
+
+.post-actions{
+    display:flex;
+    border-top:1px solid #ddd;
+    margin-top:15px;
+    padding-top:10px;
+}
+
+.post-action{
+    flex:1;
+    padding:10px;
+    text-align:center;
+    color:#65676b;
+    font-weight:bold;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+.post-action:hover{
+    background:#f0f2f5;
+}
+
+/* =========================
+   POST
+========================= */
+
+.post{
+    padding:15px;
+}
+
+.post-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
+
+.post-user{
+    display:flex;
+    gap:10px;
+    align-items:center;
+}
+
+.user-info strong{
+    display:block;
+}
+
+.user-info small{
+    color:#65676b;
+}
+
+.more{
+    font-size:25px;
+    cursor:pointer;
+}
+
+.post-text{
+    margin:15px 0;
+    line-height:1.5;
+}
+
+.post-image{
+    width:100%;
+    height:350px;
+    background:linear-gradient(135deg,#ddd,#999);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:60px;
+    color:#777;
+}
+
+.post-stats{
+    display:flex;
+    justify-content:space-between;
+    color:#65676b;
+    padding:10px 0;
+    font-size:14px;
+}
+
+.post-buttons{
+    display:flex;
+    border-top:1px solid #ddd;
+    border-bottom:1px solid #ddd;
+}
+
+.post-button{
+    flex:1;
+    text-align:center;
+    padding:12px 5px;
+    font-weight:bold;
+    color:#65676b;
+    cursor:pointer;
+    border-radius:7px;
+}
+
+.post-button:hover{
+    background:#f0f2f5;
+}
+
+/* =========================
+   RIGHT SIDEBAR
+========================= */
+
+.right-sidebar{
+    position:sticky;
+    top:80px;
+    height:max-content;
+}
+
+.right-title{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:10px;
+    color:#65676b;
+}
+
+.contact{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:8px;
+    border-radius:8px;
+}
+
+.contact:hover{
+    background:#e4e6eb;
+}
+
+.online{
+    width:10px;
+    height:10px;
+    background:#31a24c;
+    border-radius:50%;
+    border:2px solid white;
+    margin-left:-20px;
+    margin-top:20px;
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+.mobile-bottom{
+    display:none;
+}
+
+@media(max-width:1100px){
+
+    .main{
+        grid-template-columns:220px minmax(400px,680px);
+    }
+
+    .right-sidebar{
+        display:none;
+    }
+
+}
+
+@media(max-width:750px){
+
+    .topbar{
+        height:55px;
+        padding:0 10px;
+    }
+
+    .search{
+        width:42px;
+        padding:0;
+        justify-content:center;
+    }
+
+    .search span{
+        display:none;
+    }
+
+    .center-nav{
+        display:none;
+    }
+
+    .right-nav .circle-btn:nth-child(1),
+    .right-nav .circle-btn:nth-child(2){
+        display:none;
+    }
+
+    .main{
+        display:block;
+        padding:8px;
+        padding-bottom:70px;
+    }
+
+    .sidebar{
+        display:none;
+    }
+
+    .story{
+        min-width:105px;
+        height:170px;
+    }
+
+    .post-image{
+        height:280px;
+    }
+
+    .mobile-bottom{
+        position:fixed;
+        bottom:0;
+        left:0;
+        right:0;
+        height:60px;
+        background:white;
+        border-top:1px solid #ddd;
+        display:flex;
+        justify-content:space-around;
+        align-items:center;
+        z-index:2000;
+    }
+
+    .mobile-nav{
+        font-size:22px;
+        color:#65676b;
+        text-align:center;
+    }
+
+    .mobile-nav.active{
+        color:#1877f2;
+    }
+}
+</style>
 </head>
+
 <body>
 
-<div class="app-container">
-  
-  <!-- 1. Top Bar -->
-  <div class="fb-top-bar">
-    <div class="fb-logo">facebook</div>
-    <div class="fb-top-icons">
-      <button class="fb-icon-btn" title="সার্চ">➕</button>
-      <button class="fb-icon-btn" title="সার্চ">🔍</button>
-      <button class="fb-icon-btn" title="মেনু">☰</button>
-    </div>
-  </div>
+<!-- =========================
+     TOP BAR
+========================= -->
 
-  <!-- 2. Navigation Tabs Bar -->
-  <div class="fb-nav-tabs">
-    <div class="nav-tab active" title="হোম">🏠</div>
-    <div class="nav-tab" title="বন্ধুরা">👥</div>
-    <div class="nav-tab" title="মেসেঞ্জার">💬</div>
-    <div class="nav-tab" title="ভিডিও/রিলস">📺</div>
-    <div class="nav-tab" title="নোটিফিকেশন">🔔</div>
-    <div class="nav-tab" title="প্রোফাইল">👤</div>
-  </div>
+<header class="topbar">
 
-  <!-- Main Feed Scroll Area -->
-  <div class="fb-content">
-    
-    <!-- 3. Status Box ("What's on your mind?") -->
-    <div class="status-box-section">
-      <div class="status-top">
-        <img class="user-avatar" src="https://i.ibb.co/m5vXzVJ/user.png" alt="Profile">
-        <div class="status-input-fake" onclick="alert('পোস্ট করার ফিচার পরবর্তীতে যুক্ত করা হবে!')">কী ভাবছেন?</div>
-      </div>
-      <div class="status-actions">
-        <button class="status-action-btn" onclick="alert('লাইভ ভিডিও অপশন')">🔴 লাইভ</button>
-        <button class="status-action-btn" onclick="alert('ছবি/ভিডিও অপশন')">🖼️ ছবি/ভিডিও</button>
-        <button class="status-action-btn" onclick="alert('রিলস অপশন')">🎬 রিলস</button>
-      </div>
-    </div>
+    <div class="left-nav">
 
-    <!-- 4. Stories Section -->
-    <div class="stories-container">
-      <!-- Create Story Card -->
-      <div class="story-card create-story" onclick="alert('স্টোরি ক্রিয়েট অপশন')">
-        <img src="https://i.ibb.co/m5vXzVJ/user.png" style="opacity: 0.5;">
-        <div style="z-index: 2; margin-top: auto; padding-bottom: 8px;">
-          <div style="background: #2d88ff; color: white; border-radius: 50%; width: 26px; height: 26px; display: inline-flex; justify-content: center; align-items: center; font-weight: bold; border: 2px solid #242526;">+</div>
-          <div style="font-size: 11px; font-weight: bold; margin-top: 4px; color: white;">Create story</div>
+        <div class="logo">S</div>
+
+        <div class="search">
+            🔍
+            <span>Search</span>
         </div>
-      </div>
 
-      <!-- Dummy Friend Story 1 -->
-      <div class="story-card" onclick="alert('স্টোরি দেখার অপশন')">
-        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=300" alt="Story">
-        <img class="story-avatar" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100" alt="Avatar">
-        <div class="story-name">Sadia Islam</div>
-      </div>
-
-      <!-- Dummy Friend Story 2 -->
-      <div class="story-card" onclick="alert('স্টোরি দেখার অপশন')">
-        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300" alt="Story">
-        <img class="story-avatar" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100" alt="Avatar">
-        <div class="story-name">Tanvir Ahmed</div>
-      </div>
-
-      <!-- Dummy Friend Story 3 -->
-      <div class="story-card" onclick="alert('স্টোরি দেখার অপশন')">
-        <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=300" alt="Story">
-        <img class="story-avatar" src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=100" alt="Avatar">
-        <div class="story-name">Nusrat Jahan</div>
-      </div>
     </div>
 
-    <!-- 5. News Feed Posts -->
-    
-    <!-- Post 1 -->
-    <div class="post-card">
-      <div class="post-header">
-        <div class="poster-info">
-          <img class="user-avatar" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100" alt="User">
-          <div>
-            <h4 class="poster-name">Rahim Uddin <span style="font-size:12px; color:#2d88ff;">✓</span></h4>
-            <span class="post-time">২ ঘণ্টা আগে · 🌍</span>
-          </div>
+    <nav class="center-nav">
+
+        <div class="nav-item active">🏠</div>
+        <div class="nav-item">👥</div>
+        <div class="nav-item">🎬</div>
+        <div class="nav-item">🛒</div>
+        <div class="nav-item">👨‍👩‍👧‍👦</div>
+
+    </nav>
+
+    <div class="right-nav">
+
+        <div class="circle-btn">☰</div>
+        <div class="circle-btn">💬</div>
+        <div class="circle-btn">🔔</div>
+
+        <div class="profile-mini">👤</div>
+
+    </div>
+
+</header>
+
+
+<!-- =========================
+     MAIN CONTENT
+========================= -->
+
+<main class="main">
+
+
+<!-- =========================
+     LEFT SIDEBAR
+========================= -->
+
+<aside class="sidebar">
+
+    <div class="menu profile-menu">
+        <div class="menu-icon">👤</div>
+        <span>Your Profile</span>
+    </div>
+
+    <div class="menu">
+        <div class="menu-icon">👥</div>
+        <span>Friends</span>
+    </div>
+
+    <div class="menu">
+        <div class="menu-icon">🕘</div>
+        <span>Memories</span>
+    </div>
+
+    <div class="menu">
+        <div class="menu-icon">🔖</div>
+        <span>Saved</span>
+    </div>
+
+    <div class="menu">
+        <div class="menu-icon">👨‍👩‍👧‍👦</div>
+        <span>Groups</span>
+    </div>
+
+    <div class="menu">
+        <div class="menu-icon">📺</div>
+        <span>Video</span>
+    </div>
+
+    <div class="menu">
+        <div class="menu-icon">🛒</div>
+        <span>Marketplace</span>
+    </div>
+
+    <div class="menu">
+        <div class="menu-icon">📅</div>
+        <span>Events</span>
+    </div>
+
+    <div class="menu">
+        <div class="menu-icon">📄</div>
+        <span>Pages</span>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="sidebar-title">
+        Your shortcuts
+    </div>
+
+    <div class="menu">
+        <div class="menu-icon">⭐</div>
+        <span>Favorite Group</span>
+    </div>
+
+    <div class="menu">
+        <div class="menu-icon">💻</div>
+        <span>My Community</span>
+    </div>
+
+</aside>
+
+
+<!-- =========================
+     FEED
+========================= -->
+
+<section class="feed">
+
+
+<!-- STORIES -->
+
+<div class="card stories">
+
+    <div class="story-header">
+        Stories
+    </div>
+
+    <div class="story-container">
+
+        <div class="story create-story">
+
+            <div class="story-bg"></div>
+
+            <div class="create-plus">+</div>
+
+            <div class="story-name">
+                Create story
+            </div>
+
         </div>
-        <button class="post-options" onclick="alert('অপশনস')">···</button>
-      </div>
-      <p class="post-text">আলহামদুলিল্লাহ, আজকের দিনটি দারুণ কেটেছে! সবাই কেমন আছেন?</p>
-      <img class="post-media" src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=600" alt="Post Image">
-      
-      <div class="post-stats">
-        <span>👍 ❤️ ৪২</span>
-        <span>৫ কমেন্ট · ২ শেয়ার</span>
-      </div>
 
-      <div class="post-footer-actions">
-        <button class="feed-action-btn" onclick="alert('লাইভ ফিচার পরে যুক্ত হবে')">👍 লাইক</button>
-        <button class="feed-action-btn" onclick="alert('কমেন্ট ফিচার পরে যুক্ত হবে')">💬 কমেন্ট</button>
-        <button class="feed-action-btn" onclick="alert('শেয়ার ফিচার পরে যুক্ত হবে')">↗️ শেয়ার</button>
-      </div>
-    </div>
 
-    <!-- Post 2 -->
-    <div class="post-card" style="margin-bottom: 10px;">
-      <div class="post-header">
-        <div class="poster-info">
-          <img class="user-avatar" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100" alt="User">
-          <div>
-            <h4 class="poster-name">Anika Tabassum</h4>
-            <span class="post-time">৫ ঘণ্টা আগে · 👥</span>
-          </div>
+        <div class="story">
+
+            <div class="story-bg"></div>
+
+            <div class="story-avatar">👤</div>
+
+            <div class="story-name">
+                Rahim
+            </div>
+
         </div>
-        <button class="post-options" onclick="alert('অপশনস')">···</button>
-      </div>
-      <p class="post-text">নতুন একটি প্রজেক্ট নিয়ে কাজ করছি। খুব শীঘ্রই আপনাদের সাথে শেয়ার করব ইনশাআল্লাহ!</p>
-      
-      <div class="post-stats">
-        <span>👍 ১৯</span>
-        <span>১ কমেন্ট</span>
-      </div>
 
-      <div class="post-footer-actions">
-        <button class="feed-action-btn" onclick="alert('লাইভ ফিচার পরে যুক্ত হবে')">👍 লাইক</button>
-        <button class="feed-action-btn" onclick="alert('কমেন্ট ফিচার পরে যুক্ত হবে')">💬 কমেন্ট</button>
-        <button class="feed-action-btn" onclick="alert('শেয়ার ফিচার পরে যুক্ত হবে')">↗️ শেয়ার</button>
-      </div>
+
+        <div class="story">
+
+            <div class="story-bg"></div>
+
+            <div class="story-avatar">👩</div>
+
+            <div class="story-name">
+                Riya
+            </div>
+
+        </div>
+
+
+        <div class="story">
+
+            <div class="story-bg"></div>
+
+            <div class="story-avatar">👨</div>
+
+            <div class="story-name">
+                Karim
+            </div>
+
+        </div>
+
+
+        <div class="story">
+
+            <div class="story-bg"></div>
+
+            <div class="story-avatar">👧</div>
+
+            <div class="story-name">
+                Sara
+            </div>
+
+        </div>
+
     </div>
-
-  </div>
 
 </div>
 
+
+<!-- CREATE POST -->
+
+<div class="card create-post">
+
+    <div class="post-top">
+
+        <div class="avatar">
+            👤
+        </div>
+
+        <div class="post-input">
+            What's on your mind?
+        </div>
+
+    </div>
+
+    <div class="post-actions">
+
+        <div class="post-action">
+            🔴 Live
+        </div>
+
+        <div class="post-action">
+            🖼️ Photo/Video
+        </div>
+
+        <div class="post-action">
+            😊 Feeling
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- POST 1 -->
+
+<article class="card post">
+
+    <div class="post-header">
+
+        <div class="post-user">
+
+            <div class="avatar">
+                👨
+            </div>
+
+            <div class="user-info">
+
+                <strong>Rahim Ahmed</strong>
+
+                <small>
+                    2h · 🌎
+                </small>
+
+            </div>
+
+        </div>
+
+        <div class="more">
+            ⋯
+        </div>
+
+    </div>
+
+
+    <div class="post-text">
+
+        আজকের দিনটা অনেক সুন্দর! ❤️
+        সবাইকে শুভেচ্ছা।
+
+    </div>
+
+
+    <div class="post-image">
+        🖼️
+    </div>
+
+
+    <div class="post-stats">
+
+        <span>
+            👍 ❤️ 125
+        </span>
+
+        <span>
+            24 comments · 8 shares
+        </span>
+
+    </div>
+
+
+    <div class="post-buttons">
+
+        <div class="post-button">
+            👍 Like
+        </div>
+
+        <div class="post-button">
+            💬 Comment
+        </div>
+
+        <div class="post-button">
+            ↗️ Share
+        </div>
+
+    </div>
+
+</article>
+
+
+<!-- POST 2 -->
+
+<article class="card post">
+
+    <div class="post-header">
+
+        <div class="post-user">
+
+            <div class="avatar">
+                👩
+            </div>
+
+            <div class="user-info">
+
+                <strong>Riya Islam</strong>
+
+                <small>
+                    5h · 🌎
+                </small>
+
+            </div>
+
+        </div>
+
+        <div class="more">
+            ⋯
+        </div>
+
+    </div>
+
+
+    <div class="post-text">
+
+        নতুন কিছু করার চেষ্টা করছি। 😊
+
+    </div>
+
+
+    <div class="post-image">
+        📷
+    </div>
+
+
+    <div class="post-stats">
+
+        <span>
+            👍 ❤️ 87
+        </span>
+
+        <span>
+            15 comments · 3 shares
+        </span>
+
+    </div>
+
+
+    <div class="post-buttons">
+
+        <div class="post-button">
+            👍 Like
+        </div>
+
+        <div class="post-button">
+            💬 Comment
+        </div>
+
+        <div class="post-button">
+            ↗️ Share
+        </div>
+
+    </div>
+
+</article>
+
+
+</section>
+
+
+<!-- =========================
+     RIGHT SIDEBAR
+========================= -->
+
+<aside class="right-sidebar">
+
+    <div class="right-title">
+
+        <strong>
+            Contacts
+        </strong>
+
+        <span>
+            🔍 ⋯
+        </span>
+
+    </div>
+
+
+    <div class="contact">
+
+        <div class="avatar">👨</div>
+        <strong>Rahim</strong>
+        <div class="online"></div>
+
+    </div>
+
+
+    <div class="contact">
+
+        <div class="avatar">👩</div>
+        <strong>Riya</strong>
+        <div class="online"></div>
+
+    </div>
+
+
+    <div class="contact">
+
+        <div class="avatar">👨</div>
+        <strong>Karim</strong>
+        <div class="online"></div>
+
+    </div>
+
+
+    <div class="contact">
+
+        <div class="avatar">👧</div>
+        <strong>Sara</strong>
+        <div class="online"></div>
+
+    </div>
+
+
+    <div class="divider"></div>
+
+
+    <div class="right-title">
+        <strong>Suggested</strong>
+    </div>
+
+
+    <div class="contact">
+
+        <div class="avatar">⭐</div>
+
+        <div>
+            <strong>People you may know</strong>
+            <small>View suggestions</small>
+        </div>
+
+    </div>
+
+</aside>
+
+</main>
+
+
+<!-- =========================
+     MOBILE BOTTOM NAVIGATION
+========================= -->
+
+<nav class="mobile-bottom">
+
+    <div class="mobile-nav active">
+        🏠
+    </div>
+
+    <div class="mobile-nav">
+        👥
+    </div>
+
+    <div class="mobile-nav">
+        🎬
+    </div>
+
+    <div class="mobile-nav">
+        🔔
+    </div>
+
+    <div class="mobile-nav">
+        ☰
+    </div>
+
+</nav>
+
 </body>
   </html>
-  
