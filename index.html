@@ -3,278 +3,195 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Facebook Clone</title>
+  <title>Facebook Home UI Clone</title>
   <style>
     * { box-sizing: border-box; }
     body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; margin: 0; padding: 0; background: #18191a; color: #e4e6eb; display: flex; justify-content: center; align-items: center; height: 100vh; }
     .app-container { width: 100%; max-width: 420px; height: 100vh; max-height: 800px; background: #242526; display: flex; flex-direction: column; box-shadow: 0 8px 24px rgba(0,0,0,0.5); border-radius: 12px; overflow: hidden; position: relative; }
     
-    /* Login Screen */
-    #loginScreen { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #18191a; z-index: 100; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px; }
-    .login-box { width: 100%; max-width: 320px; display: flex; flex-direction: column; gap: 15px; }
-    .login-box h2 { color: #2d88ff; text-align: center; font-size: 32px; margin-bottom: 10px; }
-    .login-input { padding: 12px 15px; background: #3a3b3c; border: 1px solid #3e4042; border-radius: 8px; color: white; font-size: 16px; outline: none; }
-    .login-btn { padding: 12px; background: #2d88ff; border: none; border-radius: 8px; color: white; font-size: 16px; font-weight: bold; cursor: pointer; }
-
-    /* Facebook Header */
-    .fb-header { background: #242526; padding: 10px 15px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #3e4042; }
+    /* 1. Top Bar */
+    .fb-top-bar { background: #242526; padding: 10px 15px; display: flex; justify-content: space-between; align-items: center; }
     .fb-logo { color: #2d88ff; font-size: 26px; font-weight: bold; font-family: sans-serif; }
-    .fb-header-icons { display: flex; gap: 8px; }
+    .fb-top-icons { display: flex; gap: 8px; }
     .fb-icon-btn { background: #3a3b3c; border: none; width: 36px; height: 36px; border-radius: 50%; display: flex; justify-content: center; align-items: center; cursor: pointer; color: white; font-size: 16px; }
 
+    /* 2. Navigation Tabs Bar */
+    .fb-nav-tabs { display: flex; justify-content: space-around; background: #242526; border-bottom: 1px solid #3e4042; padding: 0 5px; }
+    .nav-tab { flex: 1; text-align: center; padding: 10px 0; font-size: 20px; cursor: pointer; border-bottom: 3px solid transparent; color: #b0b3b8; }
+    .nav-tab.active { border-bottom: 3px solid #2d88ff; color: #2d88ff; }
+
     /* Main Scroll Area */
-    .fb-content { flex: 1; overflow-y: auto; background: #18191a; display: flex; flex-direction: column; gap: 8px; }
+    .fb-content { flex: 1; overflow-y: auto; background: #18191a; display: flex; flex-direction: column; gap: 8px; scrollbar-width: none; }
+    .fb-content::-webkit-scrollbar { display: none; }
 
-    /* Create Post Box */
-    .create-post-section { background: #242526; padding: 10px 15px; display: flex; flex-direction: column; gap: 10px; }
-    .post-top { display: flex; gap: 10px; align-items: center; }
-    .user-avatar { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; }
-    .post-input-fake { flex: 1; background: #3a3b3c; border: 20px; padding: 10px 15px; border-radius: 20px; color: #b0b3b8; font-size: 15px; cursor: pointer; }
-    .post-actions { display: flex; justify-content: space-around; border-top: 1px solid #3e4042; padding-top: 8px; }
-    .post-action-btn { background: none; border: none; color: #b0b3b8; font-size: 14px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 6px; }
+    /* 3. Status Box ("What's on your mind?") */
+    .status-box-section { background: #242526; padding: 10px 15px; display: flex; flex-direction: column; gap: 10px; }
+    .status-top { display: flex; gap: 10px; align-items: center; }
+    .user-avatar { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; background: #3a3b3c; }
+    .status-input-fake { flex: 1; background: #3a3b3c; padding: 10px 15px; border-radius: 20px; color: #b0b3b8; font-size: 15px; cursor: pointer; border: 1px solid #3e4042; }
+    .status-actions { display: flex; justify-content: space-around; border-top: 1px solid #3e4042; padding-top: 8px; }
+    .status-action-btn { background: none; border: none; color: #b0b3b8; font-size: 13px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 6px; }
 
-    /* Stories Section */
+    /* 4. Stories Section */
     .stories-container { display: flex; gap: 8px; padding: 10px; background: #242526; overflow-x: auto; scrollbar-width: none; }
     .stories-container::-webkit-scrollbar { display: none; }
     .story-card { min-width: 100px; height: 160px; border-radius: 12px; background: #3a3b3c; position: relative; overflow: hidden; cursor: pointer; display: flex; flex-direction: column; justify-content: space-between; padding: 8px; border: 1px solid #3e4042; }
+    .story-card.create-story { background: #242526; justify-content: flex-end; align-items: center; text-align: center; }
     .story-card img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1; }
     .story-avatar { width: 32px; height: 32px; border-radius: 50%; border: 2px solid #2d88ff; object-fit: cover; position: relative; z-index: 2; }
-    .story-name { font-size: 11px; color: white; font-weight: bold; position: relative; z-index: 2; text-shadow: 0 1px 2px black; }
+    .story-name { font-size: 11px; color: white; font-weight: bold; position: relative; z-index: 2; text-shadow: 0 1px 2px black; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
 
-    /* News Feed Posts */
-    .post-card { background: #242526; padding: 12px 15px; display: flex; flex-direction: column; gap: 10px; }
+    /* 5. News Feed Posts */
+    .post-card { background: #242526; padding: 12px 15px 5px 15px; display: flex; flex-direction: column; gap: 10px; }
     .post-header { display: flex; justify-content: space-between; align-items: center; }
     .poster-info { display: flex; gap: 10px; align-items: center; }
-    .poster-name { font-size: 15px; font-weight: bold; color: #e4e6eb; margin: 0; }
+    .poster-name { font-size: 15px; font-weight: bold; color: #e4e6eb; margin: 0; display: flex; align-items: center; gap: 5px; }
     .post-time { font-size: 11px; color: #b0b3b8; }
-    .post-text { font-size: 15px; line-height: 1.4; margin: 0; word-break: break-word; }
-    .post-media { width: 100%; max-height: 300px; border-radius: 8px; object-fit: cover; }
-
-    /* Post Modal */
-    #postModal { display: none; position: absolute; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.8); z-index: 200; justify-content: center; align-items: center; padding: 20px; }
-    .modal-content { background: #242526; width: 100%; max-width: 380px; padding: 20px; border-radius: 12px; display: flex; flex-direction: column; gap: 15px; }
-    .modal-content textarea { width: 100%; height: 100px; background: #3a3b3c; border: none; border-radius: 8px; color: white; padding: 10px; resize: none; outline: none; font-size: 15px; }
+    .post-options { background: none; border: none; color: #b0b3b8; font-size: 18px; cursor: pointer; }
+    .post-text { font-size: 15px; line-height: 1.4; margin: 0; word-break: break-word; color: #e4e6eb; }
+    .post-media { width: 100%; max-height: 300px; border-radius: 8px; object-fit: cover; margin-top: 5px; }
+    
+    /* Post Stats (Likes & Comments count) */
+    .post-stats { display: flex; justify-content: space-between; font-size: 13px; color: #b0b3b8; padding: 8px 0; border-bottom: 1px solid #3e4042; }
+    
+    /* Post Action Buttons (Like, Comment, Share) */
+    .post-footer-actions { display: flex; justify-content: space-around; padding: 4px 0; }
+    .feed-action-btn { background: none; border: none; color: #b0b3b8; font-size: 14px; font-weight: 600; cursor: pointer; padding: 6px 0; flex: 1; text-align: center; border-radius: 4px; }
+    .feed-action-btn:hover { background: #3a3b3c; }
   </style>
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 </head>
 <body>
 
 <div class="app-container">
   
-  <!-- LOGIN SCREEN -->
-  <div id="loginScreen">
-    <div class="login-box">
-      <h2>facebook</h2>
-      <input type="text" id="loginName" class="login-input" placeholder="আপনার নাম লিখুন">
-      <input type="text" id="loginContact" class="login-input" placeholder="মোবাইল নম্বর বা জিমেইল">
-      <button class="login-btn" onclick="handleLogin()">লগইন করুন</button>
-    </div>
-  </div>
-
-  <!-- MAIN FACEBOOK UI -->
-  <div class="fb-header">
+  <!-- 1. Top Bar -->
+  <div class="fb-top-bar">
     <div class="fb-logo">facebook</div>
-    <div class="fb-header-icons">
-      <button class="fb-icon-btn" onclick="alert('সার্চ ফিচার')">🔍</button>
-      <button class="fb-icon-btn" onclick="logout()">🚪</button>
+    <div class="fb-top-icons">
+      <button class="fb-icon-btn" title="সার্চ">➕</button>
+      <button class="fb-icon-btn" title="সার্চ">🔍</button>
+      <button class="fb-icon-btn" title="মেনু">☰</button>
     </div>
   </div>
 
+  <!-- 2. Navigation Tabs Bar -->
+  <div class="fb-nav-tabs">
+    <div class="nav-tab active" title="হোম">🏠</div>
+    <div class="nav-tab" title="বন্ধুরা">👥</div>
+    <div class="nav-tab" title="মেসেঞ্জার">💬</div>
+    <div class="nav-tab" title="ভিডিও/রিলস">📺</div>
+    <div class="nav-tab" title="নোটিফিকেশন">🔔</div>
+    <div class="nav-tab" title="প্রোফাইল">👤</div>
+  </div>
+
+  <!-- Main Feed Scroll Area -->
   <div class="fb-content">
     
-    <!-- Create Post Section -->
-    <div class="create-post-section">
-      <div class="post-top">
-        <img id="myHeaderAvatar" class="user-avatar" src="https://i.ibb.co/m5vXzVJ/user.png">
-        <div class="post-input-fake" onclick="openPostModal()">মনে কি চলছে?</div>
+    <!-- 3. Status Box ("What's on your mind?") -->
+    <div class="status-box-section">
+      <div class="status-top">
+        <img class="user-avatar" src="https://i.ibb.co/m5vXzVJ/user.png" alt="Profile">
+        <div class="status-input-fake" onclick="alert('পোস্ট করার ফিচার পরবর্তীতে যুক্ত করা হবে!')">কী ভাবছেন?</div>
       </div>
-      <div class="post-actions">
-        <button class="post-action-btn" onclick="openPostModal()">📷 ছবি/ভিডিও</button>
-        <button class="post-action-btn" onclick="uploadStoryPrompt()">➕ স্টোরি</button>
+      <div class="status-actions">
+        <button class="status-action-btn" onclick="alert('লাইভ ভিডিও অপশন')">🔴 লাইভ</button>
+        <button class="status-action-btn" onclick="alert('ছবি/ভিডিও অপশন')">🖼️ ছবি/ভিডিও</button>
+        <button class="status-action-btn" onclick="alert('রিলস অপশন')">🎬 রিলস</button>
       </div>
     </div>
 
-    <!-- Stories Bar -->
-    <div class="stories-container" id="storiesContainer">
-      <!-- Stories will load here -->
+    <!-- 4. Stories Section -->
+    <div class="stories-container">
+      <!-- Create Story Card -->
+      <div class="story-card create-story" onclick="alert('স্টোরি ক্রিয়েট অপশন')">
+        <img src="https://i.ibb.co/m5vXzVJ/user.png" style="opacity: 0.5;">
+        <div style="z-index: 2; margin-top: auto; padding-bottom: 8px;">
+          <div style="background: #2d88ff; color: white; border-radius: 50%; width: 26px; height: 26px; display: inline-flex; justify-content: center; align-items: center; font-weight: bold; border: 2px solid #242526;">+</div>
+          <div style="font-size: 11px; font-weight: bold; margin-top: 4px; color: white;">Create story</div>
+        </div>
+      </div>
+
+      <!-- Dummy Friend Story 1 -->
+      <div class="story-card" onclick="alert('স্টোরি দেখার অপশন')">
+        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=300" alt="Story">
+        <img class="story-avatar" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100" alt="Avatar">
+        <div class="story-name">Sadia Islam</div>
+      </div>
+
+      <!-- Dummy Friend Story 2 -->
+      <div class="story-card" onclick="alert('স্টোরি দেখার অপশন')">
+        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300" alt="Story">
+        <img class="story-avatar" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100" alt="Avatar">
+        <div class="story-name">Tanvir Ahmed</div>
+      </div>
+
+      <!-- Dummy Friend Story 3 -->
+      <div class="story-card" onclick="alert('স্টোরি দেখার অপশন')">
+        <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=300" alt="Story">
+        <img class="story-avatar" src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=100" alt="Avatar">
+        <div class="story-name">Nusrat Jahan</div>
+      </div>
     </div>
 
-    <!-- News Feed (Posts) -->
-    <div id="newsFeed" style="display: flex; flex-direction: column; gap: 8px;">
-      <!-- Posts will load here -->
+    <!-- 5. News Feed Posts -->
+    
+    <!-- Post 1 -->
+    <div class="post-card">
+      <div class="post-header">
+        <div class="poster-info">
+          <img class="user-avatar" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100" alt="User">
+          <div>
+            <h4 class="poster-name">Rahim Uddin <span style="font-size:12px; color:#2d88ff;">✓</span></h4>
+            <span class="post-time">২ ঘণ্টা আগে · 🌍</span>
+          </div>
+        </div>
+        <button class="post-options" onclick="alert('অপশনস')">···</button>
+      </div>
+      <p class="post-text">আলহামদুলিল্লাহ, আজকের দিনটি দারুণ কেটেছে! সবাই কেমন আছেন?</p>
+      <img class="post-media" src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=600" alt="Post Image">
+      
+      <div class="post-stats">
+        <span>👍 ❤️ ৪২</span>
+        <span>৫ কমেন্ট · ২ শেয়ার</span>
+      </div>
+
+      <div class="post-footer-actions">
+        <button class="feed-action-btn" onclick="alert('লাইভ ফিচার পরে যুক্ত হবে')">👍 লাইক</button>
+        <button class="feed-action-btn" onclick="alert('কমেন্ট ফিচার পরে যুক্ত হবে')">💬 কমেন্ট</button>
+        <button class="feed-action-btn" onclick="alert('শেয়ার ফিচার পরে যুক্ত হবে')">↗️ শেয়ার</button>
+      </div>
+    </div>
+
+    <!-- Post 2 -->
+    <div class="post-card" style="margin-bottom: 10px;">
+      <div class="post-header">
+        <div class="poster-info">
+          <img class="user-avatar" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100" alt="User">
+          <div>
+            <h4 class="poster-name">Anika Tabassum</h4>
+            <span class="post-time">৫ ঘণ্টা আগে · 👥</span>
+          </div>
+        </div>
+        <button class="post-options" onclick="alert('অপশনস')">···</button>
+      </div>
+      <p class="post-text">নতুন একটি প্রজেক্ট নিয়ে কাজ করছি। খুব শীঘ্রই আপনাদের সাথে শেয়ার করব ইনশাআল্লাহ!</p>
+      
+      <div class="post-stats">
+        <span>👍 ১৯</span>
+        <span>১ কমেন্ট</span>
+      </div>
+
+      <div class="post-footer-actions">
+        <button class="feed-action-btn" onclick="alert('লাইভ ফিচার পরে যুক্ত হবে')">👍 লাইক</button>
+        <button class="feed-action-btn" onclick="alert('কমেন্ট ফিচার পরে যুক্ত হবে')">💬 কমেন্ট</button>
+        <button class="feed-action-btn" onclick="alert('শেয়ার ফিচার পরে যুক্ত হবে')">↗️ শেয়ার</button>
+      </div>
     </div>
 
   </div>
-
-  <!-- POST CREATION MODAL -->
-  <div id="postModal">
-    <div class="modal-content">
-      <h3>পোস্ট তৈরি করুন</h3>
-      <textarea id="postText" placeholder="আপনার মনের কথা লিখুন..."></textarea>
-      <input type="file" id="postMediaInput" accept="image/*,video/*">
-      <div style="display: flex; gap: 10px; justify-content: flex-end;">
-        <button class="login-btn" style="background: #3a3b3c;" onclick="closePostModal()">বাতিল</button>
-        <button class="login-btn" onclick="submitPost()">পোস্ট করুন</button>
-      </div>
-    </div>
-  </div>
-
-  <input type="file" id="storyFileInput" accept="image/*" style="display:none" onchange="saveStory(this)">
 
 </div>
 
-<script>
-  const firebaseConfig = { databaseURL: "https://my-chat-app-23ce7-default-rtdb.asia-southeast1.firebasedatabase.app/" };
-  firebase.initializeApp(firebaseConfig);
-  const db = firebase.database();
-  const postsRef = db.ref("posts");
-  const usersRef = db.ref("users");
-  const storiesRef = db.ref("stories");
-
-  let currentUser = JSON.parse(localStorage.getItem("fb_user")) || null;
-
-  if(currentUser) {
-    document.getElementById("loginScreen").style.display = "none";
-    document.getElementById("myHeaderAvatar").src = currentUser.pic;
-    initApp();
-  }
-
-  function handleLogin() {
-    let name = document.getElementById("loginName").value.trim();
-    let contact = document.getElementById("loginContact").value.trim();
-    if(!name || !contact) {
-      alert("দয়া করে নাম এবং মোবাইল নম্বর/জিমেইল দিন!");
-      return;
-    }
-    let userId = "user_" + Math.random().toString(36).substr(2, 9);
-    currentUser = { id: userId, name: name, contact: contact, pic: "https://i.ibb.co/m5vXzVJ/user.png" };
-    localStorage.setItem("fb_user", JSON.stringify(currentUser));
-    
-    usersRef.child(userId).set(currentUser);
-    document.getElementById("loginScreen").style.display = "none";
-    document.getElementById("myHeaderAvatar").src = currentUser.pic;
-    initApp();
-  }
-
-  function logout() {
-    localStorage.removeItem("fb_user");
-    location.reload();
-  }
-
-  function initApp() {
-    loadPosts();
-    loadStories();
-  }
-
-  function openPostModal() { document.getElementById("postModal").style.display = "flex"; }
-  function closePostModal() { document.getElementById("postModal").style.display = "none"; }
-
-  function submitPost() {
-    let text = document.getElementById("postText").value.trim();
-    let fileInput = document.getElementById("postMediaInput");
-    
-    if(!text && fileInput.files.length === 0) {
-      alert("কিছু লিখে বা ছবি দিয়ে পোস্ট করুন!");
-      return;
-    }
-
-    if(fileInput.files.length > 0) {
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        savePostToDb(text, e.target.result);
-      };
-      reader.readAsDataURL(fileInput.files[0]);
-    } else {
-      savePostToDb(text, null);
-    }
-  }
-
-  function savePostToDb(text, media) {
-    postsRef.push({
-      userId: currentUser.id,
-      userName: currentUser.name,
-      userPic: currentUser.pic,
-      text: text,
-      media: media,
-      time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-    });
-    document.getElementById("postText").value = "";
-    document.getElementById("postMediaInput").value = "";
-    closePostModal();
-  }
-
-  function loadPosts() {
-    postsRef.on("value", snapshot => {
-      let feed = document.getElementById("newsFeed");
-      feed.innerHTML = "";
-      let data = snapshot.val() || {};
-      Object.keys(data).reverse().forEach(key => {
-        let p = data[key];
-        let mediaHtml = p.media ? `<img class="post-media" src="${p.media}">` : "";
-        feed.innerHTML += `
-          <div class="post-card">
-            <div class="post-header">
-              <div class="poster-info">
-                <img class="user-avatar" src="${p.userPic || 'https://i.ibb.co/m5vXzVJ/user.png'}">
-                <div>
-                  <h4 class="poster-name">${p.userName}</h4>
-                  <span class="post-time">${p.time}</span>
-                </div>
-              </div>
-            </div>
-            ${p.text ? `<p class="post-text">${p.text}</p>` : ""}
-            ${mediaHtml}
-          </div>
-        `;
-      });
-    });
-  }
-
-  function uploadStoryPrompt() { document.getElementById("storyFileInput").click(); }
-  function saveStory(input) {
-    const file = input.files[0];
-    if(file) {
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        storiesRef.push({
-          userId: currentUser.id,
-          userName: currentUser.name,
-          userPic: currentUser.pic,
-          storyImg: e.target.result
-        });
-        alert("স্টোরি সফলভাবে আপলোড হয়েছে!");
-      };
-      reader.readAsDataURL(file);
-    }
-  }
-
-  function loadStories() {
-    storiesRef.on("value", snapshot => {
-      let container = document.getElementById("storiesContainer");
-      container.innerHTML = `
-        <div class="story-card" onclick="uploadStoryPrompt()">
-          <img src="https://i.ibb.co/m5vXzVJ/user.png" style="opacity:0.6;">
-          <div style="margin-top:auto; text-align:center; z-index:2; padding-bottom:10px;">
-            <div style="background:#2d88ff; color:white; border-radius:50%; width:25px; height:25px; display:inline-flex; justify-content:center; align-items:center; font-weight:bold;">+</div>
-            <div style="font-size:11px; font-weight:bold; margin-top:4px;">Create story</div>
-          </div>
-        </div>
-      `;
-      let data = snapshot.val() || {};
-      Object.keys(data).forEach(key => {
-        let s = data[key];
-        container.innerHTML += `
-          <div class="story-card">
-            <img src="${s.storyImg}">
-            <img class="story-avatar" src="${s.userPic || 'https://i.ibb.co/m5vXzVJ/user.png'}">
-            <div class="story-name">${s.userName}</div>
-          </div>
-        `;
-      });
-    });
-  }
-</script>
-
 </body>
-</html>
+  </html>
+  
