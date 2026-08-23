@@ -21,9 +21,9 @@
     .story-item { display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: pointer; min-width: 60px; }
     .avatar-wrapper { position: relative; width: 52px; height: 52px; border-radius: 50%; padding: 2px; border: 2px solid #0084ff; }
     .avatar-wrapper.no-story { border-color: transparent; }
-    .avatar-img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
+    .avatar-img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; background: #3a3b3c; }
     .online-badge { position: absolute; bottom: 2px; right: 2px; width: 12px; height: 12px; background: #31a24c; border-radius: 50%; border: 2px solid #242526; }
-    .add-story-btn { position: absolute; bottom: 0; right: 0; background: #0084ff; border-radius: 50%; width: 18px; height: 18px; display: flex; justify-content: center; align-items: center; font-size: 12px; font-weight: bold; border: 2px solid #242526; }
+    .add-story-btn { position: absolute; bottom: 0; right: 0; background: #0084ff; border-radius: 50%; width: 18px; height: 18px; display: flex; justify-content: center; align-items: center; font-size: 12px; font-weight: bold; border: 2px solid #242526; color: white; }
     .user-label { font-size: 11px; color: #b0b3b8; text-align: center; max-width: 60px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
     /* Messages Box */
@@ -32,10 +32,9 @@
     .msg-group.my { align-self: flex-end; align-items: flex-end; }
     .msg-group.other { align-self: flex-start; align-items: flex-start; }
     .sender-name { font-size: 11px; color: #b0b3b8; margin-bottom: 3px; padding: 0 4px; }
-    .msg { padding: 10px 14px; border-radius: 18px; font-size: 15px; word-break: break-word; line-height: 1.4; cursor: pointer; }
+    .msg { padding: 10px 14px; border-radius: 18px; font-size: 15px; word-break: break-word; line-height: 1.4; }
     .my .msg { background: #0084ff; color: white; border-bottom-right-radius: 4px; }
     .other .msg { background: #3a3b3c; color: #e4e6eb; border-bottom-left-radius: 4px; }
-    .reaction-badge { position: absolute; bottom: -8px; right: 8px; background: #242526; border: 1px solid #3e4042; border-radius: 10px; font-size: 11px; padding: 1px 4px; }
     .chat-img { max-width: 100%; border-radius: 12px; margin-top: 5px; }
     audio { max-width: 200px; height: 35px; margin-top: 5px; }
     .msg-time { font-size: 10px; color: #8a8d91; margin-top: 3px; padding: 0 4px; }
@@ -63,16 +62,15 @@
 
   <!-- Active Users & Stories Section -->
   <div class="stories-bar" id="storiesBar">
-    <!-- Add Story Button -->
-    <div class="story-item" onclick="addStory()">
+    <div class="story-item" onclick="uploadStory()">
       <div class="avatar-wrapper no-story">
         <img class="avatar-img" id="myAvatar" src="https://i.ibb.co/m5vXzVJ/user.png" alt="Profile">
         <div class="add-story-btn">+</div>
       </div>
       <span class="user-label">Create story</span>
     </div>
-    <!-- Active friends will appear here dynamically -->
   </div>
+  <input type="file" id="storyInput" accept="image/*" style="display:none" onchange="saveStory(this)">
 
   <!-- Message Box -->
   <div class="messages" id="messageBox"></div>
@@ -92,7 +90,7 @@
   firebase.initializeApp(firebaseConfig);
   const db = firebase.database();
   const msgRef = db.ref("messages");
-  const presenceRef = db.ref("presence");
+  const usersRef = db.ref("users");
 
   let myId = localStorage.getItem("chat_user_id") || "user_" + Math.random().toString(36).substr(2, 9);
   localStorage.setItem("chat_user_id", myId);
@@ -104,21 +102,28 @@
   let myPic = localStorage.getItem("chat_user_pic") || "https://i.ibb.co/m5vXzVJ/user.png";
   document.getElementById("myAvatar").src = myPic;
 
-  // Online Status Update
-  const userPresenceRef = presenceRef.child(myId);
-  userPresenceRef.set({ name: userName, pic: myPic, online: true });
-  userPresenceRef.onDisconnect().remove();
+  let myStory = localStorage.getItem("chat_user_story") || "";
 
-  presenceRef.on("value", (snapshot) => {
+  // Update User Profile in Firebase
+  const currentUserRef = usersRef.child(myId);
+  currentUserRef.set({ name: userName, pic: myPic, story: myStory, online: true });
+  currentUserRef.onDisconnect().update({ online: false });
+
+  // Listen to Users (Online Status & Stories)
+  usersRef.on("value", (snapshot) => {
     let storiesBar = document.getElementById("storiesBar");
-    // Keep first child (Create Story)
-    storiesBar.innerHTML = `
-      <div class="story-item" onclick="addStory()">
-        <div class="avatar-wrapper no-story">
+    
+    // Render My Create Story Button
+    let hasStoryClass = myStory ? "" : "no-story";
+    let storyBorder = myStory ? "border: 2px solid #0084ff;" : "border: 2px solid transparent;";
+    
+    let html = `
+      <div class="story-item" onclick="uploadStory()">
+        <div class="avatar-wrapper ${hasStoryClass}" style="${storyBorder}">
           <img class="avatar-img" src="${myPic}" alt="Profile">
           <div class="add-story-btn">+</div>
         </div>
-        <span class="user-label">Create story</span>
+        <span class="user-label">Your Story</span>
       </div>
     `;
 
@@ -127,29 +132,31 @@
       Object.keys(users).forEach(id => {
         if(id !== myId) {
           let u = users[id];
-          let item = document.createElement("div");
-          item.classList.add("story-item");
-          item.onclick = () => alert(u.name + " বর্তমানে অনলাইনে আছেন!");
-          item.innerHTML = `
-            <div class="avatar-wrapper">
-              <img class="avatar-img" src="${u.pic || 'https://i.ibb.co/m5vXzVJ/user.png'}">
-              <div class="online-badge"></div>
-            </div>
-            <span class="user-label">${u.name}</span>
-          `;
-          storiesBar.appendChild(item);
+          if(u.online) {
+            let friendStoryBorder = u.story ? "border: 2px solid #0084ff;" : "border: 2px solid transparent;";
+            html += `
+              <div class="story-item" onclick="viewStory('${u.story || ''}', '${u.name}')">
+                <div class="avatar-wrapper" style="${friendStoryBorder}">
+                  <img class="avatar-img" src="${u.pic || 'https://i.ibb.co/m5vXzVJ/user.png'}">
+                  <div class="online-badge"></div>
+                </div>
+                <span class="user-label">${u.name}</span>
+              </div>
+            `;
+          }
         }
       });
     }
+    storiesBar.innerHTML = html;
   });
 
   function changeProfilePic() {
-    let url = prompt("আপনার ছবির Image URL লিঙ্ক পেস্ট করুন:");
+    let url = prompt("আপনার প্রোফাইল ছবির সরাসরি Image Link (URL) দিন:");
     if(url && url.trim() !== "") {
       myPic = url.trim();
       localStorage.setItem("chat_user_pic", myPic);
       document.getElementById("myAvatar").src = myPic;
-      userPresenceRef.update({ pic: myPic });
+      currentUserRef.update({ pic: myPic });
     }
   }
 
@@ -159,13 +166,36 @@
       userName = newName.trim();
       localStorage.setItem("chat_user_name", userName);
       document.getElementById("nameDisplay").innerText = userName;
-      userPresenceRef.update({ name: userName });
+      currentUserRef.update({ name: userName });
     }
   }
 
-  function addStory() {
-    let imgUrl = prompt("স্টোরির জন্য ছবির URL দিন:");
-    if(imgUrl) alert("স্টোরি আপলোড সফল হয়েছে!");
+  function uploadStory() {
+    document.getElementById("storyInput").click();
+  }
+
+  function saveStory(input) {
+    const file = input.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        myStory = e.target.result;
+        localStorage.setItem("chat_user_story", myStory);
+        currentUserRef.update({ story: myStory });
+        alert("স্টোরি সফলভাবে আপলোড হয়েছে!");
+      };
+      reader.readAsDataURL(file);
+      input.value = "";
+    }
+  }
+
+  function viewStory(storyImg, name) {
+    if(storyImg) {
+      let win = window.open("");
+      win.document.write(`<body style="background:black;margin:0;display:flex;justify-content:center;align-items:center;height:100vh;"><div style="text-align:center;color:white;"><h3 style="font-family:sans-serif;">${name}-এর স্টোরি</h3><img src="${storyImg}" style="max-width:100%;max-height:80vh;border-radius:10px;"></div></body>`);
+    } else {
+      alert(name + "-এর কোনো স্টোরি নেই।");
+    }
   }
 
   function toggleSendBtn() {
@@ -206,10 +236,10 @@
     }
   }
 
-  let mediaRecorder, audioChunks = [], isRecording = false;
+  let mediaRecorder, audioChunks = [], isRecording = theRecord = false;
   async function toggleRecord() {
     let micBtn = document.getElementById("micBtn");
-    if (!isRecording) {
+    if (!window.isRecording) {
       try {
         let stream = await navigator.mediaDevices.getUserMedia({ audio: true });
         mediaRecorder = new MediaRecorder(stream);
@@ -225,24 +255,22 @@
           reader.readAsDataURL(blob);
         };
         mediaRecorder.start();
-        isRecording = true;
+        window.isRecording = true;
         micBtn.classList.add("recording");
       } catch (err) { alert("মাইক্রোফোন পারমিশন দিন!"); }
     } else {
       mediaRecorder.stop();
-      isRecording = false;
+      window.isRecording = false;
       micBtn.classList.remove("recording");
     }
   }
 
   msgRef.on("child_added", (snapshot) => {
-    let key = snapshot.key;
     let msgData = snapshot.val();
     let msgBox = document.getElementById("messageBox");
     
     let group = document.createElement("div");
     group.classList.add("msg-group");
-    group.id = "msg-" + key;
     
     let isMe = msgData.senderId === myId;
     group.classList.add(isMe ? "my" : "other");
