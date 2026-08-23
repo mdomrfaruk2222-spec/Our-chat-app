@@ -1,41 +1,82 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Our Chat App</title>
   <style>
-    body { font-family: Arial, sans-serif; margin: 0; padding: 20px; background: #f4f4f9; }
-    .chat-container { max-width: 400px; margin: 0 auto; background: #fff; padding: 15px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
-    .messages { height: 300px; overflow-y: auto; border: 1px solid #ddd; padding: 10px; margin-bottom: 10px; border-radius: 5px; }
+    body { font-family: Arial, sans-serif; margin: 0; padding: 15px; background: #f0f2f5; }
+    .chat-container { max-width: 450px; margin: 0 auto; background: #fff; padding: 15px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+    h2 { margin-top: 0; text-align: center; color: #1877f2; }
+    .messages { height: 350px; overflow-y: auto; border: 1px solid #ddd; padding: 10px; margin-bottom: 10px; border-radius: 8px; display: flex; flex-direction: column; gap: 8px; background: #fafafa; }
+    .msg { padding: 8px 12px; border-radius: 12px; max-width: 75%; word-break: break-word; font-size: 15px; }
+    .my-msg { background: #0084ff; color: white; align-self: flex-end; border-bottom-right-radius: 2px; }
+    .other-msg { background: #e4e6eb; color: black; align-self: flex-start; border-bottom-left-radius: 2px; }
     .input-box { display: flex; gap: 5px; }
-    input { flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 5px; }
-    button { padding: 10px 15px; background: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer; }
+    input { flex: 1; padding: 10px; border: 1px solid #ccc; border-radius: 20px; outline: none; padding-left: 15px; }
+    button { padding: 10px 18px; background: #0084ff; color: white; border: none; border-radius: 20px; cursor: pointer; font-weight: bold; }
   </style>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 </head>
 <body>
 
 <div class="chat-container">
   <h2>Our Chat App</h2>
-  <div class="messages" id="messageBox">
-    <p><b>System:</b> চ্যাট অ্যাপে স্বাগতম!</p>
-  </div>
+  <div class="messages" id="messageBox"></div>
   <div class="input-box">
-    <input type="text" id="userInput" placeholder="মেসেজ লিখুন...">
+    <input type="text" id="userInput" placeholder="মেসেজ লিখুন..." onkeypress="if(event.key==='Enter') sendMessage()">
     <button onclick="sendMessage()">Send</button>
   </div>
 </div>
 
 <script>
+  // ফায়ারবেজ কানেকশন
+  const firebaseConfig = {
+    databaseURL: "https://my-chat-app-23ce7-default-rtdb.asia-southeast1.firebasedatabase.app/"
+  };
+  
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.database().ref("messages");
+
+  // ইউজারের আলাদা পরিচয় (ID) তৈরি
+  let myId = localStorage.getItem("chat_user_id");
+  if (!myId) {
+    myId = "user_" + Math.random().toString(36).substr(2, 9);
+    localStorage.setItem("chat_user_id", myId);
+  }
+
+  // মেসেজ পাঠানোর ফাংশন
   function sendMessage() {
     let input = document.getElementById("userInput");
-    let msgBox = document.getElementById("messageBox");
-    if(input.value.trim() !== "") {
-      msgBox.innerHTML += `<p><b>You:</b> ${input.value}</p>`;
+    let text = input.value.trim();
+    if(text !== "") {
+      db.push({
+        sender: myId,
+        text: text
+      });
       input.value = "";
-      msgBox.scrollTop = msgBox.scrollHeight;
     }
   }
+
+  // রিয়েল-টাইমে লাইভ মেসেজ আপডেট
+  db.on("child_added", (snapshot) => {
+    let msgData = snapshot.val();
+    let msgBox = document.getElementById("messageBox");
+    let div = document.createElement("div");
+    
+    div.classList.add("msg");
+    if(msgData.sender === myId) {
+      div.classList.add("my-msg");
+      div.innerText = msgData.text;
+    } else {
+      div.classList.add("other-msg");
+      div.innerText = msgData.text;
+    }
+    
+    msgBox.appendChild(div);
+    msgBox.scrollTop = msgBox.scrollHeight;
+  });
 </script>
 
 </body>
