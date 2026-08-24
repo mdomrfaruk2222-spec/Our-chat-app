@@ -6,7 +6,6 @@
 <title>MySocial</title>
 
 <style>
-
 *{
   box-sizing:border-box;
   margin:0;
@@ -16,7 +15,8 @@
 body{
   font-family:Arial,"Noto Sans Bengali",sans-serif;
   background:#f0f2f5;
-  color:#050505
+  color:#050505;
+  padding-bottom:65px
 }
 
 button{
@@ -25,12 +25,14 @@ button{
   font-family:inherit
 }
 
+/* HEADER */
+
 .header{
   background:#fff;
   position:sticky;
   top:0;
   z-index:1000;
-  box-shadow:0 1px 3px #ccc
+  box-shadow:0 1px 4px #ccc
 }
 
 .top{
@@ -58,7 +60,6 @@ button{
 
 .nav{
   height:55px;
-  background:#fff;
   display:grid;
   grid-template-columns:repeat(6,1fr);
   border-top:1px solid #eee
@@ -68,21 +69,11 @@ button{
   position:relative;
   background:#fff;
   color:#65676b;
-  font-size:25px
+  font-size:24px
 }
 
 .nav button.active{
   color:#1877f2
-}
-
-.nav button.active:after{
-  content:"";
-  position:absolute;
-  bottom:0;
-  left:15%;
-  right:15%;
-  height:3px;
-  background:#1877f2
 }
 
 .badge{
@@ -90,7 +81,7 @@ button{
   top:2px;
   right:12%;
   background:#e41e3f;
-  color:#fff;
+  color:white;
   min-width:20px;
   height:20px;
   border-radius:20px;
@@ -98,18 +89,20 @@ button{
   display:flex;
   align-items:center;
   justify-content:center;
-  border:2px solid #fff
+  border:2px solid white
 }
+
+/* MAIN */
 
 .container{
   max-width:760px;
   margin:auto
 }
 
-/* composer */
+/* COMPOSER */
 
 .composer{
-  background:#fff;
+  background:white;
   padding:12px;
   border-bottom:1px solid #ddd
 }
@@ -148,14 +141,14 @@ button{
 
 .photoBtn{
   color:#31a24c;
-  background:#fff;
+  background:white;
   font-size:25px
 }
 
-/* stories */
+/* STORIES */
 
 .stories{
-  background:#fff;
+  background:white;
   padding:12px 0;
   border-bottom:1px solid #ddd
 }
@@ -170,12 +163,7 @@ button{
   display:flex;
   gap:8px;
   overflow-x:auto;
-  padding:0 12px;
-  scrollbar-width:none
-}
-
-.storyList::-webkit-scrollbar{
-  display:none
+  padding:0 12px
 }
 
 .story{
@@ -188,17 +176,34 @@ button{
   cursor:pointer
 }
 
+.storyImage{
+  width:100%;
+  height:100%;
+  object-fit:cover
+}
+
+.storyText{
+  color:white;
+  height:100%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:10px;
+  text-align:center;
+  font-size:18px;
+  font-weight:bold;
+  background:linear-gradient(135deg,#1877f2,#8e44ad)
+}
+
 .story:after{
   content:"";
   position:absolute;
   left:0;
   right:0;
   bottom:0;
-  height:60%;
-  background:linear-gradient(
-    transparent,
-    rgba(0,0,0,.8)
-  )
+  height:55%;
+  background:linear-gradient(transparent,rgba(0,0,0,.8));
+  pointer-events:none
 }
 
 .storyAvatar{
@@ -208,7 +213,7 @@ button{
   width:40px;
   height:40px;
   border-radius:50%;
-  background:#fff;
+  background:white;
   border:3px solid #1877f2;
   z-index:2;
   display:flex;
@@ -220,14 +225,14 @@ button{
   position:absolute;
   bottom:9px;
   left:8px;
-  color:#fff;
+  color:white;
   z-index:3;
   font-weight:bold;
   font-size:13px
 }
 
 .createStory{
-  background:#fff;
+  background:white;
   border:1px solid #ddd
 }
 
@@ -245,13 +250,10 @@ button{
   height:45px;
   border-radius:50%;
   background:#1877f2;
-  color:#fff;
-  border:4px solid #fff;
+  color:white;
+  border:4px solid white;
   font-size:28px;
-  z-index:4;
-  display:flex;
-  align-items:center;
-  justify-content:center
+  z-index:4
 }
 
 .createStory .storyName{
@@ -261,14 +263,14 @@ button{
   text-align:center
 }
 
-/* feed */
+/* FEED */
 
 .feed{
   padding-top:8px
 }
 
 .post{
-  background:#fff;
+  background:white;
   margin-bottom:8px
 }
 
@@ -304,7 +306,7 @@ button{
 .menu{
   font-size:25px;
   color:#65676b;
-  background:#fff
+  background:white
 }
 
 .postText{
@@ -322,6 +324,8 @@ button{
   display:block
 }
 
+/* STATS */
+
 .stats{
   display:flex;
   justify-content:space-between;
@@ -332,14 +336,36 @@ button{
   border-bottom:1px solid #ddd
 }
 
+.reactionStats{
+  display:flex;
+  align-items:center;
+  gap:5px;
+  cursor:pointer
+}
+
+.reactionIcons{
+  display:flex
+}
+
+.reactionIcon{
+  width:20px;
+  height:20px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:15px
+}
+
+/* ACTIONS */
+
 .actions{
   display:grid;
   grid-template-columns:repeat(3,1fr);
-  height:46px
+  min-height:46px
 }
 
 .actions button{
-  background:#fff;
+  background:white;
   color:#65676b;
   font-weight:bold
 }
@@ -352,154 +378,36 @@ button{
   color:#1877f2!important
 }
 
-/* ==============================
-   REACTION SYSTEM
-============================== */
-
 .reactionWrap{
-  position:relative;
-  display:flex
-}
-
-.reactionWrap .likeBtn{
-  width:100%;
-  height:46px
+  position:relative
 }
 
 .reactionBar{
   position:absolute;
   left:5px;
-  bottom:50px;
-  background:#fff;
+  bottom:48px;
+  background:white;
   border-radius:30px;
   padding:7px 9px;
   box-shadow:0 3px 15px rgba(0,0,0,.25);
   display:flex;
-  gap:4px;
-  z-index:500;
-  animation:reactionShow .15s ease
-}
-
-@keyframes reactionShow{
-
-  from{
-    opacity:0;
-    transform:scale(.7)
-  }
-
-  to{
-    opacity:1;
-    transform:scale(1)
-  }
-
+  gap:3px;
+  z-index:500
 }
 
 .reactionBar button{
-  width:42px;
-  height:42px;
+  width:40px;
+  height:40px;
   border-radius:50%;
-  background:#fff;
-  font-size:27px;
-  transition:.15s
+  background:white;
+  font-size:26px
 }
 
 .reactionBar button:hover{
-  transform:scale(1.35) translateY(-5px)
+  transform:scale(1.25)
 }
 
-.reactionStats{
-  display:flex;
-  align-items:center;
-  gap:5px;
-  cursor:pointer
-}
-
-.reactionIcons{
-  display:flex;
-  align-items:center
-}
-
-.reactionIcon{
-  width:21px;
-  height:21px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:15px
-}
-
-.reactionTotal{
-  color:#65676b
-}
-
-/* reaction users */
-
-.reactionModal{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.55);
-  z-index:10000;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:15px
-}
-
-.reactionListBox{
-  width:100%;
-  max-width:430px;
-  max-height:75vh;
-  overflow:auto;
-  background:#fff;
-  border-radius:14px
-}
-
-.reactionListHead{
-  padding:16px;
-  border-bottom:1px solid #ddd;
-  font-size:19px;
-  font-weight:bold;
-  display:flex;
-  justify-content:space-between;
-  align-items:center
-}
-
-.reactionClose{
-  width:35px;
-  height:35px;
-  border-radius:50%;
-  background:#e4e6eb;
-  font-size:17px
-}
-
-.reactionPerson{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  padding:12px 16px
-}
-
-.reactionPersonAvatar{
-  width:42px;
-  height:42px;
-  border-radius:50%;
-  background:#e4e6eb;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:21px
-}
-
-.reactionPersonName{
-  flex:1;
-  font-weight:bold
-}
-
-.reactionPersonType{
-  font-size:23px
-}
-
-/* comments */
+/* COMMENTS */
 
 .comments{
   padding:7px 12px
@@ -507,7 +415,7 @@ button{
 
 .comment{
   background:#f0f2f5;
-  padding:7px 11px;
+  padding:8px 11px;
   border-radius:17px;
   margin-bottom:5px;
   font-size:14px
@@ -530,12 +438,13 @@ button{
 
 .commentBox button{
   width:40px;
+  height:40px;
   border-radius:50%;
   background:#1877f2;
-  color:#fff
+  color:white
 }
 
-/* modal */
+/* MODAL */
 
 .modalBg{
   position:fixed;
@@ -551,7 +460,7 @@ button{
 .modal{
   width:100%;
   max-width:520px;
-  background:#fff;
+  background:white;
   border-radius:12px;
   overflow:hidden
 }
@@ -586,8 +495,7 @@ button{
   padding:13px
 }
 
-#postText,
-#storyText{
+textarea{
   width:100%;
   min-height:130px;
   resize:none;
@@ -606,8 +514,7 @@ button{
   width:100%;
   max-height:300px;
   object-fit:contain;
-  border-radius:8px;
-  background:#f0f2f5
+  border-radius:8px
 }
 
 .options{
@@ -622,11 +529,7 @@ button{
 .option{
   flex:1;
   height:45px;
-  background:#fff
-}
-
-.option:hover{
-  background:#f0f2f5
+  background:white
 }
 
 .publish{
@@ -634,13 +537,77 @@ button{
   margin:15px;
   height:45px;
   background:#1877f2;
-  color:#fff;
+  color:white;
   border-radius:7px;
   font-size:16px;
   font-weight:bold
 }
 
-/* story viewer */
+/* REACTION USERS */
+
+.reactionModal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.55);
+  z-index:10000;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:15px
+}
+
+.reactionListBox{
+  width:100%;
+  max-width:430px;
+  max-height:75vh;
+  overflow:auto;
+  background:white;
+  border-radius:14px
+}
+
+.reactionListHead{
+  padding:16px;
+  border-bottom:1px solid #ddd;
+  font-size:19px;
+  font-weight:bold;
+  display:flex;
+  justify-content:space-between
+}
+
+.reactionClose{
+  width:35px;
+  height:35px;
+  border-radius:50%;
+  background:#e4e6eb
+}
+
+.reactionPerson{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:12px 16px
+}
+
+.reactionPersonAvatar{
+  width:42px;
+  height:42px;
+  border-radius:50%;
+  background:#e4e6eb;
+  display:flex;
+  align-items:center;
+  justify-content:center
+}
+
+.reactionPersonName{
+  flex:1;
+  font-weight:bold
+}
+
+.reactionPersonType{
+  font-size:23px
+}
+
+/* STORY VIEWER */
 
 .storyViewer{
   position:fixed;
@@ -657,10 +624,10 @@ button{
   height:100%;
   max-width:500px;
   position:relative;
+  background:#111;
   display:flex;
   align-items:center;
-  justify-content:center;
-  background:#111
+  justify-content:center
 }
 
 .viewerImage{
@@ -670,12 +637,10 @@ button{
 }
 
 .viewerText{
-  color:#fff;
+  color:white;
   font-size:28px;
   text-align:center;
-  padding:30px;
-  line-height:1.5;
-  word-break:break-word
+  padding:30px
 }
 
 .viewerTop{
@@ -684,12 +649,12 @@ button{
   left:0;
   right:0;
   height:65px;
-  z-index:3;
   background:linear-gradient(#0009,transparent);
   display:flex;
   align-items:center;
   padding:10px 14px;
-  color:#fff
+  color:white;
+  z-index:3
 }
 
 .viewerUser{
@@ -697,74 +662,40 @@ button{
   font-weight:bold
 }
 
-.viewerClose{
-  color:#fff;
-  background:transparent;
-  font-size:28px
-}
-
+.viewerClose,
 .viewerDelete{
-  color:#fff;
+  color:white;
   background:transparent;
-  font-size:20px;
-  margin-right:15px
+  font-size:23px;
+  margin-left:15px
 }
 
-.viewerBottom{
-  position:absolute;
-  bottom:20px;
-  left:0;
-  right:0;
-  text-align:center;
-  z-index:4
-}
-
-.viewerBottom button{
-  background:#ffffff22;
-  color:#fff;
-  border:1px solid #fff;
-  border-radius:20px;
-  padding:9px 20px
-}
-
-/* bottom */
+/* BOTTOM */
 
 .bottom{
-  display:none
+  position:fixed;
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  bottom:0;
+  left:0;
+  right:0;
+  height:60px;
+  background:white;
+  border-top:1px solid #ddd;
+  z-index:3000
+}
+
+.bottom button{
+  background:white;
+  font-size:22px;
+  color:#65676b
+}
+
+.bottom button.active{
+  color:#1877f2
 }
 
 @media(max-width:760px){
-
-  body{
-    padding-bottom:60px
-  }
-
-  .bottom{
-    position:fixed;
-    display:grid;
-    grid-template-columns:repeat(5,1fr);
-    bottom:0;
-    left:0;
-    right:0;
-    height:60px;
-    background:#fff;
-    border-top:1px solid #ddd;
-    z-index:3000
-  }
-
-  .bottom button{
-    background:#fff;
-    font-size:22px;
-    color:#65676b
-  }
-
-  .bottom button.active{
-    color:#1877f2
-  }
-
-  .logo{
-    font-size:28px
-  }
 
   .modalBg{
     align-items:flex-end;
@@ -779,13 +710,9 @@ button{
 
   .reactionBar{
     left:0;
-    right:0;
-    width:max-content;
-    max-width:95vw;
+    max-width:98vw
   }
-
 }
-
 </style>
 </head>
 
@@ -794,206 +721,134 @@ button{
 <header class="header">
 
   <div class="top">
+    <div class="logo">MySocial</div>
 
-    <div class="logo">
-      MySocial
-    </div>
-
-    <button class="topBtn">＋</button>
-
+    <button class="topBtn" onclick="openPost()">＋</button>
     <button class="topBtn">⌕</button>
-
     <button class="topBtn">☰</button>
-
   </div>
 
-
   <nav class="nav">
-
     <button class="active">⌂</button>
-
     <button>👥</button>
-
-    <button>
-      💬
-      <span class="badge">2</span>
-    </button>
-
-    <button>
-      ▶
-      <span class="badge">15+</span>
-    </button>
-
-    <button>
-      🔔
-      <span class="badge">2</span>
-    </button>
-
+    <button>💬<span class="badge">2</span></button>
+    <button>▶<span class="badge">15+</span></button>
+    <button>🔔<span class="badge">2</span></button>
     <button>☰</button>
-
   </nav>
 
 </header>
 
-
 <div class="container">
 
-<section class="composer">
+  <!-- COMPOSER -->
 
-  <div class="composerRow">
+  <section class="composer">
 
-    <div class="avatar">
-      👤
-    </div>
+    <div class="composerRow">
 
-    <div
-      class="statusBox"
-      id="openComposer"
-    >
-      একটি স্ট্যাটাস আপডেট পোস্ট করুন
-    </div>
+      <div class="avatar">👤</div>
 
-    <button
-      class="photoBtn"
-      id="photoDirect"
-    >
-      🖼️
-    </button>
+      <div class="statusBox" id="openComposer">
+        একটি স্ট্যাটাস আপডেট পোস্ট করুন
+      </div>
 
-  </div>
-
-</section>
-
-
-<!-- STORIES -->
-
-<section class="stories">
-
-  <div class="storyTitle">
-    Stories
-  </div>
-
-  <div
-    class="storyList"
-    id="storyList"
-  >
-
-    <div
-      class="story createStory"
-      id="createStory"
-    >
-
-      <div class="createImage"></div>
-
-      <button class="plus">
-        +
+      <button class="photoBtn" id="photoDirect">
+        🖼️
       </button>
 
-      <div class="storyName">
-        স্টোরি তৈরি করুন
+    </div>
+
+  </section>
+
+  <!-- STORIES -->
+
+  <section class="stories">
+
+    <div class="storyTitle">Stories</div>
+
+    <div class="storyList" id="storyList">
+
+      <div class="story createStory" id="createStory">
+
+        <div class="createImage"></div>
+
+        <button class="plus">+</button>
+
+        <div class="storyName">
+          স্টোরি তৈরি করুন
+        </div>
+
+      </div>
+
+      <div class="story">
+
+        <div class="storyAvatar">👤</div>
+
+        <div class="storyName">
+          Nice Gallery
+        </div>
+
+      </div>
+
+      <div class="story">
+
+        <div class="storyAvatar">👤</div>
+
+        <div class="storyName">
+          MD Hasan
+        </div>
+
+      </div>
+
+      <div class="story">
+
+        <div class="storyAvatar">👤</div>
+
+        <div class="storyName">
+          AB Media
+        </div>
+
       </div>
 
     </div>
 
+  </section>
 
-    <div class="story">
-
-      <div class="storyAvatar">
-        👤
-      </div>
-
-      <div class="storyName">
-        Nice Gallery
-      </div>
-
-    </div>
-
-
-    <div class="story">
-
-      <div class="storyAvatar">
-        👤
-      </div>
-
-      <div class="storyName">
-        MD Hasan
-      </div>
-
-    </div>
-
-
-    <div class="story">
-
-      <div class="storyAvatar">
-        👤
-      </div>
-
-      <div class="storyName">
-        AB Media
-      </div>
-
-    </div>
-
-  </div>
-
-</section>
-
-
-<main
-  class="feed"
-  id="feed"
-></main>
+  <main class="feed" id="feed"></main>
 
 </div>
 
-
 <nav class="bottom">
 
-  <button class="active">
-    ⌂
-  </button>
-
-  <button>
-    👥
-  </button>
-
-  <button>
-    ▶
-  </button>
-
-  <button>
-    🔔
-  </button>
-
-  <button>
-    ☰
-  </button>
+  <button class="active">⌂</button>
+  <button>👥</button>
+  <button>▶</button>
+  <button>🔔</button>
+  <button>☰</button>
 
 </nav>
 
-
 <script>
 
-/* ==============================
+/* ==================================================
    DATA
-============================== */
+================================================== */
 
-let posts=JSON.parse(
-  localStorage.getItem("socialPosts")||"[]"
-);
+let posts =
+  JSON.parse(localStorage.getItem("socialPosts") || "[]");
 
-let stories=JSON.parse(
-  localStorage.getItem("socialStories")||"[]"
-);
+let stories =
+  JSON.parse(localStorage.getItem("socialStories") || "[]");
 
-let selectedImage=null;
+let selectedImage = null;
 
 
-/* ==============================
+/* ==================================================
    REACTIONS
-============================== */
+================================================== */
 
-const REACTIONS={
+const REACTIONS = {
 
   like:"👍",
   love:"❤️",
@@ -1006,22 +861,9 @@ const REACTIONS={
 };
 
 
-const REACTION_NAMES={
-
-  like:"লাইক",
-  love:"Love",
-  care:"Care",
-  haha:"Haha",
-  wow:"Wow",
-  sad:"Sad",
-  angry:"Angry"
-
-};
-
-
-/* ==============================
+/* ==================================================
    SAVE
-============================== */
+================================================== */
 
 function savePosts(){
 
@@ -1031,7 +873,6 @@ function savePosts(){
   );
 
 }
-
 
 function saveStories(){
 
@@ -1043,40 +884,35 @@ function saveStories(){
 }
 
 
-/* ==============================
+/* ==================================================
    SAFE TEXT
-============================== */
+================================================== */
 
 function safe(text){
 
-  const div=document.createElement("div");
+  const div = document.createElement("div");
 
-  div.textContent=text||"";
+  div.textContent = text || "";
 
   return div.innerHTML;
 
 }
 
 
-/* ==============================
-   PREPARE OLD POSTS
-============================== */
+/* ==================================================
+   PREPARE OLD DATA
+================================================== */
 
-function preparePosts(){
+function prepareData(){
 
   posts.forEach(post=>{
 
-    if(!post.reactionUsers){
-
+    if(!post.reactionUsers)
       post.reactionUsers=[];
-
-    }
-
 
     if(!post.reactionCounts){
 
       post.reactionCounts={
-
         like:0,
         love:0,
         care:0,
@@ -1084,43 +920,28 @@ function preparePosts(){
         wow:0,
         sad:0,
         angry:0
-
       };
 
     }
 
+    if(!post.comments)
+      post.comments=[];
 
-    /* পুরোনো Like system থাকলে
-       সেটাকে নতুন Reaction system-এ আনা */
+    if(post.shares===undefined)
+      post.shares=0;
 
-    if(
-      post.liked &&
-      !post.reaction &&
-      post.reactionUsers.length===0
-    ){
+    if(post.liked && !post.reaction){
 
       post.reaction="like";
 
-      post.reactionUsers.push({
+      if(post.reactionUsers.length===0){
 
-        name:"আপনি",
-        reaction:"like"
+        post.reactionUsers.push({
+          name:"আপনি",
+          reaction:"like"
+        });
 
-      });
-
-      post.reactionCounts.like=1;
-
-      post.likes=1;
-
-    }
-
-
-    /* নতুন Reaction থেকে Like count */
-
-    if(post.reaction){
-
-      post.liked=
-        post.reaction==="like";
+      }
 
     }
 
@@ -1131,152 +952,125 @@ function preparePosts(){
 }
 
 
-/* ==============================
-   POST COMPOSER
-============================== */
+/* ==================================================
+   POST MODAL
+================================================== */
 
 document
-  .getElementById("openComposer")
-  .onclick=openPost;
-
+.getElementById("openComposer")
+.onclick=openPost;
 
 document
-  .getElementById("photoDirect")
-  .onclick=openPost;
+.getElementById("photoDirect")
+.onclick=openPost;
 
 
 function openPost(){
 
   selectedImage=null;
 
-  const modal=
+  const modal =
     document.createElement("div");
 
   modal.className="modalBg";
 
   modal.innerHTML=`
 
-  <div class="modal">
+    <div class="modal">
 
-    <div class="modalHead">
+      <div class="modalHead">
 
-      <h2>
-        পোস্ট তৈরি করুন
-      </h2>
+        <h2>পোস্ট তৈরি করুন</h2>
 
-      <button
-        class="close"
-        id="closeModal"
-      >
-        ✕
-      </button>
+        <button
+          class="close"
+          id="closeModal">
+          ✕
+        </button>
 
-    </div>
-
-
-    <div class="modalUser">
-
-      <div class="modalAvatar">
-        👤
       </div>
 
-      <div>
+      <div class="modalUser">
 
-        <b>
-          আপনার নাম
-        </b>
+        <div class="modalAvatar">
+          👤
+        </div>
 
-        <div
-          style="
-            font-size:12px;
-            color:#65676b
-          "
-        >
-          🌐 সবাই
+        <div>
+          <b>আপনার নাম</b>
+
+          <div style="font-size:12px;color:#65676b">
+            🌐 সবাই
+          </div>
+
         </div>
 
       </div>
 
-    </div>
+      <textarea
+        id="postText"
+        placeholder="আপনি কী ভাবছেন?">
+      </textarea>
 
+      <div
+        class="preview"
+        id="preview">
+      </div>
 
-    <textarea
-      id="postText"
-      placeholder="আপনি কী ভাবছেন?"
-    ></textarea>
+      <div class="options">
 
+        <label class="option">
 
-    <div
-      class="preview"
-      id="preview"
-    ></div>
+          🖼️ ফটো/ভিডিও
 
+          <input
+            type="file"
+            id="imageInput"
+            accept="image/*"
+            hidden>
 
-    <div class="options">
+        </label>
 
-      <label class="option">
+        <button
+          class="option">
+          😊 অনুভূতি
+        </button>
 
-        🖼️ ফটো/ভিডিও
+        <button
+          class="option">
+          📍 লোকেশন
+        </button>
 
-        <input
-          type="file"
-          id="imageInput"
-          accept="image/*"
-          hidden
-        >
+      </div>
 
-      </label>
-
-
-      <button class="option">
-        😊 অনুভূতি
+      <button
+        class="publish"
+        id="publish">
+        পোস্ট করুন
       </button>
 
-
-      <button class="option">
-        📍 লোকেশন
-      </button>
-
     </div>
-
-
-    <button
-      class="publish"
-      id="publish"
-    >
-      পোস্ট করুন
-    </button>
-
-  </div>
-
   `;
-
 
   document.body.appendChild(modal);
 
+  document
+  .getElementById("closeModal")
+  .onclick=()=>modal.remove();
 
   document
-    .getElementById("closeModal")
-    .onclick=()=>{
-      modal.remove();
-    };
-
+  .getElementById("imageInput")
+  .onchange=handlePostImage;
 
   document
-    .getElementById("imageInput")
-    .onchange=handlePostImage;
-
-
-  document
-    .getElementById("publish")
-    .onclick=createPost;
-
+  .getElementById("publish")
+  .onclick=createPost;
 }
 
 
-/* ==============================
-   POST IMAGE
-============================== */
+/* ==================================================
+   IMAGE
+================================================== */
 
 function handlePostImage(e){
 
@@ -1284,68 +1078,60 @@ function handlePostImage(e){
 
   if(!file)return;
 
-  const reader=
-    new FileReader();
+  const reader=new FileReader();
 
   reader.onload=()=>{
 
-    selectedImage=
-      reader.result;
+    selectedImage=reader.result;
 
     document
-      .getElementById("preview")
-      .innerHTML=
+    .getElementById("preview")
+    .innerHTML=
       `<img src="${selectedImage}">`;
 
   };
 
   reader.readAsDataURL(file);
-
 }
 
 
-/* ==============================
+/* ==================================================
    CREATE POST
-============================== */
+================================================== */
 
 function createPost(){
 
   const text=
     document
-      .getElementById("postText")
-      .value
-      .trim();
+    .getElementById("postText")
+    .value
+    .trim();
 
+  if(!text && !selectedImage){
 
-  if(!text&&!selectedImage){
-
-    alert(
-      "কিছু লিখুন অথবা ছবি দিন।"
-    );
+    alert("কিছু লিখুন অথবা ছবি দিন।");
 
     return;
 
   }
 
-
   posts.unshift({
 
     id:Date.now(),
+
+    name:"আপনার নাম",
 
     text:text,
 
     image:selectedImage,
 
-    likes:0,
-
-    liked:false,
+    time:"এইমাত্র",
 
     reaction:null,
 
     reactionUsers:[],
 
     reactionCounts:{
-
       like:0,
       love:0,
       care:0,
@@ -1353,98 +1139,50 @@ function createPost(){
       wow:0,
       sad:0,
       angry:0
-
     },
 
     comments:[],
 
-    shares:0,
-
-    time:"এইমাত্র"
+    shares:0
 
   });
 
-
   savePosts();
 
-
   document
-    .querySelector(".modalBg")
-    .remove();
-
+  .querySelector(".modalBg")
+  .remove();
 
   selectedImage=null;
 
-
   renderPosts();
-
 }
 
 
-/* ==============================
-   SET REACTION
-============================== */
+/* ==================================================
+   REACTION
+================================================== */
 
-function setReaction(post,type){
+function setReaction(postId,type){
 
-  if(!post.reactionUsers){
+  const post=
+    posts.find(p=>p.id==postId);
 
+  if(!post)return;
+
+  if(!post.reactionUsers)
     post.reactionUsers=[];
 
-  }
+  const old=post.reaction;
 
+  post.reactionUsers=
+    post.reactionUsers.filter(
+      u=>u.name!=="আপনি"
+    );
 
-  if(!post.reactionCounts){
-
-    post.reactionCounts={
-
-      like:0,
-      love:0,
-      care:0,
-      haha:0,
-      wow:0,
-      sad:0,
-      angry:0
-
-    };
-
-  }
-
-
-  const oldReaction=
-    post.reaction;
-
-
-  /* ============================
-     SAME REACTION
-     = REMOVE
-  ============================ */
-
-  if(oldReaction===type){
-
-    post.reactionUsers=
-      post.reactionUsers.filter(
-        user=>user.name!=="আপনি"
-      );
-
-    post.reaction=null;
-
-  }
-
-  else{
-
-    /* পুরোনো Reaction সরানো */
-
-    post.reactionUsers=
-      post.reactionUsers.filter(
-        user=>user.name!=="আপনি"
-      );
-
-
-    /* নতুন Reaction */
+  if(old!==type){
 
     post.reaction=type;
-
 
     post.reactionUsers.push({
 
@@ -1454,12 +1192,11 @@ function setReaction(post,type){
 
     });
 
+  }else{
+
+    post.reaction=null;
+
   }
-
-
-  /* ============================
-     নতুন করে COUNT
-  ============================ */
 
   post.reactionCounts={
 
@@ -1473,61 +1210,50 @@ function setReaction(post,type){
 
   };
 
-
   post.reactionUsers.forEach(user=>{
 
-    if(
-      post.reactionCounts[user.reaction]
-      !==undefined
-    ){
+    if(post.reactionCounts[user.reaction]!==undefined){
 
-      post.reactionCounts[
-        user.reaction
-      ]++;
+      post.reactionCounts[user.reaction]++;
 
     }
 
   });
 
-
-  post.likes=
-    post.reactionCounts.like;
-
-
-  post.liked=
-    post.reaction==="like";
-
-
   savePosts();
 
   renderPosts();
-
 }
 
 
-/* ==============================
-   SHOW WHO REACTED
-============================== */
-  
-function showReactionUsers(post){
+/* ==================================================
+   REACTION USERS
+================================================== */
 
-  const users = post.reactionUsers || [];
+function showReactionUsers(postId){
 
-  const modal = document.createElement("div");
+  const post=
+    posts.find(p=>p.id==postId);
 
-  modal.className = "reactionModal";
+  if(!post)return;
 
-  modal.innerHTML = `
+  const users=post.reactionUsers || [];
+
+  const modal=
+    document.createElement("div");
+
+  modal.className="reactionModal";
+
+  modal.innerHTML=`
 
     <div class="reactionListBox">
 
       <div class="reactionListHead">
 
-        <span>
-          Reactions (${users.length})
-        </span>
+        <span>Reactions</span>
 
-        <button class="reactionClose">
+        <button
+          class="reactionClose">
           ✕
         </button>
 
@@ -1538,7 +1264,7 @@ function showReactionUsers(post){
 
         ?
 
-        users.map(user => `
+        users.map(user=>`
 
           <div class="reactionPerson">
 
@@ -1559,675 +1285,130 @@ function showReactionUsers(post){
         `).join("")
 
         :
- `
-        <div style="
-          padding:30px;
-          text-align:center;
-          color:#65676b
-        ">
-          এখনো কেউ Reaction দেয়নি।
-        </div>
-        `
+
+        `<div style="padding:30px;text-align:center">
+          এখনো কোনো Reaction নেই
+        </div>`
       }
 
     </div>
-
   `;
 
   document.body.appendChild(modal);
 
-  modal.querySelector(".reactionClose").onclick =
-    () => modal.remove();
+  modal
+  .querySelector(".reactionClose")
+  .onclick=()=>modal.remove();
 
-  modal.onclick = e => {
+  modal.onclick=e=>{
 
-    if(e.target === modal){
+    if(e.target===modal)
       modal.remove();
-    }
 
   };
-
 }
 
 
-/* ==============================
-   REACTION ICONS
-============================== */
+/* ==================================================
+   REACTION BAR
+================================================== */
 
-function getReactionIcons(post){
+function toggleReactionBar(id){
 
-  const counts =
-    post.reactionCounts || {};
+  document
+  .querySelectorAll(".reactionBar")
+  .forEach(bar=>{
 
-  const icons = [];
-
-  Object.keys(REACTIONS).forEach(type => {
-
-    if((counts[type] || 0) > 0){
-
-      icons.push(REACTIONS[type]);
-
-    }
+    if(bar.dataset.id!=id)
+      bar.remove();
 
   });
 
-  return icons.slice(0,3);
+  const old=
+    document.querySelector(
+      `.reactionBar[data-id="${id}"]`
+    );
 
-}
+  if(old){
 
+    old.remove();
 
-/* ==============================
-   TOTAL REACTIONS
-============================== */
+    return;
 
-function getReactionTotal(post){
-
-  const counts =
-    post.reactionCounts || {};
-
-  return Object.values(counts)
-    .reduce((a,b)=>a+b,0);
-
-}
-
-
-/* ==============================
-   CURRENT REACTION
-============================== */
-
-function getReactionText(post){
-
-  if(!post.reaction){
-    return "👍 লাইক";
   }
 
-  return `
-    ${REACTIONS[post.reaction]}
-    ${REACTION_NAMES[post.reaction]}
-  `;
-
-}
-
-
-/* ==============================
-   RENDER POSTS
-============================== */
-
-function renderPosts(){
-
-  const feed =
-    document.getElementById("feed");
-
-  feed.innerHTML = "";
-
-  posts.forEach(post => {
-
-    const article =
-      document.createElement("article");
-
-    article.className = "post";
-
-
-    const icons =
-      getReactionIcons(post);
-
-    const total =
-      getReactionTotal(post);
-
-
-    article.innerHTML = `
-
-      <div class="postHead">
-
-        <div class="user">
-
-          <div class="userAvatar">
-            👤
-          </div>
-
-          <div>
-
-            <div class="userName">
-              আপনার নাম
-            </div>
-
-            <div class="time">
-              ${safe(post.time)} · 🌐
-            </div>
-
-          </div>
-
-        </div>
-
-        <button class="menu">
-          ⋯
-        </button>
-
-      </div>
-
-
-      ${
-        post.text
-
-        ?
-
-        `<div class="postText">
-          ${safe(post.text)}
-        </div>`
-
-        :
-
-        ""
-      }
-
-
-      ${
-        post.image
-
-        ?
-
-        `<img
-          class="postImage"
-          src="${post.image}"
-        >`
-
-        :
-
-        ""
-      }
-
-
-      <!-- REACTION STATS -->
-
-      <div class="stats">
-
-        <div
-          class="reactionStats"
-          title="কে Reaction করেছে দেখুন"
-        >
-
-          <div class="reactionIcons">
-
-            ${
-              icons.map(icon => `
-                <div class="reactionIcon">
-                  ${icon}
-                </div>
-              `).join("")
-            }
-
-          </div>
-
-          ${
-            total > 0
-
-            ?
-
-            `<span class="reactionTotal">
-              ${total}
-            </span>`
-
-            :
-
-            ""
-          }
-
-        </div>
-
-
-        <div>
-
-          ${post.comments.length}
-          মন্তব্য ·
-          ${post.shares}
-          শেয়ার
-
-        </div>
-
-      </div>
-
-
-      <!-- ACTION BUTTONS -->
-
-      <div class="actions">
-
-
-        <!-- REACTION BUTTON -->
-
-        <div class="reactionWrap">
-
-          <button
-            class="likeBtn ${
-              post.reaction
-              ? "liked"
-              : ""
-            }"
-          >
-
-            ${getReactionText(post)}
-
-          </button>
-
-
-          <!-- 7 REACTIONS -->
-
-          <div
-            class="reactionBar"
-            style="display:none"
-          >
-
-            <button
-              data-reaction="like"
-              title="Like"
-            >
-              👍
-            </button>
-
-            <button
-              data-reaction="love"
-              title="Love"
-            >
-              ❤️
-            </button>
-
-            <button
-              data-reaction="care"
-              title="Care"
-            >
-              🤗
-            </button>
-
-            <button
-              data-reaction="haha"
-              title="Haha"
-            >
-              😂
-            </button>
-
-            <button
-              data-reaction="wow"
-              title="Wow"
-            >
-              😮
-            </button>
-
-            <button
-              data-reaction="sad"
-              title="Sad"
-            >
-              😢
-            </button>
-
-            <button
-              data-reaction="angry"
-              title="Angry"
-            >
-              😡
-            </button>
-
-          </div>
-
-        </div>
-
-
-        <button class="commentBtn">
-          💬 মন্তব্য
-        </button>
-
-
-        <button class="shareBtn">
-          ↗ শেয়ার
-        </button>
-
-      </div>
-
-
-      <!-- COMMENTS -->
-
-      <div class="comments">
-
-        ${
-          post.comments.map(c => `
-
-            <div class="comment">
-
-              <b>আপনি</b>
-              &nbsp;
-              ${safe(c)}
-
-            </div>
-
-          `).join("")
-        }
-
-
-        <div class="commentBox">
-
-          <input
-            placeholder="একটি মন্তব্য লিখুন..."
-          >
-
-          <button>
-            ➤
-          </button>
-
-        </div>
-
-      </div>
-
-    `;
-
-
-    feed.appendChild(article);
-
-
-    /* ==========================
-       REACTION ELEMENTS
-    ========================== */
-
-    const reactionWrap =
-      article.querySelector(".reactionWrap");
-
-    const likeBtn =
-      article.querySelector(".likeBtn");
-
-    const reactionBar =
-      article.querySelector(".reactionBar");
-
-
-    let holdTimer = null;
-
-    let holding = false;
-
-
-    /* ==========================
-       SIMPLE CLICK = LIKE
-    ========================== */
-
-    likeBtn.addEventListener(
-      "click",
-      () => {
-
-        /* যদি Hold করা হয়ে থাকে
-           তাহলে Click কাজ করবে না */
-
-        if(holding){
-
-          holding = false;
-
-          return;
-
-        }
-
-        setReaction(post,"like");
-
-      }
+  const wrap=
+    document.querySelector(
+      `.reactionWrap[data-id="${id}"]`
     );
 
+  if(!wrap)return;
 
-    /* ==========================
-       PRESS & HOLD
-    ========================== */
+  const bar=
+    document.createElement("div");
 
-    function startHold(){
+  bar.className="reactionBar";
 
-      holding = false;
+  bar.dataset.id=id;
 
-      holdTimer = setTimeout(() => {
+  Object.keys(REACTIONS).forEach(type=>{
 
-        holding = true;
+    const btn=
+      document.createElement("button");
 
-        reactionBar.style.display =
-          "flex";
+    btn.textContent=REACTIONS[type];
 
-      },500);
+    btn.onclick=e=>{
 
-    }
+      e.stopPropagation();
 
-
-    function cancelHold(){
-
-      clearTimeout(holdTimer);
-
-    }
-
-
-    /* Mobile */
-
-    likeBtn.addEventListener(
-      "touchstart",
-      startHold,
-      {passive:true}
-    );
-
-
-    likeBtn.addEventListener(
-      "touchend",
-      cancelHold
-    );
-
-
-    likeBtn.addEventListener(
-      "touchcancel",
-      cancelHold
-    );
-
-
-    /* Computer */
-
-    likeBtn.addEventListener(
-      "mousedown",
-      startHold
-    );
-
-
-    likeBtn.addEventListener(
-      "mouseup",
-      cancelHold
-    );
-
-
-    likeBtn.addEventListener(
-      "mouseleave",
-      cancelHold
-    );
-
-
-    /* ==========================
-       REACTION BAR BUTTON
-    ========================== */
-
-    reactionBar
-      .querySelectorAll("button")
-      .forEach(button => {
-
-        button.onclick = e => {
-
-          e.stopPropagation();
-
-          const type =
-            button.dataset.reaction;
-
-          reactionBar.style.display =
-            "none";
-
-          holding = true;
-
-          setReaction(post,type);
-
-        };
-
-      });
-
-
-    /* ==========================
-       CLICK OUTSIDE
-    ========================== */
-
-    document.addEventListener(
-      "click",
-      e => {
-
-        if(
-          !reactionWrap.contains(e.target)
-        ){
-
-          reactionBar.style.display =
-            "none";
-
-        }
-
-      }
-    );
-
-
-    /* ==========================
-       SHOW REACTION USERS
-    ========================== */
-
-    article
-      .querySelector(".reactionStats")
-      .onclick = () => {
-
-        if(total > 0){
-
-          showReactionUsers(post);
-
-        }
-
-      };
-
-
-    /* ==========================
-       COMMENT
-    ========================== */
-
-    const input =
-      article.querySelector(
-        ".commentBox input"
-      );
-
-    const send =
-      article.querySelector(
-        ".commentBox button"
-      );
-
-
-    function addComment(){
-
-      const value =
-        input.value.trim();
-
-      if(!value)return;
-
-      post.comments.push(value);
-
-      savePosts();
-
-      renderPosts();
-
-    }
-
-
-    send.onclick =
-      addComment;
-
-
-    input.onkeydown = e => {
-
-      if(e.key === "Enter"){
-
-        addComment();
-
-      }
+      setReaction(id,type);
 
     };
 
-
-    article
-      .querySelector(".commentBtn")
-      .onclick = () => {
-
-        input.focus();
-
-      };
-
-
-    /* ==========================
-       SHARE
-    ========================== */
-
-    article
-      .querySelector(".shareBtn")
-      .onclick = async () => {
-
-        post.shares++;
-
-        savePosts();
-
-        renderPosts();
-
-        try{
-
-          await navigator.clipboard
-            .writeText(location.href);
-
-          alert(
-            "পোস্টের লিংক কপি হয়েছে!"
-          );
-
-        }
-
-        catch{
-
-          alert(
-            "পোস্ট শেয়ার হয়েছে!"
-          );
-
-        }
-
-      };
-
-
-    /* ==========================
-       DELETE POST
-    ========================== */
-
-    article
-      .querySelector(".menu")
-      .onclick = () => {
-
-        if(
-          confirm(
-            "এই পোস্টটি মুছে ফেলবেন?"
-          )
-        ){
-
-          posts =
-            posts.filter(
-              p => p.id !== post.id
-            );
-
-          savePosts();
-
-          renderPosts();
-
-        }
-
-      };
+    bar.appendChild(btn);
 
   });
 
+  wrap.appendChild(bar);
 }
 
 
-/* ==============================
-   START
-============================== */
+/* ==================================================
+   COMMENT
+================================================== */
 
-preparePosts();
+function addComment(postId){
 
-renderPosts();
+  const input=
+    document.querySelector(
+      `.commentInput[data-id="${postId}"]`
+    );
 
-renderStories();
-        
+  if(!input)return;
+
+  const text=input.value.trim();
+
+  if(!text)return;
+
+  const post=
+    posts.find(p=>p.id==postId);
+
+  if(!post)return;
+
+  if(!post.comments)
+    post.comments=[];
+
+  post.comments.push({
+
+    id:Date.now(),
+
+    name:"আপনি",
+
+    text:text
+
+  });
+
+  savePosts();
+
+  ren
