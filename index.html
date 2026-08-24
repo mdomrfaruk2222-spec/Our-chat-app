@@ -6,314 +6,971 @@
 <title>MySocial</title>
 
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0
+}
+
 body{
   font-family:Arial,"Noto Sans Bengali",sans-serif;
-  background:#f0f2f5;color:#050505
+  background:#f0f2f5;
+  color:#050505
 }
-button{border:0;cursor:pointer;font-family:inherit}
+
+button{
+  border:0;
+  cursor:pointer;
+  font-family:inherit
+}
+
 .header{
-  background:#fff;position:sticky;top:0;z-index:1000;
+  background:#fff;
+  position:sticky;
+  top:0;
+  z-index:1000;
   box-shadow:0 1px 3px #ccc
 }
+
 .top{
-  height:62px;display:flex;align-items:center;padding:7px 12px
+  height:62px;
+  display:flex;
+  align-items:center;
+  padding:7px 12px
 }
-.logo{color:#1877f2;font-size:30px;font-weight:bold;flex:1}
+
+.logo{
+  color:#1877f2;
+  font-size:30px;
+  font-weight:bold;
+  flex:1
+}
+
 .topBtn{
-  width:43px;height:43px;border-radius:50%;
-  background:#e4e6eb;margin-left:7px;font-size:21px
+  width:43px;
+  height:43px;
+  border-radius:50%;
+  background:#e4e6eb;
+  margin-left:7px;
+  font-size:21px
 }
+
 .nav{
-  height:55px;background:#fff;display:grid;
-  grid-template-columns:repeat(6,1fr);border-top:1px solid #eee
+  height:55px;
+  background:#fff;
+  display:grid;
+  grid-template-columns:repeat(6,1fr);
+  border-top:1px solid #eee
 }
+
 .nav button{
-  position:relative;background:#fff;color:#65676b;font-size:25px
+  position:relative;
+  background:#fff;
+  color:#65676b;
+  font-size:25px
 }
-.nav button.active{color:#1877f2}
+
+.nav button.active{
+  color:#1877f2
+}
+
 .nav button.active:after{
-  content:"";position:absolute;bottom:0;left:15%;right:15%;
-  height:3px;background:#1877f2
+  content:"";
+  position:absolute;
+  bottom:0;
+  left:15%;
+  right:15%;
+  height:3px;
+  background:#1877f2
 }
+
 .badge{
-  position:absolute;top:2px;right:12%;background:#e41e3f;color:#fff;
-  min-width:20px;height:20px;border-radius:20px;font-size:10px;
-  display:flex;align-items:center;justify-content:center;
+  position:absolute;
+  top:2px;
+  right:12%;
+  background:#e41e3f;
+  color:#fff;
+  min-width:20px;
+  height:20px;
+  border-radius:20px;
+  font-size:10px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
   border:2px solid #fff
 }
-.container{max-width:760px;margin:auto}
+
+.container{
+  max-width:760px;
+  margin:auto
+}
 
 /* composer */
-.composer{background:#fff;padding:12px;border-bottom:1px solid #ddd}
-.composerRow{display:flex;align-items:center;gap:9px}
-.avatar,.userAvatar,.modalAvatar{
-  width:46px;height:46px;min-width:46px;border-radius:50%;
-  background:#ddd;display:flex;align-items:center;
-  justify-content:center;font-size:23px
-}
-.statusBox{
-  flex:1;height:45px;border-radius:25px;background:#f0f2f5;
-  display:flex;align-items:center;padding:0 16px;
-  color:#65676b;cursor:pointer
-}
-.photoBtn{color:#31a24c;background:#fff;font-size:25px}
 
-/* stories */
-.stories{
-  background:#fff;padding:12px 0;border-bottom:1px solid #ddd
-}
-.storyTitle{font-size:17px;font-weight:bold;padding:0 12px 10px}
-.storyList{
-  display:flex;gap:8px;overflow-x:auto;padding:0 12px;
-  scrollbar-width:none
-}
-.storyList::-webkit-scrollbar{display:none}
-.story{
-  min-width:108px;height:175px;border-radius:12px;overflow:hidden;
-  position:relative;background:linear-gradient(145deg,#789,#222);
-  cursor:pointer
-}
-.story:nth-child(2){background:linear-gradient(145deg,#305e8a,#b77979)}
-.story:nth-child(3){background:linear-gradient(145deg,#668e55,#333)}
-.story:nth-child(4){background:linear-gradient(145deg,#b99a70,#333)}
-.story:nth-child(5){background:linear-gradient(145deg,#777,#aaa,#333)}
-.story:after{
-  content:"";position:absolute;left:0;right:0;bottom:0;height:60%;
-  background:linear-gradient(transparent,rgba(0,0,0,.8))
-}
-.storyAvatar{
-  position:absolute;top:8px;left:8px;width:40px;height:40px;
-  border-radius:50%;background:#fff;border:3px solid #1877f2;
-  z-index:2;display:flex;align-items:center;justify-content:center
-}
-.storyName{
-  position:absolute;bottom:9px;left:8px;color:#fff;z-index:3;
-  font-weight:bold;font-size:13px
-}
-.createStory{background:#fff;border:1px solid #ddd}
-.createImage{height:110px;background:linear-gradient(135deg,#ddd,#aaa)}
-.plus{
-  position:absolute;top:88px;left:50%;transform:translateX(-50%);
-  width:45px;height:45px;border-radius:50%;background:#1877f2;
-  color:#fff;border:4px solid #fff;font-size:28px;z-index:4;
-  display:flex;align-items:center;justify-content:center
-}
-.createStory .storyName{color:#222;left:0;right:0;text-align:center}
-
-/* feed */
-.feed{padding-top:8px}
-.post{background:#fff;margin-bottom:8px}
-.postHead{
-  padding:12px;display:flex;align-items:center;justify-content:space-between
-}
-.user{display:flex;gap:9px;align-items:center}
-.userAvatar{width:43px;height:43px;min-width:43px}
-.userName{font-weight:bold}
-.time{color:#65676b;font-size:12px;margin-top:3px}
-.menu{font-size:25px;color:#65676b;background:#fff}
-.postText{
-  padding:0 13px 12px;font-size:17px;line-height:1.5;
-  white-space:pre-wrap
-}
-.postImage{
-  width:100%;max-height:650px;object-fit:contain;
-  background:#f0f2f5;display:block
-}
-.stats{
-  display:flex;justify-content:space-between;align-items:center;
-  padding:8px 13px;color:#65676b;font-size:13px;
+.composer{
+  background:#fff;
+  padding:12px;
   border-bottom:1px solid #ddd
 }
-.actions{display:grid;grid-template-columns:repeat(3,1fr);height:46px}
-.actions button{background:#fff;color:#65676b;font-weight:bold}
-.actions button:hover{background:#f0f2f5}
-.liked{color:#1877f2!important}
-.comments{padding:7px 12px}
+
+.composerRow{
+  display:flex;
+  align-items:center;
+  gap:9px
+}
+
+.avatar,
+.userAvatar,
+.modalAvatar{
+  width:46px;
+  height:46px;
+  min-width:46px;
+  border-radius:50%;
+  background:#ddd;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:23px
+}
+
+.statusBox{
+  flex:1;
+  height:45px;
+  border-radius:25px;
+  background:#f0f2f5;
+  display:flex;
+  align-items:center;
+  padding:0 16px;
+  color:#65676b;
+  cursor:pointer
+}
+
+.photoBtn{
+  color:#31a24c;
+  background:#fff;
+  font-size:25px
+}
+
+/* stories */
+
+.stories{
+  background:#fff;
+  padding:12px 0;
+  border-bottom:1px solid #ddd
+}
+
+.storyTitle{
+  font-size:17px;
+  font-weight:bold;
+  padding:0 12px 10px
+}
+
+.storyList{
+  display:flex;
+  gap:8px;
+  overflow-x:auto;
+  padding:0 12px;
+  scrollbar-width:none
+}
+
+.storyList::-webkit-scrollbar{
+  display:none
+}
+
+.story{
+  min-width:108px;
+  height:175px;
+  border-radius:12px;
+  overflow:hidden;
+  position:relative;
+  background:linear-gradient(145deg,#789,#222);
+  cursor:pointer
+}
+
+.story:after{
+  content:"";
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:0;
+  height:60%;
+  background:linear-gradient(
+    transparent,
+    rgba(0,0,0,.8)
+  )
+}
+
+.storyAvatar{
+  position:absolute;
+  top:8px;
+  left:8px;
+  width:40px;
+  height:40px;
+  border-radius:50%;
+  background:#fff;
+  border:3px solid #1877f2;
+  z-index:2;
+  display:flex;
+  align-items:center;
+  justify-content:center
+}
+
+.storyName{
+  position:absolute;
+  bottom:9px;
+  left:8px;
+  color:#fff;
+  z-index:3;
+  font-weight:bold;
+  font-size:13px
+}
+
+.createStory{
+  background:#fff;
+  border:1px solid #ddd
+}
+
+.createImage{
+  height:110px;
+  background:linear-gradient(135deg,#ddd,#aaa)
+}
+
+.plus{
+  position:absolute;
+  top:88px;
+  left:50%;
+  transform:translateX(-50%);
+  width:45px;
+  height:45px;
+  border-radius:50%;
+  background:#1877f2;
+  color:#fff;
+  border:4px solid #fff;
+  font-size:28px;
+  z-index:4;
+  display:flex;
+  align-items:center;
+  justify-content:center
+}
+
+.createStory .storyName{
+  color:#222;
+  left:0;
+  right:0;
+  text-align:center
+}
+
+/* feed */
+
+.feed{
+  padding-top:8px
+}
+
+.post{
+  background:#fff;
+  margin-bottom:8px
+}
+
+.postHead{
+  padding:12px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between
+}
+
+.user{
+  display:flex;
+  gap:9px;
+  align-items:center
+}
+
+.userAvatar{
+  width:43px;
+  height:43px;
+  min-width:43px
+}
+
+.userName{
+  font-weight:bold
+}
+
+.time{
+  color:#65676b;
+  font-size:12px;
+  margin-top:3px
+}
+
+.menu{
+  font-size:25px;
+  color:#65676b;
+  background:#fff
+}
+
+.postText{
+  padding:0 13px 12px;
+  font-size:17px;
+  line-height:1.5;
+  white-space:pre-wrap
+}
+
+.postImage{
+  width:100%;
+  max-height:650px;
+  object-fit:contain;
+  background:#f0f2f5;
+  display:block
+}
+
+.stats{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:8px 13px;
+  color:#65676b;
+  font-size:13px;
+  border-bottom:1px solid #ddd
+}
+
+.actions{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  height:46px
+}
+
+.actions button{
+  background:#fff;
+  color:#65676b;
+  font-weight:bold
+}
+
+.actions button:hover{
+  background:#f0f2f5
+}
+
+.liked{
+  color:#1877f2!important
+}
+
+/* ==============================
+   REACTION SYSTEM
+============================== */
+
+.reactionWrap{
+  position:relative;
+  display:flex
+}
+
+.reactionWrap .likeBtn{
+  width:100%;
+  height:46px
+}
+
+.reactionBar{
+  position:absolute;
+  left:5px;
+  bottom:50px;
+  background:#fff;
+  border-radius:30px;
+  padding:7px 9px;
+  box-shadow:0 3px 15px rgba(0,0,0,.25);
+  display:flex;
+  gap:4px;
+  z-index:500;
+  animation:reactionShow .15s ease
+}
+
+@keyframes reactionShow{
+
+  from{
+    opacity:0;
+    transform:scale(.7)
+  }
+
+  to{
+    opacity:1;
+    transform:scale(1)
+  }
+
+}
+
+.reactionBar button{
+  width:42px;
+  height:42px;
+  border-radius:50%;
+  background:#fff;
+  font-size:27px;
+  transition:.15s
+}
+
+.reactionBar button:hover{
+  transform:scale(1.35) translateY(-5px)
+}
+
+.reactionStats{
+  display:flex;
+  align-items:center;
+  gap:5px;
+  cursor:pointer
+}
+
+.reactionIcons{
+  display:flex;
+  align-items:center
+}
+
+.reactionIcon{
+  width:21px;
+  height:21px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:15px
+}
+
+.reactionTotal{
+  color:#65676b
+}
+
+/* reaction users */
+
+.reactionModal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.55);
+  z-index:10000;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:15px
+}
+
+.reactionListBox{
+  width:100%;
+  max-width:430px;
+  max-height:75vh;
+  overflow:auto;
+  background:#fff;
+  border-radius:14px
+}
+
+.reactionListHead{
+  padding:16px;
+  border-bottom:1px solid #ddd;
+  font-size:19px;
+  font-weight:bold;
+  display:flex;
+  justify-content:space-between;
+  align-items:center
+}
+
+.reactionClose{
+  width:35px;
+  height:35px;
+  border-radius:50%;
+  background:#e4e6eb;
+  font-size:17px
+}
+
+.reactionPerson{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:12px 16px
+}
+
+.reactionPersonAvatar{
+  width:42px;
+  height:42px;
+  border-radius:50%;
+  background:#e4e6eb;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:21px
+}
+
+.reactionPersonName{
+  flex:1;
+  font-weight:bold
+}
+
+.reactionPersonType{
+  font-size:23px
+}
+
+/* comments */
+
+.comments{
+  padding:7px 12px
+}
+
 .comment{
-  background:#f0f2f5;padding:7px 11px;border-radius:17px;
-  margin-bottom:5px;font-size:14px
+  background:#f0f2f5;
+  padding:7px 11px;
+  border-radius:17px;
+  margin-bottom:5px;
+  font-size:14px
 }
-.commentBox{display:flex;gap:7px;margin-top:7px}
+
+.commentBox{
+  display:flex;
+  gap:7px;
+  margin-top:7px
+}
+
 .commentBox input{
-  flex:1;border:0;outline:0;background:#f0f2f5;
-  border-radius:20px;padding:10px 14px
+  flex:1;
+  border:0;
+  outline:0;
+  background:#f0f2f5;
+  border-radius:20px;
+  padding:10px 14px
 }
+
 .commentBox button{
-  width:40px;border-radius:50%;background:#1877f2;color:#fff
+  width:40px;
+  border-radius:50%;
+  background:#1877f2;
+  color:#fff
 }
 
 /* modal */
+
 .modalBg{
-  position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:5000;
-  display:flex;align-items:center;justify-content:center;padding:15px
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.55);
+  z-index:5000;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:15px
 }
+
 .modal{
-  width:100%;max-width:520px;background:#fff;border-radius:12px;
+  width:100%;
+  max-width:520px;
+  background:#fff;
+  border-radius:12px;
   overflow:hidden
 }
+
 .modalHead{
-  height:58px;border-bottom:1px solid #ddd;display:flex;
-  justify-content:center;align-items:center;position:relative
+  height:58px;
+  border-bottom:1px solid #ddd;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  position:relative
 }
-.modalHead h2{font-size:20px}
+
+.modalHead h2{
+  font-size:20px
+}
+
 .close{
-  position:absolute;right:10px;width:38px;height:38px;
-  border-radius:50%;background:#e4e6eb;font-size:18px
+  position:absolute;
+  right:10px;
+  width:38px;
+  height:38px;
+  border-radius:50%;
+  background:#e4e6eb;
+  font-size:18px
 }
+
 .modalUser{
-  display:flex;align-items:center;gap:10px;padding:13px
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:13px
 }
-#postText,#storyText{
-  width:100%;min-height:130px;resize:none;border:0;outline:0;
-  padding:5px 15px;font-size:20px;font-family:inherit
+
+#postText,
+#storyText{
+  width:100%;
+  min-height:130px;
+  resize:none;
+  border:0;
+  outline:0;
+  padding:5px 15px;
+  font-size:20px;
+  font-family:inherit
 }
-.preview{padding:0 15px 10px}
+
+.preview{
+  padding:0 15px 10px
+}
+
 .preview img{
-  width:100%;max-height:300px;object-fit:contain;
-  border-radius:8px;background:#f0f2f5
+  width:100%;
+  max-height:300px;
+  object-fit:contain;
+  border-radius:8px;
+  background:#f0f2f5
 }
+
 .options{
-  margin:0 15px;border:1px solid #ddd;border-radius:8px;
-  display:flex;align-items:center;padding:5px
+  margin:0 15px;
+  border:1px solid #ddd;
+  border-radius:8px;
+  display:flex;
+  align-items:center;
+  padding:5px
 }
-.option{flex:1;height:45px;background:#fff}
-.option:hover{background:#f0f2f5}
+
+.option{
+  flex:1;
+  height:45px;
+  background:#fff
+}
+
+.option:hover{
+  background:#f0f2f5
+}
+
 .publish{
-  width:calc(100% - 30px);margin:15px;height:45px;
-  background:#1877f2;color:#fff;border-radius:7px;
-  font-size:16px;font-weight:bold
+  width:calc(100% - 30px);
+  margin:15px;
+  height:45px;
+  background:#1877f2;
+  color:#fff;
+  border-radius:7px;
+  font-size:16px;
+  font-weight:bold
 }
 
 /* story viewer */
+
 .storyViewer{
-  position:fixed;inset:0;background:#000;z-index:9000;
-  display:flex;align-items:center;justify-content:center
+  position:fixed;
+  inset:0;
+  background:#000;
+  z-index:9000;
+  display:flex;
+  align-items:center;
+  justify-content:center
 }
+
 .viewerBox{
-  width:100%;height:100%;max-width:500px;position:relative;
-  display:flex;align-items:center;justify-content:center;
+  width:100%;
+  height:100%;
+  max-width:500px;
+  position:relative;
+  display:flex;
+  align-items:center;
+  justify-content:center;
   background:#111
 }
+
 .viewerImage{
-  width:100%;height:100%;object-fit:contain
+  width:100%;
+  height:100%;
+  object-fit:contain
 }
+
 .viewerText{
-  color:#fff;font-size:28px;text-align:center;
-  padding:30px;line-height:1.5;word-break:break-word
+  color:#fff;
+  font-size:28px;
+  text-align:center;
+  padding:30px;
+  line-height:1.5;
+  word-break:break-word
 }
+
 .viewerTop{
-  position:absolute;top:0;left:0;right:0;height:65px;
-  z-index:3;background:linear-gradient(#0009,transparent);
-  display:flex;align-items:center;padding:10px 14px;color:#fff
+  position:absolute;
+  top:0;
+  left:0;
+  right:0;
+  height:65px;
+  z-index:3;
+  background:linear-gradient(#0009,transparent);
+  display:flex;
+  align-items:center;
+  padding:10px 14px;
+  color:#fff
 }
-.viewerUser{flex:1;font-weight:bold}
+
+.viewerUser{
+  flex:1;
+  font-weight:bold
+}
+
 .viewerClose{
-  color:#fff;background:transparent;font-size:28px
+  color:#fff;
+  background:transparent;
+  font-size:28px
 }
+
 .viewerDelete{
-  color:#fff;background:transparent;font-size:20px;margin-right:15px
+  color:#fff;
+  background:transparent;
+  font-size:20px;
+  margin-right:15px
 }
+
 .viewerBottom{
-  position:absolute;bottom:20px;left:0;right:0;
-  text-align:center;z-index:4
+  position:absolute;
+  bottom:20px;
+  left:0;
+  right:0;
+  text-align:center;
+  z-index:4
 }
+
 .viewerBottom button{
-  background:#ffffff22;color:#fff;border:1px solid #fff;
-  border-radius:20px;padding:9px 20px
+  background:#ffffff22;
+  color:#fff;
+  border:1px solid #fff;
+  border-radius:20px;
+  padding:9px 20px
 }
 
 /* bottom */
-.bottom{display:none}
-@media(max-width:760px){
-  body{padding-bottom:60px}
-  .bottom{
-    position:fixed;display:grid;grid-template-columns:repeat(5,1fr);
-    bottom:0;left:0;right:0;height:60px;background:#fff;
-    border-top:1px solid #ddd;z-index:3000
-  }
-  .bottom button{background:#fff;font-size:22px;color:#65676b}
-  .bottom button.active{color:#1877f2}
-  .logo{font-size:28px}
-  .modalBg{align-items:flex-end;padding:0}
-  .modal{border-radius:15px 15px 0 0;max-height:92vh;overflow:auto}
+
+.bottom{
+  display:none
 }
+
+@media(max-width:760px){
+
+  body{
+    padding-bottom:60px
+  }
+
+  .bottom{
+    position:fixed;
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    bottom:0;
+    left:0;
+    right:0;
+    height:60px;
+    background:#fff;
+    border-top:1px solid #ddd;
+    z-index:3000
+  }
+
+  .bottom button{
+    background:#fff;
+    font-size:22px;
+    color:#65676b
+  }
+
+  .bottom button.active{
+    color:#1877f2
+  }
+
+  .logo{
+    font-size:28px
+  }
+
+  .modalBg{
+    align-items:flex-end;
+    padding:0
+  }
+
+  .modal{
+    border-radius:15px 15px 0 0;
+    max-height:92vh;
+    overflow:auto
+  }
+
+  .reactionBar{
+    left:0;
+    right:0;
+    width:max-content;
+    max-width:95vw;
+  }
+
+}
+
 </style>
 </head>
 
 <body>
 
 <header class="header">
+
   <div class="top">
-    <div class="logo">MySocial</div>
+
+    <div class="logo">
+      MySocial
+    </div>
+
     <button class="topBtn">＋</button>
+
     <button class="topBtn">⌕</button>
+
     <button class="topBtn">☰</button>
+
   </div>
 
+
   <nav class="nav">
+
     <button class="active">⌂</button>
+
     <button>👥</button>
-    <button>💬<span class="badge">2</span></button>
-    <button>▶<span class="badge">15+</span></button>
-    <button>🔔<span class="badge">2</span></button>
+
+    <button>
+      💬
+      <span class="badge">2</span>
+    </button>
+
+    <button>
+      ▶
+      <span class="badge">15+</span>
+    </button>
+
+    <button>
+      🔔
+      <span class="badge">2</span>
+    </button>
+
     <button>☰</button>
+
   </nav>
+
 </header>
+
 
 <div class="container">
 
 <section class="composer">
+
   <div class="composerRow">
-    <div class="avatar">👤</div>
-    <div class="statusBox" id="openComposer">
+
+    <div class="avatar">
+      👤
+    </div>
+
+    <div
+      class="statusBox"
+      id="openComposer"
+    >
       একটি স্ট্যাটাস আপডেট পোস্ট করুন
     </div>
-    <button class="photoBtn" id="photoDirect">🖼️</button>
+
+    <button
+      class="photoBtn"
+      id="photoDirect"
+    >
+      🖼️
+    </button>
+
   </div>
+
 </section>
+
 
 <!-- STORIES -->
+
 <section class="stories">
-  <div class="storyTitle">Stories</div>
 
-  <div class="storyList" id="storyList">
+  <div class="storyTitle">
+    Stories
+  </div>
 
-    <div class="story createStory" id="createStory">
+  <div
+    class="storyList"
+    id="storyList"
+  >
+
+    <div
+      class="story createStory"
+      id="createStory"
+    >
+
       <div class="createImage"></div>
-      <button class="plus">+</button>
-      <div class="storyName">স্টোরি তৈরি করুন</div>
+
+      <button class="plus">
+        +
+      </button>
+
+      <div class="storyName">
+        স্টোরি তৈরি করুন
+      </div>
+
     </div>
 
-    <div class="story">
-      <div class="storyAvatar">👤</div>
-      <div class="storyName">Nice Gallery</div>
-    </div>
 
     <div class="story">
-      <div class="storyAvatar">👤</div>
-      <div class="storyName">MD Hasan</div>
+
+      <div class="storyAvatar">
+        👤
+      </div>
+
+      <div class="storyName">
+        Nice Gallery
+      </div>
+
     </div>
 
+
     <div class="story">
-      <div class="storyAvatar">👤</div>
-      <div class="storyName">AB Media</div>
+
+      <div class="storyAvatar">
+        👤
+      </div>
+
+      <div class="storyName">
+        MD Hasan
+      </div>
+
+    </div>
+
+
+    <div class="story">
+
+      <div class="storyAvatar">
+        👤
+      </div>
+
+      <div class="storyName">
+        AB Media
+      </div>
+
     </div>
 
   </div>
+
 </section>
 
-<main class="feed" id="feed"></main>
+
+<main
+  class="feed"
+  id="feed"
+></main>
 
 </div>
 
+
 <nav class="bottom">
-  <button class="active">⌂</button>
-  <button>👥</button>
-  <button>▶</button>
-  <button>🔔</button>
-  <button>☰</button>
+
+  <button class="active">
+    ⌂
+  </button>
+
+  <button>
+    👥
+  </button>
+
+  <button>
+    ▶
+  </button>
+
+  <button>
+    🔔
+  </button>
+
+  <button>
+    ☰
+  </button>
+
 </nav>
+
 
 <script>
 
@@ -333,21 +990,56 @@ let selectedImage=null;
 
 
 /* ==============================
+   REACTIONS
+============================== */
+
+const REACTIONS={
+
+  like:"👍",
+  love:"❤️",
+  care:"🤗",
+  haha:"😂",
+  wow:"😮",
+  sad:"😢",
+  angry:"😡"
+
+};
+
+
+const REACTION_NAMES={
+
+  like:"লাইক",
+  love:"Love",
+  care:"Care",
+  haha:"Haha",
+  wow:"Wow",
+  sad:"Sad",
+  angry:"Angry"
+
+};
+
+
+/* ==============================
    SAVE
 ============================== */
 
 function savePosts(){
+
   localStorage.setItem(
     "socialPosts",
     JSON.stringify(posts)
   );
+
 }
 
+
 function saveStories(){
+
   localStorage.setItem(
     "socialStories",
     JSON.stringify(stories)
   );
+
 }
 
 
@@ -356,9 +1048,86 @@ function saveStories(){
 ============================== */
 
 function safe(text){
+
   const div=document.createElement("div");
-  div.textContent=text;
+
+  div.textContent=text||"";
+
   return div.innerHTML;
+
+}
+
+
+/* ==============================
+   PREPARE OLD POSTS
+============================== */
+
+function preparePosts(){
+
+  posts.forEach(post=>{
+
+    if(!post.reactionUsers){
+
+      post.reactionUsers=[];
+
+    }
+
+
+    if(!post.reactionCounts){
+
+      post.reactionCounts={
+
+        like:0,
+        love:0,
+        care:0,
+        haha:0,
+        wow:0,
+        sad:0,
+        angry:0
+
+      };
+
+    }
+
+
+    /* পুরোনো Like system থাকলে
+       সেটাকে নতুন Reaction system-এ আনা */
+
+    if(
+      post.liked &&
+      !post.reaction &&
+      post.reactionUsers.length===0
+    ){
+
+      post.reaction="like";
+
+      post.reactionUsers.push({
+
+        name:"আপনি",
+        reaction:"like"
+
+      });
+
+      post.reactionCounts.like=1;
+
+      post.likes=1;
+
+    }
+
+
+    /* নতুন Reaction থেকে Like count */
+
+    if(post.reaction){
+
+      post.liked=
+        post.reaction==="like";
+
+    }
+
+  });
+
+  savePosts();
+
 }
 
 
@@ -366,17 +1135,22 @@ function safe(text){
    POST COMPOSER
 ============================== */
 
-document.getElementById("openComposer")
-.onclick=openPost;
+document
+  .getElementById("openComposer")
+  .onclick=openPost;
 
-document.getElementById("photoDirect")
-.onclick=openPost;
+
+document
+  .getElementById("photoDirect")
+  .onclick=openPost;
+
 
 function openPost(){
 
   selectedImage=null;
 
-  const modal=document.createElement("div");
+  const modal=
+    document.createElement("div");
 
   modal.className="modalBg";
 
@@ -385,60 +1159,124 @@ function openPost(){
   <div class="modal">
 
     <div class="modalHead">
-      <h2>পোস্ট তৈরি করুন</h2>
-      <button class="close" id="closeModal">✕</button>
+
+      <h2>
+        পোস্ট তৈরি করুন
+      </h2>
+
+      <button
+        class="close"
+        id="closeModal"
+      >
+        ✕
+      </button>
+
     </div>
 
+
     <div class="modalUser">
-      <div class="modalAvatar">👤</div>
+
+      <div class="modalAvatar">
+        👤
+      </div>
+
       <div>
-        <b>আপনার নাম</b>
-        <div style="font-size:12px;color:#65676b">
+
+        <b>
+          আপনার নাম
+        </b>
+
+        <div
+          style="
+            font-size:12px;
+            color:#65676b
+          "
+        >
           🌐 সবাই
         </div>
+
       </div>
+
     </div>
+
 
     <textarea
       id="postText"
-      placeholder="আপনি কী ভাবছেন?"></textarea>
+      placeholder="আপনি কী ভাবছেন?"
+    ></textarea>
 
-    <div class="preview" id="preview"></div>
+
+    <div
+      class="preview"
+      id="preview"
+    ></div>
+
 
     <div class="options">
 
       <label class="option">
+
         🖼️ ফটো/ভিডিও
+
         <input
           type="file"
           id="imageInput"
           accept="image/*"
-          hidden>
+          hidden
+        >
+
       </label>
 
-      <button class="option">😊 অনুভূতি</button>
-      <button class="option">📍 লোকেশন</button>
+
+      <button class="option">
+        😊 অনুভূতি
+      </button>
+
+
+      <button class="option">
+        📍 লোকেশন
+      </button>
 
     </div>
 
-    <button class="publish" id="publish">
+
+    <button
+      class="publish"
+      id="publish"
+    >
       পোস্ট করুন
     </button>
 
-  </div>`;
+  </div>
+
+  `;
+
 
   document.body.appendChild(modal);
 
-  document.getElementById("closeModal").onclick=()=>{
-    modal.remove();
-  };
 
-  document.getElementById("imageInput")
-  .onchange=handlePostImage;
+  document
+    .getElementById("closeModal")
+    .onclick=()=>{
+      modal.remove();
+    };
 
-  document.getElementById("publish")
-  .onclick=createPost;
+
+  document
+    .getElementById("imageInput")
+    .onchange=handlePostImage;
+
+
+  document
+    .getElementById("publish")
+    .onclick=createPost;
+
 }
+
+
+/* ==============================
+   POST IMAGE
+============================== */
 
 function handlePostImage(e){
 
@@ -446,368 +1284,51 @@ function handlePostImage(e){
 
   if(!file)return;
 
-  const reader=new FileReader();
+  const reader=
+    new FileReader();
 
   reader.onload=()=>{
-    selectedImage=reader.result;
 
-    document.getElementById("preview").innerHTML=
+    selectedImage=
+      reader.result;
+
+    document
+      .getElementById("preview")
+      .innerHTML=
       `<img src="${selectedImage}">`;
+
   };
 
   reader.readAsDataURL(file);
+
 }
+
+
+/* ==============================
+   CREATE POST
+============================== */
 
 function createPost(){
 
-  const text=document
-    .getElementById("postText")
-    .value.trim();
+  const text=
+    document
+      .getElementById("postText")
+      .value
+      .trim();
 
-  if(!text&&!selectedImage){
-    alert("কিছু লিখুন অথবা ছবি দিন।");
-    return;
-  }
-
-  posts.unshift({
-    id:Date.now(),
-    text:text,
-    image:selectedImage,
-    likes:0,
-    liked:false,
-    comments:[],
-    shares:0,
-    time:"এইমাত্র"
-  });
-
-  savePosts();
-
-  document.querySelector(".modalBg").remove();
-
-  renderPosts();
-}
-
-
-/* ==============================
-   RENDER POSTS
-============================== */
-
-function renderPosts(){
-
-  const feed=document.getElementById("feed");
-
-  feed.innerHTML="";
-
-  posts.forEach(post=>{
-
-    const article=document.createElement("article");
-
-    article.className="post";
-
-    article.innerHTML=`
-
-      <div class="postHead">
-
-        <div class="user">
-
-          <div class="userAvatar">👤</div>
-
-          <div>
-            <div class="userName">আপনার নাম</div>
-            <div class="time">${post.time} · 🌐</div>
-          </div>
-
-        </div>
-
-        <button class="menu">⋯</button>
-
-      </div>
-
-      ${
-        post.text
-        ?`<div class="postText">${safe(post.text)}</div>`
-        :""
-      }
-
-      ${
-        post.image
-        ?`<img class="postImage" src="${post.image}">`
-        :""
-      }
-
-      <div class="stats">
-
-        <div>
-          ${post.likes>0?"👍 "+post.likes:"কোনো লাইক নেই"}
-        </div>
-
-        <div>
-          ${post.comments.length} মন্তব্য ·
-          ${post.shares} শেয়ার
-        </div>
-
-      </div>
-
-      <div class="actions">
-
-        <button class="likeBtn ${post.liked?"liked":""}">
-          👍 ${post.liked?"লাইক করা হয়েছে":"লাইক"}
-        </button>
-
-        <button class="commentBtn">
-          💬 মন্তব্য
-        </button>
-
-        <button class="shareBtn">
-          ↗ শেয়ার
-        </button>
-
-      </div>
-
-      <div class="comments">
-
-        ${
-          post.comments.map(c=>
-            `<div class="comment">
-              <b>আপনি</b>&nbsp;${safe(c)}
-            </div>`
-          ).join("")
-        }
-
-        <div class="commentBox">
-          <input placeholder="একটি মন্তব্য লিখুন...">
-          <button>➤</button>
-        </div>
-
-      </div>
-    `;
-
-    feed.appendChild(article);
-
-    article.querySelector(".likeBtn").onclick=()=>{
-
-      post.liked=!post.liked;
-      post.likes+=post.liked?1:-1;
-
-      savePosts();
-      renderPosts();
-    };
-
-    const input=article.querySelector(".commentBox input");
-    const send=article.querySelector(".commentBox button");
-
-    function addComment(){
-
-      const value=input.value.trim();
-
-      if(!value)return;
-
-      post.comments.push(value);
-
-      savePosts();
-      renderPosts();
-    }
-
-    send.onclick=addComment;
-
-    input.onkeydown=e=>{
-      if(e.key==="Enter")addComment();
-    };
-
-    article.querySelector(".commentBtn").onclick=()=>{
-      input.focus();
-    };
-
-    article.querySelector(".shareBtn").onclick=async()=>{
-
-      post.shares++;
-
-      savePosts();
-      renderPosts();
-
-      try{
-        await navigator.clipboard.writeText(location.href);
-        alert("পোস্টের লিংক কপি হয়েছে!");
-      }catch{
-        alert("পোস্ট শেয়ার হয়েছে!");
-      }
-    };
-
-    article.querySelector(".menu").onclick=()=>{
-
-      if(confirm("এই পোস্টটি মুছে ফেলবেন?")){
-
-        posts=posts.filter(
-          p=>p.id!==post.id
-        );
-
-        savePosts();
-        renderPosts();
-      }
-    };
-
-  });
-}
-
-
-/* ==============================
-   STORY CREATOR
-============================== */
-
-document
-  .getElementById("createStory")
-  .onclick=openStoryCreator;
-
-
-function openStoryCreator(){
-
-  selectedImage=null;
-
-  const modal=document.createElement("div");
-
-  modal.className="modalBg";
-
-  modal.innerHTML=`
-
-  <div class="modal">
-
-    <div class="modalHead">
-
-      <h2>স্টোরি তৈরি করুন</h2>
-
-      <button
-        class="close"
-        id="closeStory">
-        ✕
-      </button>
-
-    </div>
-
-    <div class="modalUser">
-
-      <div class="modalAvatar">👤</div>
-
-      <div>
-        <b>আপনার স্টোরি</b>
-
-        <div style="font-size:12px;color:#65676b">
-          🌐 ২৪ ঘণ্টার জন্য
-        </div>
-      </div>
-
-    </div>
-
-    <textarea
-      id="storyText"
-      placeholder="আপনার স্টোরিতে কিছু লিখুন...">
-    </textarea>
-
-    <div
-      class="preview"
-      id="storyPreview">
-    </div>
-
-    <div class="options">
-
-      <label class="option">
-
-        🖼️ ছবি
-
-        <input
-          type="file"
-          id="storyImage"
-          accept="image/*"
-          hidden>
-
-      </label>
-
-      <button
-        class="option"
-        id="storyEmoji">
-        😊
-      </button>
-
-      <button
-        class="option">
-        🎨 ব্যাকগ্রাউন্ড
-      </button>
-
-    </div>
-
-    <button
-      class="publish"
-      id="publishStory">
-
-      স্টোরিতে শেয়ার করুন
-
-    </button>
-
-  </div>`;
-
-  document.body.appendChild(modal);
-
-  document.getElementById("closeStory")
-  .onclick=()=>modal.remove();
-
-  document.getElementById("storyImage")
-  .onchange=handleStoryImage;
-
-  document.getElementById("storyEmoji")
-  .onclick=()=>{
-    document.getElementById("storyText").value+=" ❤️";
-  };
-
-  document.getElementById("publishStory")
-  .onclick=createStory;
-}
-
-
-/* ==============================
-   STORY IMAGE
-============================== */
-
-function handleStoryImage(e){
-
-  const file=e.target.files[0];
-
-  if(!file)return;
-
-  const reader=new FileReader();
-
-  reader.onload=()=>{
-
-    selectedImage=reader.result;
-
-    document.getElementById(
-      "storyPreview"
-    ).innerHTML=
-      `<img src="${selectedImage}">`;
-  };
-
-  reader.readAsDataURL(file);
-}
-
-
-/* ==============================
-   CREATE STORY
-============================== */
-
-function createStory(){
-
-  const text=document
-    .getElementById("storyText")
-    .value.trim();
 
   if(!text&&!selectedImage){
 
     alert(
-      "স্টোরিতে লেখা অথবা ছবি দিন।"
+      "কিছু লিখুন অথবা ছবি দিন।"
     );
 
     return;
+
   }
 
-  stories.unshift({
+
+  posts.unshift({
 
     id:Date.now(),
 
@@ -815,147 +1336,239 @@ function createStory(){
 
     image:selectedImage,
 
-    time:"এইমাত্র",
+    likes:0,
 
-    viewed:false
+    liked:false,
+
+    reaction:null,
+
+    reactionUsers:[],
+
+    reactionCounts:{
+
+      like:0,
+      love:0,
+      care:0,
+      haha:0,
+      wow:0,
+      sad:0,
+      angry:0
+
+    },
+
+    comments:[],
+
+    shares:0,
+
+    time:"এইমাত্র"
 
   });
 
-  saveStories();
 
-  document.querySelector(".modalBg").remove();
+  savePosts();
+
+
+  document
+    .querySelector(".modalBg")
+    .remove();
+
 
   selectedImage=null;
 
-  renderStories();
+
+  renderPosts();
+
 }
 
 
 /* ==============================
-   RENDER STORIES
+   SET REACTION
 ============================== */
 
-function renderStories(){
+function setReaction(post,type){
 
-  const list=
-    document.getElementById("storyList");
+  if(!post.reactionUsers){
 
-  list.innerHTML="";
+    post.reactionUsers=[];
 
-  /* CREATE STORY */
-
-  const create=document.createElement("div");
-
-  create.className=
-    "story createStory";
-
-  create.id="createStory";
-
-  create.innerHTML=`
-
-    <div class="createImage"></div>
-
-    <button class="plus">+</button>
-
-    <div class="storyName">
-      স্টোরি তৈরি করুন
-    </div>
-  `;
-
-  list.appendChild(create);
-
-  create.onclick=openStoryCreator;
+  }
 
 
-  /* USER STORIES */
+  if(!post.reactionCounts){
 
-  stories.forEach((story,index)=>{
+    post.reactionCounts={
 
-    const item=document.createElement("div");
+      like:0,
+      love:0,
+      care:0,
+      haha:0,
+      wow:0,
+      sad:0,
+      angry:0
 
-    item.className="story";
-
-    item.style.background=
-      story.image
-      ?`url("${story.image}") center/cover`
-      :"linear-gradient(145deg,#1877f2,#111)";
-
-    item.innerHTML=`
-
-      <div
-        class="storyAvatar"
-        style="
-          border-color:
-          ${story.viewed?"#aaa":"#1877f2"}
-        ">
-        👤
-      </div>
-
-      <div class="storyName">
-        আপনার স্টোরি
-      </div>
-    `;
-
-    item.onclick=()=>{
-      openStoryViewer(index);
     };
 
-    list.appendChild(item);
+  }
+
+
+  const oldReaction=
+    post.reaction;
+
+
+  /* ============================
+     SAME REACTION
+     = REMOVE
+  ============================ */
+
+  if(oldReaction===type){
+
+    post.reactionUsers=
+      post.reactionUsers.filter(
+        user=>user.name!=="আপনি"
+      );
+
+    post.reaction=null;
+
+  }
+
+  else{
+
+    /* পুরোনো Reaction সরানো */
+
+    post.reactionUsers=
+      post.reactionUsers.filter(
+        user=>user.name!=="আপনি"
+      );
+
+
+    /* নতুন Reaction */
+
+    post.reaction=type;
+
+
+    post.reactionUsers.push({
+
+      name:"আপনি",
+
+      reaction:type
+
+    });
+
+  }
+
+
+  /* ============================
+     নতুন করে COUNT
+  ============================ */
+
+  post.reactionCounts={
+
+    like:0,
+    love:0,
+    care:0,
+    haha:0,
+    wow:0,
+    sad:0,
+    angry:0
+
+  };
+
+
+  post.reactionUsers.forEach(user=>{
+
+    if(
+      post.reactionCounts[user.reaction]
+      !==undefined
+    ){
+
+      post.reactionCounts[
+        user.reaction
+      ]++;
+
+    }
 
   });
 
 
-  /* DEMO STORIES */
+  post.likes=
+    post.reactionCounts.like;
 
-  const demos=[
-    ["Nice Gallery","linear-gradient(145deg,#305e8a,#b77979)"],
-    ["MD Hasan","linear-gradient(145deg,#668e55,#333)"],
-    ["AB Media","linear-gradient(145deg,#b99a70,#333)"]
-  ];
 
-  demos.forEach(demo=>{
+  post.liked=
+    post.reaction==="like";
 
-    const item=document.createElement("div");
 
-    item.className="story";
+  savePosts();
 
-    item.style.background=demo[1];
+  renderPosts();
 
-    item.innerHTML=`
-
-      <div class="storyAvatar">👤</div>
-
-      <div class="storyName">
-        ${demo[0]}
-      </div>
-    `;
-
-    list.appendChild(item);
-
-  });
 }
 
 
 /* ==============================
-   STORY VIEWER
+   SHOW WHO REACTED
 ============================== */
 
-function openStoryViewer(index){
+function showReactionUsers(post){
 
-  const story=stories[index];
+  const users=
+    post.reactionUsers||[];
 
-  if(!story)return;
 
-  story.viewed=true;
+  const modal=
+    document.createElement("div");
 
-  saveStories();
+  modal.className=
+    "reactionModal";
 
-  const viewer=document.createElement("div");
 
-  viewer.className="storyViewer";
+  modal.innerHTML=`
 
-  viewer.innerHTML=`
+    <div class="reactionListBox">
 
-    <div class="viewerBox">
+      <div class="reactionListHead">
 
-      <div class="viewerTop"
+        <span>
+          Reactions
+        </span>
+
+        <button
+          class="reactionClose"
+        >
+          ✕
+        </button>
+
+      </div>
+
+
+      ${
+        users.length
+        ?
+
+        users.map(user=>`
+
+          <div class="reactionPerson">
+
+            <div class="reactionPersonAvatar">
+              👤
+            </div>
+
+            <div class="reactionPersonName">
+              ${safe(user.name)}
+            </div>
+
+            <div class="reactionPersonType">
+              ${REACTIONS[user.reaction]}
+            </div>
+
+          </div>
+
+        `).join("")
+
+        :
+
+        `
+        <div
+          style="
+            padding:30px;
+            text-align:
