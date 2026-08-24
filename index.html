@@ -1508,44 +1508,40 @@ function setReaction(post,type){
 /* ==============================
    SHOW WHO REACTED
 ============================== */
+/* ==============================
+   SHOW WHO REACTED
+============================== */
 
 function showReactionUsers(post){
 
-  const users=
-    post.reactionUsers||[];
+  const users = post.reactionUsers || [];
 
+  const modal = document.createElement("div");
 
-  const modal=
-    document.createElement("div");
+  modal.className = "reactionModal";
 
-  modal.className=
-    "reactionModal";
-
-
-  modal.innerHTML=`
+  modal.innerHTML = `
 
     <div class="reactionListBox">
 
       <div class="reactionListHead">
 
         <span>
-          Reactions
+          Reactions (${users.length})
         </span>
 
-        <button
-          class="reactionClose"
-        >
+        <button class="reactionClose">
           ✕
         </button>
 
       </div>
 
-
       ${
         users.length
+
         ?
 
-        users.map(user=>`
+        users.map(user => `
 
           <div class="reactionPerson">
 
@@ -1567,8 +1563,4 @@ function showReactionUsers(post){
 
         :
 
-        `
-        <div
-          style="
-            padding:30px;
-            text-align:
+        
