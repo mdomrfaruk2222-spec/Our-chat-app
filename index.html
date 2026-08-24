@@ -1508,10 +1508,7 @@ function setReaction(post,type){
 /* ==============================
    SHOW WHO REACTED
 ============================== */
-/* ==============================
-   SHOW WHO REACTED
-============================== */
-
+  
 function showReactionUsers(post){
 
   const users = post.reactionUsers || [];
@@ -1562,5 +1559,675 @@ function showReactionUsers(post){
         `).join("")
 
         :
+ `
+        <div style="
+          padding:30px;
+          text-align:center;
+          color:#65676b
+        ">
+          এখনো কেউ Reaction দেয়নি।
+        </div>
+        `
+      }
 
+    </div>
+
+  `;
+
+  document.body.appendChild(modal);
+
+  modal.querySelector(".reactionClose").onclick =
+    () => modal.remove();
+
+  modal.onclick = e => {
+
+    if(e.target === modal){
+      modal.remove();
+    }
+
+  };
+
+}
+
+
+/* ==============================
+   REACTION ICONS
+============================== */
+
+function getReactionIcons(post){
+
+  const counts =
+    post.reactionCounts || {};
+
+  const icons = [];
+
+  Object.keys(REACTIONS).forEach(type => {
+
+    if((counts[type] || 0) > 0){
+
+      icons.push(REACTIONS[type]);
+
+    }
+
+  });
+
+  return icons.slice(0,3);
+
+}
+
+
+/* ==============================
+   TOTAL REACTIONS
+============================== */
+
+function getReactionTotal(post){
+
+  const counts =
+    post.reactionCounts || {};
+
+  return Object.values(counts)
+    .reduce((a,b)=>a+b,0);
+
+}
+
+
+/* ==============================
+   CURRENT REACTION
+============================== */
+
+function getReactionText(post){
+
+  if(!post.reaction){
+    return "👍 লাইক";
+  }
+
+  return `
+    ${REACTIONS[post.reaction]}
+    ${REACTION_NAMES[post.reaction]}
+  `;
+
+}
+
+
+/* ==============================
+   RENDER POSTS
+============================== */
+
+function renderPosts(){
+
+  const feed =
+    document.getElementById("feed");
+
+  feed.innerHTML = "";
+
+  posts.forEach(post => {
+
+    const article =
+      document.createElement("article");
+
+    article.className = "post";
+
+
+    const icons =
+      getReactionIcons(post);
+
+    const total =
+      getReactionTotal(post);
+
+
+    article.innerHTML = `
+
+      <div class="postHead">
+
+        <div class="user">
+
+          <div class="userAvatar">
+            👤
+          </div>
+
+          <div>
+
+            <div class="userName">
+              আপনার নাম
+            </div>
+
+            <div class="time">
+              ${safe(post.time)} · 🌐
+            </div>
+
+          </div>
+
+        </div>
+
+        <button class="menu">
+          ⋯
+        </button>
+
+      </div>
+
+
+      ${
+        post.text
+
+        ?
+
+        `<div class="postText">
+          ${safe(post.text)}
+        </div>`
+
+        :
+
+        ""
+      }
+
+
+      ${
+        post.image
+
+        ?
+
+        `<img
+          class="postImage"
+          src="${post.image}"
+        >`
+
+        :
+
+        ""
+      }
+
+
+      <!-- REACTION STATS -->
+
+      <div class="stats">
+
+        <div
+          class="reactionStats"
+          title="কে Reaction করেছে দেখুন"
+        >
+
+          <div class="reactionIcons">
+
+            ${
+              icons.map(icon => `
+                <div class="reactionIcon">
+                  ${icon}
+                </div>
+              `).join("")
+            }
+
+          </div>
+
+          ${
+            total > 0
+
+            ?
+
+            `<span class="reactionTotal">
+              ${total}
+            </span>`
+
+            :
+
+            ""
+          }
+
+        </div>
+
+
+        <div>
+
+          ${post.comments.length}
+          মন্তব্য ·
+          ${post.shares}
+          শেয়ার
+
+        </div>
+
+      </div>
+
+
+      <!-- ACTION BUTTONS -->
+
+      <div class="actions">
+
+
+        <!-- REACTION BUTTON -->
+
+        <div class="reactionWrap">
+
+          <button
+            class="likeBtn ${
+              post.reaction
+              ? "liked"
+              : ""
+            }"
+          >
+
+            ${getReactionText(post)}
+
+          </button>
+
+
+          <!-- 7 REACTIONS -->
+
+          <div
+            class="reactionBar"
+            style="display:none"
+          >
+
+            <button
+              data-reaction="like"
+              title="Like"
+            >
+              👍
+            </button>
+
+            <button
+              data-reaction="love"
+              title="Love"
+            >
+              ❤️
+            </button>
+
+            <button
+              data-reaction="care"
+              title="Care"
+            >
+              🤗
+            </button>
+
+            <button
+              data-reaction="haha"
+              title="Haha"
+            >
+              😂
+            </button>
+
+            <button
+              data-reaction="wow"
+              title="Wow"
+            >
+              😮
+            </button>
+
+            <button
+              data-reaction="sad"
+              title="Sad"
+            >
+              😢
+            </button>
+
+            <button
+              data-reaction="angry"
+              title="Angry"
+            >
+              😡
+            </button>
+
+          </div>
+
+        </div>
+
+
+        <button class="commentBtn">
+          💬 মন্তব্য
+        </button>
+
+
+        <button class="shareBtn">
+          ↗ শেয়ার
+        </button>
+
+      </div>
+
+
+      <!-- COMMENTS -->
+
+      <div class="comments">
+
+        ${
+          post.comments.map(c => `
+
+            <div class="comment">
+
+              <b>আপনি</b>
+              &nbsp;
+              ${safe(c)}
+
+            </div>
+
+          `).join("")
+        }
+
+
+        <div class="commentBox">
+
+          <input
+            placeholder="একটি মন্তব্য লিখুন..."
+          >
+
+          <button>
+            ➤
+          </button>
+
+        </div>
+
+      </div>
+
+    `;
+
+
+    feed.appendChild(article);
+
+
+    /* ==========================
+       REACTION ELEMENTS
+    ========================== */
+
+    const reactionWrap =
+      article.querySelector(".reactionWrap");
+
+    const likeBtn =
+      article.querySelector(".likeBtn");
+
+    const reactionBar =
+      article.querySelector(".reactionBar");
+
+
+    let holdTimer = null;
+
+    let holding = false;
+
+
+    /* ==========================
+       SIMPLE CLICK = LIKE
+    ========================== */
+
+    likeBtn.addEventListener(
+      "click",
+      () => {
+
+        /* যদি Hold করা হয়ে থাকে
+           তাহলে Click কাজ করবে না */
+
+        if(holding){
+
+          holding = false;
+
+          return;
+
+        }
+
+        setReaction(post,"like");
+
+      }
+    );
+
+
+    /* ==========================
+       PRESS & HOLD
+    ========================== */
+
+    function startHold(){
+
+      holding = false;
+
+      holdTimer = setTimeout(() => {
+
+        holding = true;
+
+        reactionBar.style.display =
+          "flex";
+
+      },500);
+
+    }
+
+
+    function cancelHold(){
+
+      clearTimeout(holdTimer);
+
+    }
+
+
+    /* Mobile */
+
+    likeBtn.addEventListener(
+      "touchstart",
+      startHold,
+      {passive:true}
+    );
+
+
+    likeBtn.addEventListener(
+      "touchend",
+      cancelHold
+    );
+
+
+    likeBtn.addEventListener(
+      "touchcancel",
+      cancelHold
+    );
+
+
+    /* Computer */
+
+    likeBtn.addEventListener(
+      "mousedown",
+      startHold
+    );
+
+
+    likeBtn.addEventListener(
+      "mouseup",
+      cancelHold
+    );
+
+
+    likeBtn.addEventListener(
+      "mouseleave",
+      cancelHold
+    );
+
+
+    /* ==========================
+       REACTION BAR BUTTON
+    ========================== */
+
+    reactionBar
+      .querySelectorAll("button")
+      .forEach(button => {
+
+        button.onclick = e => {
+
+          e.stopPropagation();
+
+          const type =
+            button.dataset.reaction;
+
+          reactionBar.style.display =
+            "none";
+
+          holding = true;
+
+          setReaction(post,type);
+
+        };
+
+      });
+
+
+    /* ==========================
+       CLICK OUTSIDE
+    ========================== */
+
+    document.addEventListener(
+      "click",
+      e => {
+
+        if(
+          !reactionWrap.contains(e.target)
+        ){
+
+          reactionBar.style.display =
+            "none";
+
+        }
+
+      }
+    );
+
+
+    /* ==========================
+       SHOW REACTION USERS
+    ========================== */
+
+    article
+      .querySelector(".reactionStats")
+      .onclick = () => {
+
+        if(total > 0){
+
+          showReactionUsers(post);
+
+        }
+
+      };
+
+
+    /* ==========================
+       COMMENT
+    ========================== */
+
+    const input =
+      article.querySelector(
+        ".commentBox input"
+      );
+
+    const send =
+      article.querySelector(
+        ".commentBox button"
+      );
+
+
+    function addComment(){
+
+      const value =
+        input.value.trim();
+
+      if(!value)return;
+
+      post.comments.push(value);
+
+      savePosts();
+
+      renderPosts();
+
+    }
+
+
+    send.onclick =
+      addComment;
+
+
+    input.onkeydown = e => {
+
+      if(e.key === "Enter"){
+
+        addComment();
+
+      }
+
+    };
+
+
+    article
+      .querySelector(".commentBtn")
+      .onclick = () => {
+
+        input.focus();
+
+      };
+
+
+    /* ==========================
+       SHARE
+    ========================== */
+
+    article
+      .querySelector(".shareBtn")
+      .onclick = async () => {
+
+        post.shares++;
+
+        savePosts();
+
+        renderPosts();
+
+        try{
+
+          await navigator.clipboard
+            .writeText(location.href);
+
+          alert(
+            "পোস্টের লিংক কপি হয়েছে!"
+          );
+
+        }
+
+        catch{
+
+          alert(
+            "পোস্ট শেয়ার হয়েছে!"
+          );
+
+        }
+
+      };
+
+
+    /* ==========================
+       DELETE POST
+    ========================== */
+
+    article
+      .querySelector(".menu")
+      .onclick = () => {
+
+        if(
+          confirm(
+            "এই পোস্টটি মুছে ফেলবেন?"
+          )
+        ){
+
+          posts =
+            posts.filter(
+              p => p.id !== post.id
+            );
+
+          savePosts();
+
+          renderPosts();
+
+        }
+
+      };
+
+  });
+
+}
+
+
+/* ==============================
+   START
+============================== */
+
+preparePosts();
+
+renderPosts();
+
+renderStories();
         
