@@ -1,1606 +1,56 @@
-<!DOCTYPE html>
-<html lang="bn">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>MySocial</title>
-
-<style>
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0
-}
-
-body{
-  font-family:Arial,"Noto Sans Bengali",sans-serif;
-  background:#f0f2f5;
-  color:#050505;
-  padding-bottom:65px
-}
-
-button{
-  border:0;
-  cursor:pointer;
-  font-family:inherit
-}
-
-/* HEADER */
-
-.header{
-  background:#fff;
-  position:sticky;
-  top:0;
-  z-index:1000;
-  box-shadow:0 1px 4px #ccc
-}
-
-.top{
-  height:62px;
-  display:flex;
-  align-items:center;
-  padding:7px 12px
-}
-
-.logo{
-  color:#1877f2;
-  font-size:30px;
-  font-weight:bold;
-  flex:1
-}
-
-.topBtn{
-  width:43px;
-  height:43px;
-  border-radius:50%;
-  background:#e4e6eb;
-  margin-left:7px;
-  font-size:21px
-}
-
-.nav{
-  height:55px;
-  display:grid;
-  grid-template-columns:repeat(6,1fr);
-  border-top:1px solid #eee
-}
-
-.nav button{
-  position:relative;
-  background:#fff;
-  color:#65676b;
-  font-size:24px
-}
-
-.nav button.active{
-  color:#1877f2
-}
-
-.badge{
-  position:absolute;
-  top:2px;
-  right:12%;
-  background:#e41e3f;
-  color:white;
-  min-width:20px;
-  height:20px;
-  border-radius:20px;
-  font-size:10px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  border:2px solid white
-}
-
-/* MAIN */
-
-.container{
-  max-width:760px;
-  margin:auto
-}
-
-/* COMPOSER */
-
-.composer{
-  background:white;
-  padding:12px;
-  border-bottom:1px solid #ddd
-}
-
-.composerRow{
-  display:flex;
-  align-items:center;
-  gap:9px
-}
-
-.avatar,
-.userAvatar,
-.modalAvatar{
-  width:46px;
-  height:46px;
-  min-width:46px;
-  border-radius:50%;
-  background:#ddd;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:23px
-}
-
-.statusBox{
-  flex:1;
-  height:45px;
-  border-radius:25px;
-  background:#f0f2f5;
-  display:flex;
-  align-items:center;
-  padding:0 16px;
-  color:#65676b;
-  cursor:pointer
-}
-
-.photoBtn{
-  color:#31a24c;
-  background:white;
-  font-size:25px
-}
-
-/* STORIES */
-
-.stories{
-  background:white;
-  padding:12px 0;
-  border-bottom:1px solid #ddd
-}
-
-.storyTitle{
-  font-size:17px;
-  font-weight:bold;
-  padding:0 12px 10px
-}
-
-.storyList{
-  display:flex;
-  gap:8px;
-  overflow-x:auto;
-  padding:0 12px
-}
-
-.story{
-  min-width:108px;
-  height:175px;
-  border-radius:12px;
-  overflow:hidden;
-  position:relative;
-  background:linear-gradient(145deg,#789,#222);
-  cursor:pointer
-}
-
-.storyImage{
-  width:100%;
-  height:100%;
-  object-fit:cover
-}
-
-.storyText{
-  color:white;
-  height:100%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:10px;
-  text-align:center;
-  font-size:18px;
-  font-weight:bold;
-  background:linear-gradient(135deg,#1877f2,#8e44ad)
-}
-
-.story:after{
-  content:"";
-  position:absolute;
-  left:0;
-  right:0;
-  bottom:0;
-  height:55%;
-  background:linear-gradient(transparent,rgba(0,0,0,.8));
-  pointer-events:none
-}
-
-.storyAvatar{
-  position:absolute;
-  top:8px;
-  left:8px;
-  width:40px;
-  height:40px;
-  border-radius:50%;
-  background:white;
-  border:3px solid #1877f2;
-  z-index:2;
-  display:flex;
-  align-items:center;
-  justify-content:center
-}
-
-.storyName{
-  position:absolute;
-  bottom:9px;
-  left:8px;
-  color:white;
-  z-index:3;
-  font-weight:bold;
-  font-size:13px
-}
-
-.createStory{
-  background:white;
-  border:1px solid #ddd
-}
-
-.createImage{
-  height:110px;
-  background:linear-gradient(135deg,#ddd,#aaa)
-}
-
-.plus{
-  position:absolute;
-  top:88px;
-  left:50%;
-  transform:translateX(-50%);
-  width:45px;
-  height:45px;
-  border-radius:50%;
-  background:#1877f2;
-  color:white;
-  border:4px solid white;
-  font-size:28px;
-  z-index:4
-}
-
-.createStory .storyName{
-  color:#222;
-  left:0;
-  right:0;
-  text-align:center
-}
-
-/* FEED */
-
-.feed{
-  padding-top:8px
-}
-
-.post{
-  background:white;
-  margin-bottom:8px
-}
-
-.postHead{
-  padding:12px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between
-}
-
-.user{
-  display:flex;
-  gap:9px;
-  align-items:center
-}
-
-.userAvatar{
-  width:43px;
-  height:43px;
-  min-width:43px
-}
-
-.userName{
-  font-weight:bold
-}
-
-.time{
-  color:#65676b;
-  font-size:12px;
-  margin-top:3px
-}
-
-.menu{
-  font-size:25px;
-  color:#65676b;
-  background:white
-}
-
-.postText{
-  padding:0 13px 12px;
-  font-size:17px;
-  line-height:1.5;
-  white-space:pre-wrap
-}
-
-.postImage{
-  width:100%;
-  max-height:650px;
-  object-fit:contain;
-  background:#f0f2f5;
-  display:block
-}
-
-/* STATS */
-
-.stats{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:8px 13px;
-  color:#65676b;
-  font-size:13px;
-  border-bottom:1px solid #ddd
-}
-
-.reactionStats{
-  display:flex;
-  align-items:center;
-  gap:5px;
-  cursor:pointer
-}
-
-.reactionIcons{
-  display:flex
-}
-
-.reactionIcon{
-  width:20px;
-  height:20px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:15px
-}
-
-/* ACTIONS */
-
-.actions{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  min-height:46px
-}
-
-.actions button{
-  background:white;
-  color:#65676b;
-  font-weight:bold
-}
-
-.actions button:hover{
-  background:#f0f2f5
-}
-
-.liked{
-  color:#1877f2!important
-}
-
-.reactionWrap{
-  position:relative
-}
-
-.reactionBar{
-  position:absolute;
-  left:5px;
-  bottom:48px;
-  background:white;
-  border-radius:30px;
-  padding:7px 9px;
-  box-shadow:0 3px 15px rgba(0,0,0,.25);
-  display:flex;
-  gap:3px;
-  z-index:500
-}
-
-.reactionBar button{
-  width:40px;
-  height:40px;
-  border-radius:50%;
-  background:white;
-  font-size:26px
-}
-
-.reactionBar button:hover{
-  transform:scale(1.25)
-}
-
-/* COMMENTS */
-
-.comments{
-  padding:7px 12px
-}
-
-.comment{
-  background:#f0f2f5;
-  padding:8px 11px;
-  border-radius:17px;
-  margin-bottom:5px;
-  font-size:14px
-}
-
-.commentBox{
-  display:flex;
-  gap:7px;
-  margin-top:7px
-}
-
-.commentBox input{
-  flex:1;
-  border:0;
-  outline:0;
-  background:#f0f2f5;
-  border-radius:20px;
-  padding:10px 14px
-}
-
-.commentBox button{
-  width:40px;
-  height:40px;
-  border-radius:50%;
-  background:#1877f2;
-  color:white
-}
-
-/* MODAL */
-
-.modalBg{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.55);
-  z-index:5000;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:15px
-}
-
-.modal{
-  width:100%;
-  max-width:520px;
-  background:white;
-  border-radius:12px;
-  overflow:hidden
-}
-
-.modalHead{
-  height:58px;
-  border-bottom:1px solid #ddd;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  position:relative
-}
-
-.modalHead h2{
-  font-size:20px
-}
-
-.close{
-  position:absolute;
-  right:10px;
-  width:38px;
-  height:38px;
-  border-radius:50%;
-  background:#e4e6eb;
-  font-size:18px
-}
-
-.modalUser{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  padding:13px
-}
-
-textarea{
-  width:100%;
-  min-height:130px;
-  resize:none;
-  border:0;
-  outline:0;
-  padding:5px 15px;
-  font-size:20px;
-  font-family:inherit
-}
-
-.preview{
-  padding:0 15px 10px
-}
-
-.preview img{
-  width:100%;
-  max-height:300px;
-  object-fit:contain;
-  border-radius:8px
-}
-
-.options{
-  margin:0 15px;
-  border:1px solid #ddd;
-  border-radius:8px;
-  display:flex;
-  align-items:center;
-  padding:5px
-}
-
-.option{
-  flex:1;
-  height:45px;
-  background:white
-}
-
-.publish{
-  width:calc(100% - 30px);
-  margin:15px;
-  height:45px;
-  background:#1877f2;
-  color:white;
-  border-radius:7px;
-  font-size:16px;
-  font-weight:bold
-}
-
-/* REACTION USERS */
-
-.reactionModal{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.55);
-  z-index:10000;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:15px
-}
-
-.reactionListBox{
-  width:100%;
-  max-width:430px;
-  max-height:75vh;
-  overflow:auto;
-  background:white;
-  border-radius:14px
-}
-
-.reactionListHead{
-  padding:16px;
-  border-bottom:1px solid #ddd;
-  font-size:19px;
-  font-weight:bold;
-  display:flex;
-  justify-content:space-between
-}
-
-.reactionClose{
-  width:35px;
-  height:35px;
-  border-radius:50%;
-  background:#e4e6eb
-}
-
-.reactionPerson{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  padding:12px 16px
-}
-
-.reactionPersonAvatar{
-  width:42px;
-  height:42px;
-  border-radius:50%;
-  background:#e4e6eb;
-  display:flex;
-  align-items:center;
-  justify-content:center
-}
-
-.reactionPersonName{
-  flex:1;
-  font-weight:bold
-}
-
-.reactionPersonType{
-  font-size:23px
-}
-
-/* STORY VIEWER */
-
-.storyViewer{
-  position:fixed;
-  inset:0;
-  background:#000;
-  z-index:9000;
-  display:flex;
-  align-items:center;
-  justify-content:center
-}
-
-.viewerBox{
-  width:100%;
-  height:100%;
-  max-width:500px;
-  position:relative;
-  background:#111;
-  display:flex;
-  align-items:center;
-  justify-content:center
-}
-
-.viewerImage{
-  width:100%;
-  height:100%;
-  object-fit:contain
-}
-
-.viewerText{
-  color:white;
-  font-size:28px;
-  text-align:center;
-  padding:30px
-}
-
-.viewerTop{
-  position:absolute;
-  top:0;
-  left:0;
-  right:0;
-  height:65px;
-  background:linear-gradient(#0009,transparent);
-  display:flex;
-  align-items:center;
-  padding:10px 14px;
-  color:white;
-  z-index:3
-}
-
-.viewerUser{
-  flex:1;
-  font-weight:bold
-}
-
-.viewerClose,
-.viewerDelete{
-  color:white;
-  background:transparent;
-  font-size:23px;
-  margin-left:15px
-}
-
-/* BOTTOM */
-
-.bottom{
-  position:fixed;
-  display:grid;
-  grid-template-columns:repeat(5,1fr);
-  bottom:0;
-  left:0;
-  right:0;
-  height:60px;
-  background:white;
-  border-top:1px solid #ddd;
-  z-index:3000
-}
-
-.bottom button{
-  background:white;
-  font-size:22px;
-  color:#65676b
-}
-
-.bottom button.active{
-  color:#1877f2
-}
-
-@media(max-width:760px){
-
-  .modalBg{
-    align-items:flex-end;
-    padding:0
-  }
-
-  .modal{
-    border-radius:15px 15px 0 0;
-    max-height:92vh;
-    overflow:auto
-  }
-
-  .reactionBar{
-    left:0;
-    max-width:98vw
-  }
-}
-</style>
-</head>
-
-<body>
-
-<header class="header">
-
-  <div class="top">
-    <div class="logo">MySocial</div>
-
-    <button class="topBtn" onclick="openPost()">＋</button>
-    <button class="topBtn">⌕</button>
-    <button class="topBtn">☰</button>
-  </div>
-
-  <nav class="nav">
-    <button class="active">⌂</button>
-    <button>👥</button>
-    <button>💬<span class="badge">2</span></button>
-    <button>▶<span class="badge">15+</span></button>
-    <button>🔔<span class="badge">2</span></button>
-    <button>☰</button>
-  </nav>
-
-</header>
-
-<div class="container">
-
-  <!-- COMPOSER -->
-
-  <section class="composer">
-
-    <div class="composerRow">
-
-      <div class="avatar">👤</div>
-
-      <div class="statusBox" id="openComposer">
-        একটি স্ট্যাটাস আপডেট পোস্ট করুন
-      </div>
-
-      <button class="photoBtn" id="photoDirect">
-        🖼️
-      </button>
-
-    </div>
-
-  </section>
-
-  <!-- STORIES -->
-
-  <section class="stories">
-
-    <div class="storyTitle">Stories</div>
-
-    <div class="storyList" id="storyList">
-
-      <div class="story createStory" id="createStory">
-
-        <div class="createImage"></div>
-
-        <button class="plus">+</button>
-
-        <div class="storyName">
-          স্টোরি তৈরি করুন
-        </div>
-
-      </div>
-
-      <div class="story">
-
-        <div class="storyAvatar">👤</div>
-
-        <div class="storyName">
-          Nice Gallery
-        </div>
-
-      </div>
-
-      <div class="story">
-
-        <div class="storyAvatar">👤</div>
-
-        <div class="storyName">
-          MD Hasan
-        </div>
-
-      </div>
-
-      <div class="story">
-
-        <div class="storyAvatar">👤</div>
-
-        <div class="storyName">
-          AB Media
-        </div>
-
-      </div>
-
-    </div>
-
-  </section>
-
-  <main class="feed" id="feed"></main>
-
-</div>
-
-<nav class="bottom">
-
-  <button class="active">⌂</button>
-  <button>👥</button>
-  <button>▶</button>
-  <button>🔔</button>
-  <button>☰</button>
-
-</nav>
-
 <script>
 
-/* ==================================================
-   DATA
-================================================== */
-
-let posts =
-  JSON.parse(localStorage.getItem("socialPosts") || "[]");
-
-let stories =
-  JSON.parse(localStorage.getItem("socialStories") || "[]");
-
-let selectedImage = null;
-
-
-/* ==================================================
-   REACTIONS
-================================================== */
-
-const REACTIONS = {
-
-  like:"👍",
-  love:"❤️",
-  care:"🤗",
-  haha:"😂",
-  wow:"😮",
-  sad:"😢",
-  angry:"😡"
-
-};
-
-
-/* ==================================================
-   SAVE
-================================================== */
-
-function savePosts(){
-
-  localStorage.setItem(
-    "socialPosts",
-    JSON.stringify(posts)
-  );
-
-}
-
-function saveStories(){
-
-  localStorage.setItem(
-    "socialStories",
-    JSON.stringify(stories)
-  );
-
-}
-
-
-/* ==================================================
-   SAFE TEXT
-================================================== */
-
-function safe(text){
-
-  const div = document.createElement("div");
-
-  div.textContent = text || "";
-
-  return div.innerHTML;
-
-}
-
-
-/* ==================================================
-   PREPARE OLD DATA
-================================================== */
-
-function prepareData(){
-
-  posts.forEach(post=>{
-
-    if(!post.reactionUsers)
-      post.reactionUsers=[];
-
-    if(!post.reactionCounts){
-
-      post.reactionCounts={
-        like:0,
-        love:0,
-        care:0,
-        haha:0,
-        wow:0,
-        sad:0,
-        angry:0
-      };
-
-    }
-
-    if(!post.comments)
-      post.comments=[];
-
-    if(post.shares===undefined)
-      post.shares=0;
-
-    if(post.liked && !post.reaction){
-
-      post.reaction="like";
-
-      if(post.reactionUsers.length===0){
-
-        post.reactionUsers.push({
-          name:"আপনি",
-          reaction:"like"
-        });
-
-      }
-
-    }
-
-  });
-
-  savePosts();
-
-}
-
-
-/* ==================================================
-   POST MODAL
-================================================== */
-
-document
-.getElementById("openComposer")
-.onclick=openPost;
-
-document
-.getElementById("photoDirect")
-.onclick=openPost;
-
-
-function openPost(){
-
-  selectedImage=null;
-
-  const modal =
-    document.createElement("div");
-
-  modal.className="modalBg";
-
-  modal.innerHTML=`
-
-    <div class="modal">
-
-      <div class="modalHead">
-
-        <h2>পোস্ট তৈরি করুন</h2>
-
-        <button
-          class="close"
-          id="closeModal">
-          ✕
-        </button>
-
-      </div>
-
-      <div class="modalUser">
-
-        <div class="modalAvatar">
-          👤
-        </div>
-
-        <div>
-          <b>আপনার নাম</b>
-
-          <div style="font-size:12px;color:#65676b">
-            🌐 সবাই
-          </div>
-
-        </div>
-
-      </div>
-
-      <textarea
-        id="postText"
-        placeholder="আপনি কী ভাবছেন?">
-      </textarea>
-
-      <div
-        class="preview"
-        id="preview">
-      </div>
-
-      <div class="options">
-
-        <label class="option">
-
-          🖼️ ফটো/ভিডিও
-
-          <input
-            type="file"
-            id="imageInput"
-            accept="image/*"
-            hidden>
-
-        </label>
-
-        <button
-          class="option">
-          😊 অনুভূতি
-        </button>
-
-        <button
-          class="option">
-          📍 লোকেশন
-        </button>
-
-      </div>
-
-      <button
-        class="publish"
-        id="publish">
-        পোস্ট করুন
-      </button>
-
-    </div>
-  `;
-
-  document.body.appendChild(modal);
-
-  document
-  .getElementById("closeModal")
-  .onclick=()=>modal.remove();
-
-  document
-  .getElementById("imageInput")
-  .onchange=handlePostImage;
-
-  document
-  .getElementById("publish")
-  .onclick=createPost;
-}
-
-
-/* ==================================================
-   IMAGE
-================================================== */
-
-function handlePostImage(e){
-
-  const file=e.target.files[0];
-
-  if(!file)return;
-
-  const reader=new FileReader();
-
-  reader.onload=()=>{
-
-    selectedImage=reader.result;
-
-    document
-    .getElementById("preview")
-    .innerHTML=
-      `<img src="${selectedImage}">`;
-
-  };
-
-  reader.readAsDataURL(file);
-}
-
-
-/* ==================================================
-   CREATE POST
-================================================== */
-
-function createPost(){
-
-  const text=
-    document
-    .getElementById("postText")
-    .value
-    .trim();
-
-  if(!text && !selectedImage){
-
-    alert("কিছু লিখুন অথবা ছবি দিন।");
-
-    return;
-
-  }
-
-  posts.unshift({
-
-    id:Date.now(),
-
-    name:"আপনার নাম",
-
-    text:text,
-
-    image:selectedImage,
-
-    time:"এইমাত্র",
-
-    reaction:null,
-
-    reactionUsers:[],
-
-    reactionCounts:{
-      like:0,
-      love:0,
-      care:0,
-      haha:0,
-      wow:0,
-      sad:0,
-      angry:0
-    },
-
-    comments:[],
-
-    shares:0
-
-  });
-
-  savePosts();
-
-  document
-  .querySelector(".modalBg")
-  .remove();
-
-  selectedImage=null;
-
-  renderPosts();
-}
-
-
-/* ==================================================
-   REACTION
-================================================== */
-
-function setReaction(postId,type){
-
-  const post=
-    posts.find(p=>p.id==postId);
-
-  if(!post)return;
-
-  if(!post.reactionUsers)
-    post.reactionUsers=[];
-
-  const old=post.reaction;
-
-  post.reactionUsers=
-    post.reactionUsers.filter(
-      u=>u.name!=="আপনি"
-    );
-
-  if(old!==type){
-
-    post.reaction=type;
-
-    post.reactionUsers.push({
-
-      name:"আপনি",
-
-      reaction:type
-
-    });
-
-  }else{
-
-    post.reaction=null;
-
-  }
-
-  post.reactionCounts={
-
-    like:0,
-    love:0,
-    care:0,
-    haha:0,
-    wow:0,
-    sad:0,
-    angry:0
-
-  };
-
-  post.reactionUsers.forEach(user=>{
-
-    if(post.reactionCounts[user.reaction]!==undefined){
-
-      post.reactionCounts[user.reaction]++;
-
-    }
-
-  });
-
-  savePosts();
-
-  renderPosts();
-}
-
-
-/* ==================================================
-   REACTION USERS
-================================================== */
-
-function showReactionUsers(postId){
-
-  const post=
-    posts.find(p=>p.id==postId);
-
-  if(!post)return;
-
-  const users=post.reactionUsers || [];
-
-  const modal=
-    document.createElement("div");
-
-  modal.className="reactionModal";
-
-  modal.innerHTML=`
-
-    <div class="reactionListBox">
-
-      <div class="reactionListHead">
-
-        <span>Reactions</span>
-
-        <button
-          class="reactionClose">
-          ✕
-        </button>
-
-      </div>
-
-      ${
-        users.length
-
-        ?
-
-        users.map(user=>`
-
-          <div class="reactionPerson">
-
-            <div class="reactionPersonAvatar">
-              👤
-            </div>
-
-            <div class="reactionPersonName">
-              ${safe(user.name)}
-            </div>
-
-            <div class="reactionPersonType">
-              ${REACTIONS[user.reaction]}
-            </div>
-
-          </div>
-
-        `).join("")
-
-        :
-
-        `<div style="padding:30px;text-align:center">
-          এখনো কোনো Reaction নেই
-        </div>`
-      }
-
-    </div>
-  `;
-
-  document.body.appendChild(modal);
-
-  modal
-  .querySelector(".reactionClose")
-  .onclick=()=>modal.remove();
-
-  modal.onclick=e=>{
-
-    if(e.target===modal)
-      modal.remove();
-
-  };
-}
-
-
-/* ==================================================
-   REACTION BAR
-================================================== */
-
-function toggleReactionBar(id){
-
-  document
-  .querySelectorAll(".reactionBar")
-  .forEach(bar=>{
-
-    if(bar.dataset.id!=id)
-      bar.remove();
-
-  });
-
-  const old=
-    document.querySelector(
-      `.reactionBar[data-id="${id}"]`
-    );
-
-  if(old){
-
-    old.remove();
-
-    return;
-
-  }
-
-  const wrap=
-    document.querySelector(
-      `.reactionWrap[data-id="${id}"]`
-    );
-
-  if(!wrap)return;
-
-  const bar=
-    document.createElement("div");
-
-  bar.className="reactionBar";
-
-  bar.dataset.id=id;
-
-  Object.keys(REACTIONS).forEach(type=>{
-
-    const btn=
-      document.createElement("button");
-
-    btn.textContent=REACTIONS[type];
-
-    btn.onclick=e=>{
-
-      e.stopPropagation();
-
-      setReaction(id,type);
-
-    };
-
-    bar.appendChild(btn);
-
-  });
-
-  wrap.appendChild(bar);
-}
-
-
-/* ==============================
-   COMMENTS
-============================== */
-
-function addComment(postId,input){
-
-  const text=input.value.trim();
-
-  if(!text)return;
-
-  const post=posts.find(
-    p=>p.id===postId
-  );
-
-  if(!post)return;
-
-  if(!post.comments){
-    post.comments=[];
-  }
-
-  post.comments.push({
-    id:Date.now(),
-    name:"আপনি",
-    text:text
-  });
-
-  savePosts();
-
-  input.value="";
-
-  renderPosts();
-}
-
-
-/* ==============================
-   SHARE
-============================== */
-
-function sharePost(postId){
-
-  const post=posts.find(
-    p=>p.id===postId
-  );
-
-  if(!post)return;
-
-  post.shares=(post.shares||0)+1;
-
-  savePosts();
-
-  if(navigator.share){
-
-    navigator.share({
-      title:"MySocial",
-      text:post.text||"একটি পোস্ট দেখুন"
-    }).catch(()=>{});
-
-  }else{
-
-    alert(
-      "পোস্ট শেয়ার করা হয়েছে। মোট শেয়ার: "+
-      post.shares
-    );
-
-  }
-
-  renderPosts();
-}
-
-
-/* ==============================
-   REACTION BAR
-============================== */
-
-function toggleReactionBar(postId){
-
-  const bar=
-    document.querySelector(
-      `[data-reaction="${postId}"]`
-    );
-
-  if(!bar)return;
-
-  document
-    .querySelectorAll(".reactionBar")
-    .forEach(x=>{
-
-      if(x!==bar){
-        x.remove();
-      }
-
-    });
-
-}
-
-
-/* ==============================
-   RENDER POSTS
-============================== */
+/* =========================
+   COMMENT + SHARE + STORY
+   WORKING VERSION
+========================= */
 
 function renderPosts(){
 
-  const feed=
-    document.getElementById("feed");
+  const feed=document.getElementById("feed");
 
-  feed.innerHTML="";
+  if(!posts.length){
 
-  posts.forEach(post=>{
+    feed.innerHTML=`
+      <div style="
+        background:#fff;
+        padding:30px;
+        text-align:center;
+        color:#65676b;
+      ">
+        এখনো কোনো পোস্ট নেই।
+      </div>
+    `;
 
-    if(!post.comments){
-      post.comments=[];
-    }
+    return;
+  }
 
-    if(!post.reactionUsers){
-      post.reactionUsers=[];
-    }
+  feed.innerHTML=posts.map(post=>{
 
-    if(!post.reactionCounts){
+    const counts=post.reactionCounts||{
+      like:0,love:0,care:0,haha:0,wow:0,sad:0,angry:0
+    };
 
-      post.reactionCounts={
-        like:0,
-        love:0,
-        care:0,
-        haha:0,
-        wow:0,
-        sad:0,
-        angry:0
-      };
+    const users=post.reactionUsers||[];
 
-    }
+    const total=Object.values(counts)
+      .reduce((a,b)=>a+b,0);
 
-    let totalReactions=0;
+    const icons=Object.keys(counts)
+      .filter(k=>counts[k]>0)
+      .slice(0,3)
+      .map(k=>`
+        <span class="reactionIcon">
+          ${REACTIONS[k]}
+        </span>
+      `)
+      .join("");
 
-    Object.values(
-      post.reactionCounts
-    ).forEach(count=>{
-      totalReactions+=count;
-    });
+    const comments=post.comments||[];
 
+    return `
 
-    /* reaction icons */
-
-    let icons="";
-
-    Object.keys(
-      post.reactionCounts
-    ).forEach(type=>{
-
-      if(
-        post.reactionCounts[type]>0
-      ){
-
-        icons+=`
-          <span class="reactionIcon">
-            ${REACTIONS[type]}
-          </span>
-        `;
-
-      }
-
-    });
-
-
-    /* image */
-
-    const imageHTML=
-      post.image
-      ?
-      `
-      <img
-        class="postImage"
-        src="${post.image}"
-      >
-      `
-      :
-      "";
-
-
-    /* comments */
-
-    let commentsHTML="";
-
-    post.comments.forEach(comment=>{
-
-      commentsHTML+=`
-
-        <div class="comment">
-
-          <b>
-            ${safe(comment.name)}
-          </b>
-
-          <div>
-            ${safe(comment.text)}
-          </div>
-
-        </div>
-
-      `;
-
-    });
-
-
-    /* current reaction */
-
-    const currentReaction=
-      post.reaction
-      ?
-      REACTIONS[post.reaction]
-      :
-      "👍";
-
-
-    const reactionClass=
-      post.reaction
-      ?
-      "liked"
-      :
-      "";
-
-
-    const postHTML=`
-
-      <article
-        class="post"
-        data-post-id="${post.id}"
-      >
+      <article class="post">
 
         <div class="postHead">
 
@@ -1634,73 +84,75 @@ function renderPosts(){
         ${
           post.text
           ?
-          `
-          <div class="postText">
+          `<div class="postText">
             ${safe(post.text)}
-          </div>
-          `
+          </div>`
           :
           ""
         }
 
 
-        ${imageHTML}
+        ${
+          post.image
+          ?
+          `<img
+            class="postImage"
+            src="${post.image}"
+            alt="Post image"
+          >`
+          :
+          ""
+        }
 
 
-        <!-- STATS -->
+        <!-- REACTION STATS -->
 
-        <div class="stats">
+        ${
+          total>0
+          ?
+          `
+          <div class="stats">
 
-          <div
-            class="reactionStats"
-            onclick="showReactionUsers(
-              posts.find(p=>p.id===${post.id})
-            )"
-          >
+            <div
+              class="reactionStats"
+              onclick="showReactionUsers(
+                posts.find(p=>p.id===${post.id})
+              )"
+            >
 
-            <div class="reactionIcons">
+              <div class="reactionIcons">
+                ${icons}
+              </div>
 
-              ${icons || "👍"}
+              <span class="reactionTotal">
+                ${total}
+              </span>
 
             </div>
 
-            ${
-              totalReactions
-              ?
-              `
-              <span class="reactionTotal">
-                ${totalReactions}
-              </span>
-              `
-              :
-              ""
-            }
+            <div>
+              ${(comments.length||0)} মন্তব্য
+              ·
+              ${(post.shares||0)} শেয়ার
+            </div>
 
           </div>
+          `
+          :
+          `
+          <div class="stats">
 
+            <div></div>
 
-          <div>
-
-            ${
-              post.comments.length
-              ?
-              post.comments.length+
-              " কমেন্ট"
-              :
-              ""
-            }
-
-            ${
-              post.shares
-              ?
-              " · "+post.shares+" শেয়ার"
-              :
-              ""
-            }
+            <div>
+              ${(comments.length||0)} মন্তব্য
+              ·
+              ${(post.shares||0)} শেয়ার
+            </div>
 
           </div>
-
-        </div>
+          `
+        }
 
 
         <!-- ACTIONS -->
@@ -1708,47 +160,37 @@ function renderPosts(){
         <div class="actions">
 
 
-          <!-- LIKE / REACTION -->
+          <!-- REACTION -->
 
           <div class="reactionWrap">
 
             <button
-              class="likeBtn ${reactionClass}"
+              class="likeBtn ${
+                post.reaction
+                ? "liked"
+                : ""
+              }"
               onclick="
-                const p=posts.find(
-                  x=>x.id===${post.id}
-                );
-
-                setReaction(
-                  p,
-                  p.reaction
-                  ?
-                  p.reaction
-                  :
-                  'like'
-                );
+                toggleReactionBar(${post.id})
               "
               oncontextmenu="
                 event.preventDefault();
-
-                const p=posts.find(
-                  x=>x.id===${post.id}
-                );
-
-                showReactionBar(
-                  ${post.id}
-                );
+                toggleReactionBar(${post.id});
               "
             >
-
-              ${currentReaction}
 
               ${
                 post.reaction
                 ?
-                REACTION_NAMES[
-                  post.reaction
-                ]
+                REACTIONS[post.reaction]
+                :
+                "👍"
+              }
+
+              ${
+                post.reaction
+                ?
+                REACTION_NAMES[post.reaction]
                 :
                 "লাইক"
               }
@@ -1757,8 +199,8 @@ function renderPosts(){
 
 
             <div
+              id="reactionBar-${post.id}"
               class="reactionBar"
-              id="reaction-${post.id}"
               style="display:none"
             >
 
@@ -1769,23 +211,18 @@ function renderPosts(){
                   <button
                     onclick="
                       setReaction(
-                        posts.find(
-                          p=>p.id===${post.id}
-                        ),
+                        posts.find(p=>p.id===${post.id}),
                         '${type}'
                       );
-                      document
-                        .getElementById(
-                          'reaction-${post.id}'
-                        )
-                        .style.display='none';
+                      event.stopPropagation();
                     "
                     title="${REACTION_NAMES[type]}"
                   >
                     ${REACTIONS[type]}
                   </button>
 
-                `).join("")
+                `)
+                .join("")
               }
 
             </div>
@@ -1797,14 +234,10 @@ function renderPosts(){
 
           <button
             onclick="
-              document
-                .getElementById(
-                  'commentInput-${post.id}'
-                )
-                .focus()
+              focusComment(${post.id})
             "
           >
-            💬 কমেন্ট
+            💬 মন্তব্য
           </button>
 
 
@@ -1826,33 +259,41 @@ function renderPosts(){
 
         <div class="comments">
 
-          ${commentsHTML}
+          ${
+            comments.map((comment,index)=>`
+
+              <div class="comment">
+
+                <b>
+                  ${safe(comment.name||"আপনি")}
+                </b>
+
+                <br>
+
+                ${safe(comment.text)}
+
+              </div>
+
+            `).join("")
+          }
 
 
           <div class="commentBox">
 
             <input
-              id="commentInput-${post.id}"
+              id="comment-${post.id}"
               type="text"
-              placeholder="কমেন্ট লিখুন..."
+              placeholder="মন্তব্য লিখুন..."
               onkeydown="
                 if(event.key==='Enter'){
-                  addComment(
-                    ${post.id},
-                    this
-                  );
+                  addComment(${post.id});
                 }
               "
             >
 
             <button
               onclick="
-                addComment(
-                  ${post.id},
-                  document.getElementById(
-                    'commentInput-${post.id}'
-                  )
-                )
+                addComment(${post.id})
               "
             >
               ➤
@@ -1866,68 +307,63 @@ function renderPosts(){
 
     `;
 
-
-    feed.insertAdjacentHTML(
-      "beforeend",
-      postHTML
-    );
-
-  });
+  }).join("");
 
 }
 
 
-/* ==============================
-   SHOW REACTION BAR
-============================== */
+/* =========================
+   REACTION BAR
+========================= */
 
-function showReactionBar(postId){
+function toggleReactionBar(id){
 
   document
     .querySelectorAll(".reactionBar")
     .forEach(bar=>{
 
-      bar.style.display="none";
+      if(bar.id!=="reactionBar-"+id){
+
+        bar.style.display="none";
+
+      }
 
     });
 
 
   const bar=
     document.getElementById(
-      "reaction-"+postId
+      "reactionBar-"+id
     );
 
-  if(bar){
+  if(!bar)return;
 
-    bar.style.display="flex";
-
-  }
+  bar.style.display=
+    bar.style.display==="none"
+    ?
+    "flex"
+    :
+    "none";
 
 }
 
 
-/* ==============================
+/* =========================
    CLOSE REACTION BAR
-============================== */
+========================= */
 
 document.addEventListener(
   "click",
   function(e){
 
     if(
-      !e.target.closest(
-        ".reactionWrap"
-      )
+      !e.target.closest(".reactionWrap")
     ){
 
       document
-        .querySelectorAll(
-          ".reactionBar"
-        )
+        .querySelectorAll(".reactionBar")
         .forEach(bar=>{
-
           bar.style.display="none";
-
         });
 
     }
@@ -1936,22 +372,268 @@ document.addEventListener(
 );
 
 
-/* ==============================
-   STORY CREATOR
-============================== */
+/* =========================
+   ADD COMMENT
+========================= */
+
+function addComment(id){
+
+  const post=
+    posts.find(p=>p.id===id);
+
+  if(!post)return;
+
+
+  if(!post.comments){
+
+    post.comments=[];
+
+  }
+
+
+  const input=
+    document.getElementById(
+      "comment-"+id
+    );
+
+  if(!input)return;
+
+
+  const text=input.value.trim();
+
+  if(!text)return;
+
+
+  post.comments.push({
+
+    id:Date.now(),
+
+    name:"আপনি",
+
+    text:text,
+
+    time:"এইমাত্র"
+
+  });
+
+
+  savePosts();
+
+  renderPosts();
+
+
+  setTimeout(()=>{
+
+    focusComment(id);
+
+  },100);
+
+}
+
+
+/* =========================
+   FOCUS COMMENT
+========================= */
+
+function focusComment(id){
+
+  const input=
+    document.getElementById(
+      "comment-"+id
+    );
+
+  if(input){
+
+    input.focus();
+
+    input.scrollIntoView({
+      behavior:"smooth",
+      block:"center"
+    });
+
+  }
+
+}
+
+
+/* =========================
+   SHARE
+========================= */
+
+function sharePost(id){
+
+  const post=
+    posts.find(p=>p.id===id);
+
+  if(!post)return;
+
+
+  post.shares=
+    (post.shares||0)+1;
+
+
+  savePosts();
+
+  renderPosts();
+
+
+  if(
+    navigator.share
+  ){
+
+    navigator.share({
+
+      title:"MySocial পোস্ট",
+
+      text:
+        post.text||
+        "MySocial থেকে একটি পোস্ট"
+
+    }).catch(()=>{});
+
+  }
+
+  else{
+
+    alert(
+      "পোস্ট শেয়ার হয়েছে ✅"
+    );
+
+  }
+
+}
+
+
+/* =========================
+   REACTION USERS MODAL
+========================= */
+
+function showReactionUsers(post){
+
+  if(!post)return;
+
+
+  const users=
+    post.reactionUsers||[];
+
+
+  const modal=
+    document.createElement("div");
+
+  modal.className=
+    "reactionModal";
+
+
+  modal.innerHTML=`
+
+    <div class="reactionListBox">
+
+      <div class="reactionListHead">
+
+        <span>
+          Reactions (${users.length})
+        </span>
+
+        <button
+          class="reactionClose"
+          id="reactionCloseBtn"
+        >
+          ✕
+        </button>
+
+      </div>
+
+
+      ${
+        users.length
+        ?
+
+        users.map(user=>`
+
+          <div class="reactionPerson">
+
+            <div class="reactionPersonAvatar">
+              👤
+            </div>
+
+            <div class="reactionPersonName">
+
+              ${safe(user.name)}
+
+              <div style="
+                font-size:12px;
+                color:#65676b;
+                font-weight:normal
+              ">
+                ${REACTION_NAMES[user.reaction]}
+              </div>
+
+            </div>
+
+            <div class="reactionPersonType">
+              ${REACTIONS[user.reaction]}
+            </div>
+
+          </div>
+
+        `).join("")
+
+        :
+
+        `
+        <div style="
+          padding:35px;
+          text-align:center;
+          color:#65676b;
+        ">
+          এখনো কেউ Reaction দেয়নি।
+        </div>
+        `
+      }
+
+    </div>
+
+  `;
+
+
+  document.body.appendChild(modal);
+
+
+  document
+    .getElementById("reactionCloseBtn")
+    .onclick=()=>{
+      modal.remove();
+    };
+
+
+  modal.onclick=e=>{
+
+    if(e.target===modal){
+
+      modal.remove();
+
+    }
+
+  };
+
+}
+
+
+/* =========================
+   CREATE STORY
+========================= */
+
+let selectedStoryImage=null;
+
 
 document
   .getElementById("createStory")
   .onclick=openStory;
 
 
-/* ==============================
-   OPEN STORY
-============================== */
-
 function openStory(){
 
-  let selectedStoryImage=null;
+  selectedStoryImage=null;
 
 
   const modal=
@@ -1986,9 +668,20 @@ function openStory(){
           👤
         </div>
 
-        <b>
-          আপনার স্টোরি
-        </b>
+        <div>
+
+          <b>
+            আপনার স্টোরি
+          </b>
+
+          <div style="
+            font-size:12px;
+            color:#65676b
+          ">
+            ২৪ ঘণ্টা দেখা যাবে
+          </div>
+
+        </div>
 
       </div>
 
@@ -2027,7 +720,7 @@ function openStory(){
         class="publish"
         id="publishStory"
       >
-        স্টোরি পোস্ট করুন
+        স্টোরিতে যোগ করুন
       </button>
 
     </div>
@@ -2047,93 +740,118 @@ function openStory(){
 
   document
     .getElementById("storyImage")
-    .onchange=function(e){
-
-      const file=e.target.files[0];
-
-      if(!file)return;
-
-      const reader=
-        new FileReader();
-
-      reader.onload=()=>{
-
-        selectedStoryImage=
-          reader.result;
-
-        document
-          .getElementById(
-            "storyPreview"
-          )
-          .innerHTML=`
-
-            <img
-              src="${selectedStoryImage}"
-            >
-
-          `;
-
-      };
-
-      reader.readAsDataURL(file);
-
-    };
+    .onchange=handleStoryImage;
 
 
   document
     .getElementById("publishStory")
-    .onclick=()=>{
-
-      const text=
-        document
-          .getElementById(
-            "storyText"
-          )
-          .value
-          .trim();
-
-
-      if(
-        !text &&
-        !selectedStoryImage
-      ){
-
-        alert(
-          "স্টোরিতে কিছু লিখুন অথবা ছবি দিন।"
-        );
-
-        return;
-
-      }
-
-
-      stories.unshift({
-
-        id:Date.now(),
-
-        text:text,
-
-        image:selectedStoryImage,
-
-        time:"এইমাত্র"
-
-      });
-
-
-      saveStories();
-
-      modal.remove();
-
-      renderStories();
-
-    };
+    .onclick=createStory;
 
 }
 
 
-/* ==============================
+/* =========================
+   STORY IMAGE
+========================= */
+
+function handleStoryImage(e){
+
+  const file=e.target.files[0];
+
+  if(!file)return;
+
+
+  const reader=
+    new FileReader();
+
+
+  reader.onload=()=>{
+
+    selectedStoryImage=
+      reader.result;
+
+
+    document
+      .getElementById("storyPreview")
+      .innerHTML=`
+
+        <img
+          src="${selectedStoryImage}"
+        >
+
+      `;
+
+  };
+
+
+  reader.readAsDataURL(file);
+
+}
+
+
+/* =========================
+   CREATE STORY
+========================= */
+
+function createStory(){
+
+  const text=
+    document
+      .getElementById("storyText")
+      .value
+      .trim();
+
+
+  if(!text&&!selectedStoryImage){
+
+    alert(
+      "স্টোরিতে লেখা অথবা ছবি দিন।"
+    );
+
+    return;
+
+  }
+
+
+  stories.unshift({
+
+    id:Date.now(),
+
+    text:text,
+
+    image:selectedStoryImage,
+
+    name:"আপনি",
+
+    time:"এইমাত্র"
+
+  });
+
+
+  saveStories();
+
+
+  const modal=
+    document.querySelector(".modalBg");
+
+  if(modal){
+
+    modal.remove();
+
+  }
+
+
+  selectedStoryImage=null;
+
+
+  renderStories();
+
+}
+
+
+/* =========================
    RENDER STORIES
-============================== */
+========================= */
 
 function renderStories(){
 
@@ -2143,7 +861,11 @@ function renderStories(){
     );
 
 
-  const createStoryHTML=`
+  const myStories=
+    stories||[];
+
+
+  list.innerHTML=`
 
     <div
       class="story createStory"
@@ -2162,51 +884,45 @@ function renderStories(){
 
     </div>
 
+
+    ${
+      myStories.map(story=>`
+
+        <div
+          class="story"
+          onclick="
+            openStoryViewer(
+              ${story.id}
+            )
+          "
+          style="
+            background-image:
+              ${
+                story.image
+                ?
+                `url('${story.image}')`
+                :
+                "linear-gradient(145deg,#1877f2,#111)"
+              };
+            background-size:cover;
+            background-position:center;
+          "
+        >
+
+          <div class="storyAvatar">
+            👤
+          </div>
+
+          <div class="storyName">
+            ${safe(story.name||"আপনি")}
+          </div>
+
+        </div>
+
+      `).join("")
+    }
+
   `;
-
-
-  let html=createStoryHTML;
-
-
-  stories.forEach(story=>{
-
-    html+=`
-
-      <div
-        class="story"
-        onclick="
-          openStoryViewer(
-            ${story.id}
-          )
-        "
-        style="
-          background:
-          ${
-            story.image
-            ?
-            `url('${story.image}') center/cover`
-            :
-            "linear-gradient(145deg,#1877f2,#111)"
-          }
-        "
-      >
-
-        <div class="storyAvatar">
-          👤
-        </div>
-
-        <div class="storyName">
-          আপনার স্টোরি
-        </div>
-
-      </div>
-
-    `;
-
-  });
-
-
-  list.innerHTML=html;
 
 
   document
@@ -2216,16 +932,14 @@ function renderStories(){
 }
 
 
-/* ==============================
+/* =========================
    STORY VIEWER
-============================== */
+========================= */
 
 function openStoryViewer(id){
 
   const story=
-    stories.find(
-      s=>s.id===id
-    );
+    stories.find(s=>s.id===id);
 
   if(!story)return;
 
@@ -2244,27 +958,30 @@ function openStoryViewer(id){
       <div class="viewerTop">
 
         <div class="viewerUser">
-          আপনার স্টোরি · ${safe(story.time)}
+          ${safe(story.name)}
+          <div style="
+            font-size:11px;
+            font-weight:normal
+          ">
+            ${safe(story.time)}
+          </div>
         </div>
+
 
         <button
           class="viewerDelete"
           onclick="
-            deleteStory(${story.id});
-            this.closest(
-              '.storyViewer'
-            ).remove();
+            deleteStory(${story.id})
           "
         >
           🗑️
         </button>
 
+
         <button
           class="viewerClose"
           onclick="
-            this.closest(
-              '.storyViewer'
-            ).remove()
+            this.closest('.storyViewer').remove()
           "
         >
           ✕
@@ -2283,26 +1000,15 @@ function openStoryViewer(id){
         >
         `
         :
-        `
-        <div class="viewerText">
-          ${safe(story.text)}
-        </div>
-        `
+        ""
       }
 
 
       ${
-        story.image && story.text
+        story.text
         ?
         `
-        <div
-          class="viewerText"
-          style="
-            position:absolute;
-            bottom:80px;
-            width:100%;
-          "
-        >
+        <div class="viewerText">
           ${safe(story.text)}
         </div>
         `
@@ -2320,27 +1026,47 @@ function openStoryViewer(id){
 }
 
 
-/* ==============================
+/* =========================
    DELETE STORY
-============================== */
+========================= */
 
 function deleteStory(id){
 
+  if(
+    !confirm(
+      "এই স্টোরিটি মুছে ফেলবেন?"
+    )
+  )return;
+
+
   stories=
     stories.filter(
-      s=>s.id!==id
+      story=>story.id!==id
     );
+
 
   saveStories();
 
   renderStories();
 
+
+  const viewer=
+    document.querySelector(
+      ".storyViewer"
+    );
+
+  if(viewer){
+
+    viewer.remove();
+
+  }
+
 }
 
 
-/* ==============================
+/* =========================
    INITIALIZE
-============================== */
+========================= */
 
 preparePosts();
 
@@ -2348,7 +1074,5 @@ renderPosts();
 
 renderStories();
 
-</script>
 
-</body>
-</html>
+    </script>
